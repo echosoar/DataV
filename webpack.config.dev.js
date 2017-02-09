@@ -12,6 +12,7 @@ module.exports = {
     path: path.join(__dirname, 'build'),
     filename: '[name].js'
   },
+  externals: {'react': 'React', 'react-dom': 'ReactDOM', 'react-router': 'ReactRouter'},
   plugins: [],
   resolve: {
     alias: {
