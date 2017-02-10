@@ -2,20 +2,30 @@
 
 import {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
-class Index extends Component {
+import Base from './pages/base/';
+import Index from './pages/index/';
+
+class D3Kab extends Component {
 	constructor(props) {
 		super(props);
 	}
 	
 	render(){
-		return <span>init</span>
+		return (
+			<Router history={hashHistory}>
+				<Route path="/" component={Base}>
+					<IndexRoute component={Index}/>
+				</Route>
+			</Router>
+		)
 	}
 }
 
 
 ReactDOM.render(
-  <Index />,
+  <D3Kab />,
   document.getElementById('container')
 );
 

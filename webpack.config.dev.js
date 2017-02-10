@@ -29,7 +29,8 @@ module.exports = {
           path.resolve(__dirname, 'src')
         ]
       },
-	  {	test   : /\.css$/, loaders: ['style-loader', 'css-loader', 'resolve-url-loader']},
+	  {	test   : /\.css$/, loaders: ['style-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader']},
+	  {	test   : /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader', 'postcss-loader', 'resolve-url-loader']},
       { test: /\.scss$/, loaders: ['style-loader', 'css-loader?modules&localIdentName=[local]-[hash:base64:5]', 'postcss-loader', 'sass-loader'] },
       { test: /\.(ttf|eot|woff|woff2|otf|svg)/, loader: 'file-loader?name=./font/[name].[ext]' },
       { test: /\.json$/, loader: 'file-loader?name=./json/[name].json' },
