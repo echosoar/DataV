@@ -11,7 +11,9 @@ class Base extends Component {
 	
 	render(){
 		return <div className="d3Kab">
-			<div className="header"></div>
+			<div className="header">
+				<i className="logo"></i>
+			</div>
 			{this.props.children}
 		</div>
 	}

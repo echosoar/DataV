@@ -2,10 +2,11 @@
   "name": "d3kab",
   "version": "1.0.0",
   "description": "Kab data visualization platform by d3js.",
-  "main": "./build/index.js",
+  "main": "main.js",
   "scripts": {
     "dev": "webpack --config webpack.config.dev.js --watch",
-    "build": "webpack --config webpack.config.min.js"
+    "build": "webpack --config webpack.config.min.js",
+	"start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,7 @@
 	"react": "^15.0.1",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",
-    "react-router": "~2.0.1"
+    "react-router": "~2.0.1",
+	"electron": "^1.4.1"
   }
 }
