@@ -7,14 +7,14 @@ let { app, BrowserWindow } = electron;
 
 
 let d3kabWin = null;
-
+let preWindow = null;
 
 
 function createWindow () {
 	let screenDisplayBounds = electron.screen.getPrimaryDisplay().bounds;
 	
 
-	d3kabWin = new BrowserWindow({x: 0, y: 0, width: screenDisplayBounds.width, height: screenDisplayBounds.height, transparent: true, frame: false, resizable: false});
+	d3kabWin = new BrowserWindow({x: 0, y: 0, width: screenDisplayBounds.width, height: screenDisplayBounds.height, transparent: true, frame: false, resizable: false, show: false});
 	
 	d3kabWin.setFullScreen(true);
 	
@@ -32,7 +32,19 @@ function createWindow () {
 	})
 }
 
-app.on('ready', createWindow)
+function fun_PreWindow() {
+	preWindow = new BrowserWindow({width: 480, height: 320, transparent: true, frame: false, resizable: false});
+	preWindow.loadURL(url.format({
+		pathname: path.join(__dirname, 'preWindow.html'),
+		protocol: 'file:',
+		slashes: true
+	}))
+	preWindow.on('closed', function () {
+		preWindo = null
+	})
+}
+
+app.on('ready', fun_PreWindow);
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
