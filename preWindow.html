@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>D3Kab - Powered by Echosoar</title>
+		<title>DataV</title>
 	</head>
 	<style>
 	body {
@@ -10,13 +10,13 @@
 		font-family: 微软雅黑,黑体,Helvetica,华文黑体;
 	}
 	#container {
-		background: rgba(48, 48, 48, 0.8);
+		background: #000;
 		width: 480px;
 		height: 320px;
 		border-radius: 5px;
 		overflow: hidden;
 		display: block;
-		box-shadow: 1px 0 5px #000 inset;
+		box-shadow: 0 0 5px #000 inset;
 	}
 	#right {
 		position: absolute;
@@ -30,28 +30,83 @@
 	#logo {
 		position: absolute;
 		left: 0;
-		top: 10px;
+		top: 30px;
 		width: 180px;
 		height: 60px;
-		background: url('./file/logo.png');
+		background: url('./file/logos.png');
+	}
+
+	#buttonContainer {
+		position: absolute;
+		left: 0;
+		top: 120px;
+		width: 180px;
+		height: 120px;
+	}
+
+	#buttonContainer div {
+		margin: 5px auto;
+		height: 32px;
+		line-height: 32px;
+		width: 170px;
+		border-radius: 3px;
+		font-size: 12px;
+		text-align: center;
+		color: #ccc;
+		background: #222;
+		cursor: pointer;
+	}
+	#buttonContainer div:hover {
+		background: #333;
 	}
 	#copyright {
 		position: absolute;
 		bottom: 10px;
-		left: 10px;
+		left: 5px;
+		width: 170px;
 		font-size: 10px;
 		color: #999;
 		text-shadow: 0 0 1px #000;
+
 	}
 	</style>
 	<body>
 	<div id="container">
 		<div id="logo"></div>
+		<div id="buttonContainer">
+			<div id="buttonConfig">Data Configurator</div>
+			<div id="buttonView">Visualization Platform</div>
+			<div id="buttonExit">Exit</div>
+		</div>
 		<div id="right"></div>
-		<div id="copyright">© 2013-2017 IWenKu.net <br /> Copyright All Rights Reversed.</div>
+		<div id="copyright">
+			Thanks to the excellent framework provided by the open source community. Electron, React etc.<br />
+			© 2013-2017 Design By Soar.gy <br />
+			IWenKu.net All rights reserved.
+		</div>
 	</div>
 	</body>
 	<script>
-	
+		const electron = require('electron');
+		const ipcRenderer = electron.ipcRenderer;
+
+		let $ = (sel, node)=>{
+			if(node) return node.querySelector(sel);
+			return document.querySelector(sel);
+		}
+
+		let sendToMain = (channel, ...args) => {
+			ipcRenderer.send(channel, ...args);
+		}
+
+		$('#buttonExit').onclick = () => {
+			if(confirm("你真的要退出吗?")) {
+				sendToMain("exitMain");
+			}
+		}
+
+		$('#buttonConfig').onclick = () => {
+			sendToMain("openConfig");
+		}
 	</script>
 </html>

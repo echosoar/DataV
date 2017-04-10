@@ -5,30 +5,37 @@ const url = require('url')
 
 let { app, BrowserWindow } = electron;
 
+const ipcMain = electron.ipcMain;
 
-let d3kabWin = null;
+let configWin = null;
 let preWindow = null;
 
+let listenerRendererMsg = msg => {
+	return new Promise((resolve, reject) => {
+		ipcMain.on(msg, (event, arg )=>{
+			resolve(arg);
+		});
+	});
+}
 
-function createWindow () {
+function fun_ConfigWindow () {
 	let screenDisplayBounds = electron.screen.getPrimaryDisplay().bounds;
-	
 
-	d3kabWin = new BrowserWindow({x: 0, y: 0, width: screenDisplayBounds.width, height: screenDisplayBounds.height, transparent: true, frame: false, resizable: false, show: false});
-	
-	d3kabWin.setFullScreen(true);
-	
-	d3kabWin.loadURL(url.format({
-	pathname: path.join(__dirname, 'd3kab.html'),
-	protocol: 'file:',
-	slashes: true
+
+	configWin = new BrowserWindow({x: 0, y: 0, width: screenDisplayBounds.width, height: screenDisplayBounds.height, transparent: true, frame: false, resizable: false});
+
+	configWin.setFullScreen(true);
+
+	configWin.webContents.openDevTools();// dev tools
+
+	configWin.loadURL(url.format({
+		pathname: path.join(__dirname, 'config.html'),
+		protocol: 'file:',
+		slashes: true
 	}))
 
-	// Open the DevTools.
-	//d3kabWin.webContents.openDevTools()
-
-	d3kabWin.on('closed', function () {
-	d3kabWin = null
+	configWin.on('closed', function () {
+	 configWin = null
 	})
 }
 
@@ -38,10 +45,22 @@ function fun_PreWindow() {
 		pathname: path.join(__dirname, 'preWindow.html'),
 		protocol: 'file:',
 		slashes: true
-	}))
+	}));
 	preWindow.on('closed', function () {
 		preWindo = null
-	})
+	});
+
+
+	listenerRendererMsg("exitMain").then(args=>{
+		preWindow.close();
+		if(configWin) configWin.close();
+
+	});
+
+	listenerRendererMsg("openConfig").then(args=>{
+		fun_ConfigWindow();
+		preWindow.close();
+	});
 }
 
 app.on('ready', fun_PreWindow);

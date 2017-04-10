@@ -7,11 +7,11 @@ import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 import Base from './pages/base/';
 import Index from './pages/index/';
 
-class D3Kab extends Component {
+class DataV extends Component {
 	constructor(props) {
 		super(props);
 	}
-	
+
 	render(){
 		return (
 			<Router history={hashHistory}>
@@ -25,8 +25,6 @@ class D3Kab extends Component {
 
 
 ReactDOM.render(
-  <D3Kab />,
+  <DataV />,
   document.getElementById('container')
 );
-
-
