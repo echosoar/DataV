@@ -1,7 +1,7 @@
 {
   "name": "DataV",
   "version": "1.0.0",
-  "description": "Kab data visualization platform by d3js.",
+  "description": "Data visualization platform.",
   "main": "main.js",
   "scripts": {
     "dev": "webpack --config webpack.config.dev.js --watch",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/echosoar/d3kab.git"
+    "url": "https://github.com/echosoar/DataV.git"
   },
   "keywords": [
     "d3",
@@ -19,7 +19,7 @@
   "author": "echosoar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/echosoar/d3kab/issues"
+    "url": "https://github.com/echosoar/DataV/issues"
   },
   "devDependencies": {
     "babel-plugin-transform-es2015-classes": "^6.18.0",
