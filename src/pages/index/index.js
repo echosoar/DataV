@@ -1,14 +1,18 @@
 'use strict';
 
-import {Component} from 'react';
+import { Component } from 'react';
+
+require('./index.less');
 
 class Index extends Component {
 	constructor(props) {
 		super(props);
 	}
-	
+
 	render(){
-		return <span>index</span>
+		return <div className="Index">
+
+		</div>
 	}
 }
 
