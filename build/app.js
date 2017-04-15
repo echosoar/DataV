@@ -587,7 +587,7 @@
 
 
 	// module
-	exports.push([module.id, ".Index {\n  width: 80%;\n  height: 80%;\n  background: #efefef;\n}\n", ""]);
+	exports.push([module.id, "", ""]);
 
 	// exports
 
