@@ -1,6 +1,8 @@
 'use strict';
 import { connect } from 'react-redux';
-import {Component} from 'react';
+import { Component } from 'react';
+import { mapStateToProps } from '../../connect/baseConnect.js';
+import BUTTON from './button.js';
 
 require('./base.less');
 
@@ -9,13 +11,34 @@ class Base extends Component {
 		super(props);
 	}
 
+	headerButton( action ) {
+		this.props.dispatch( {type: action} );
+	}
+
 	render(){
-		console.log(this.props)
+
+		let button = BUTTON[this.props.route.path] || [];
+			console.log( this.props );
+			console.log(button)
 		return <div className="DataV">
 			<div className="header">
 				<i className="logo"></i>
 				<div className="header-title">
 					Data<br />Configurator
+				</div>
+				<div className="header-button-container">
+				{
+					button.map( buttonItem => {
+						return <i
+							className="header-button"
+							onClick={()=>{ this.headerButton.call(this, buttonItem.action); }}
+							data-title={ buttonItem.title }
+						>
+							{ buttonItem.icon && <span className="header-button-icon" style={{'background': 'url(' + buttonItem.icon + ') center center / contain no-repeat'}}></span>}
+							{ buttonItem.name }
+						</i>
+					} )
+				}
 				</div>
 			</div>
 			<div className="main">
@@ -27,4 +50,4 @@ class Base extends Component {
 }
 
 
-module.exports = connect()(Base);
+module.exports = connect(mapStateToProps)(Base);

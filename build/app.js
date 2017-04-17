@@ -3452,6 +3452,14 @@
 
 	var _react = __webpack_require__(1);
 
+	var _baseConnect = __webpack_require__(63);
+
+	var _button = __webpack_require__(64);
+
+	var _button2 = _interopRequireDefault(_button);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -3469,8 +3477,16 @@
 			return _possibleConstructorReturn(this, _Component.call(this, props));
 		}
 
+		Base.prototype.headerButton = function headerButton(action) {
+			this.props.dispatch({ type: action });
+		};
+
 		Base.prototype.render = function render() {
+			var _this2 = this;
+
+			var button = _button2.default[this.props.route.path] || [];
 			console.log(this.props);
+			console.log(button);
 			return React.createElement(
 				'div',
 				{ className: 'DataV' },
@@ -3484,6 +3500,24 @@
 						'Data',
 						React.createElement('br', null),
 						'Configurator'
+					),
+					React.createElement(
+						'div',
+						{ className: 'header-button-container' },
+						button.map(function (buttonItem) {
+							return React.createElement(
+								'i',
+								{
+									className: 'header-button',
+									onClick: function onClick() {
+										_this2.headerButton.call(_this2, buttonItem.action);
+									},
+									'data-title': buttonItem.title
+								},
+								buttonItem.icon && React.createElement('span', { className: 'header-button-icon', style: { 'background': 'url(' + buttonItem.icon + ') center center / contain no-repeat' } }),
+								buttonItem.name
+							);
+						})
 					)
 				),
 				React.createElement(
@@ -3497,7 +3531,7 @@
 		return Base;
 	}(_react.Component);
 
-	module.exports = (0, _reactRedux.connect)()(Base);
+	module.exports = (0, _reactRedux.connect)(_baseConnect.mapStateToProps)(Base);
 
 /***/ },
 /* 53 */
@@ -3534,7 +3568,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  margin: 0;\n  background: #999;\n  font-family: '\\5FAE\\8F6F\\96C5\\9ED1';\n}\n* {\n  box-sizing: border-box;\n}\n.DataV .header {\n  position: absolute;\n  z-index: 9;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 60px;\n  background: #fff;\n  box-shadow: 0 1px 1px #ccc;\n}\n.DataV .header .logo {\n  display: block;\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  height: 40px;\n  width: 100px;\n  background: url(" + __webpack_require__(56) + ") no-repeat center;\n  background-size: cover;\n}\n.DataV .header .header-title {\n  position: absolute;\n  top: 15px;\n  left: 115px;\n  padding-left: 10px;\n  height: 30px;\n  width: 100px;\n  font-size: 12px;\n  color: #666;\n  line-height: 15px;\n  border-left: 1px solid #ccc;\n}\n.DataV .main {\n  position: absolute;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  padding: 80px 0 20px 0;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n}\n", ""]);
+	exports.push([module.id, "body {\n  margin: 0;\n  background: #999;\n  font-family: '\\5FAE\\8F6F\\96C5\\9ED1';\n}\n* {\n  box-sizing: border-box;\n}\n@-webkit-keyframes titleFadeIn {\n  0% {\n    -webkit-transform: translate(0, -5px);\n    transform: translate(0, -5px);\n    opacity: 0;\n  }\n  100% {\n    -webkit-transform: translate(0, 0);\n    transform: translate(0, 0);\n    opacity: 1;\n  }\n}\n@keyframes titleFadeIn {\n  0% {\n    -webkit-transform: translate(0, -5px);\n    transform: translate(0, -5px);\n    opacity: 0;\n  }\n  100% {\n    -webkit-transform: translate(0, 0);\n    transform: translate(0, 0);\n    opacity: 1;\n  }\n}\n.DataV .header {\n  position: absolute;\n  z-index: 9;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 60px;\n  background: #fff;\n  box-shadow: 0 1px 1px #ccc;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n.DataV .header .logo {\n  display: block;\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  height: 40px;\n  width: 100px;\n  background: url(" + __webpack_require__(56) + ") no-repeat center;\n  background-size: cover;\n}\n.DataV .header .header-title {\n  position: absolute;\n  top: 15px;\n  left: 115px;\n  padding-left: 10px;\n  height: 30px;\n  width: 100px;\n  font-size: 12px;\n  color: #666;\n  line-height: 15px;\n  border-left: 1px solid #ccc;\n}\n.DataV .header .header-button-container {\n  position: absolute;\n  right: 15px;\n  height: 30px;\n  top: 15px;\n  text-align: right;\n}\n.DataV .header .header-button-container .header-button {\n  position: relative;\n  display: inline-block;\n  vertical-align: top;\n  font-style: normal;\n  font-size: 12px;\n  line-height: 28px;\n  height: 30px;\n  padding: 0 10px;\n  margin-left: 10px;\n  color: #333;\n  cursor: pointer;\n  border: 1px solid #efefef;\n  border-radius: 3px;\n  -webkit-transition: background .3s ease;\n  transition: background .3s ease;\n}\n.DataV .header .header-button-container .header-button .header-button-icon {\n  display: inline-block;\n  width: 18px;\n  height: 18px;\n  margin-top: 6px;\n}\n.DataV .header .header-button-container .header-button:hover {\n  background: #efefef;\n}\n.DataV .header .header-button-container .header-button:hover::before {\n  content: attr(data-title);\n  position: absolute;\n  top: 40px;\n  right: 0px;\n  white-space: nowrap;\n  background: #333;\n  color: #fff;\n  padding: 0 6px;\n  height: 24px;\n  line-height: 24px;\n  font-size: 12px;\n  border-radius: 3px;\n  -webkit-animation: titleFadeIn .5s ease;\n  animation: titleFadeIn .5s ease;\n}\n.DataV .header .header-button-container .header-button:hover::after {\n  content: ' ';\n  position: absolute;\n  top: 35px;\n  right: 10px;\n  border: 5px solid transparent;\n  border-top: 0;\n  border-bottom: 6px solid #333;\n  -webkit-animation: titleFadeIn .5s ease;\n  animation: titleFadeIn .5s ease;\n}\n.DataV .main {\n  position: absolute;\n  z-index: 1;\n  top: 0;\n  left: 0;\n  padding: 80px 0 20px 0;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n}\n", ""]);
 
 	// exports
 
@@ -3933,8 +3967,12 @@
 
 	'use strict';
 
+	var defaultState = {
+	  libraryOpen: false
+	};
+
 	var libraryReducer = function libraryReducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultState;
 	  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 	  var type = action.type;
 
@@ -3968,6 +4006,47 @@
 	});
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	  mapStateToProps: function mapStateToProps(state) {
+	    return {
+	      libraryOpen: state.libraryReducer.libraryOpen || false
+	    };
+	  }
+	};
+
+/***/ },
+/* 64 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var button = {
+	  '/': [{
+	    name: '布局模板',
+	    action: 'OPEN_LAYOUT',
+	    icon: '',
+	    title: '打开布局模板库'
+	  }, {
+	    name: '模块库',
+	    action: 'OPEN_MODULE',
+	    icon: '',
+	    title: '打开模块库'
+	  }, {
+	    name: '',
+	    action: 'WINDOW_CLOSE',
+	    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABNElEQVRYR+2WUQ0CMRBEBwfgAAlIAAXgAHAwThgH4AALSEACEpBAmnBJc1x7u1uS44P7vnZeZ7fTnWHibzaxPv4Av+sAyaWkxzd6hORc0nNor0EHSO4AnAFsJN1bIEheAOwlDWoVS/BeuG2B6MQBHCUlkI+v2gMtEBbxRDPahBEIkgRwqp28s2IUIP3ogSB5ePdP0fa8DiYAK4RX3FSCnLbmRETcDVByIioeAuhDAFh5at6/h+Ye6C/MyjG3dHspzFoB9gBSxIYTMwSQhwyANYBwYroBhhLOkxNNPVCL1yiE2QFLtkcgTAAW8c5aL8QogEc8AmF5jtNVMz0s1tg2PUaRk1fCqpgTtZHsGjl5CULSwjwRpSESQBpKm+bBrCfWkm5mgJYh1Lt29BZ4N/T+/weY3IEXsk3FIZTHIRAAAAAASUVORK5CYII=',
+	    title: '退出数据编辑器'
+	  }]
+	};
+
+	module.exports = button;
 
 /***/ }
 /******/ ]);

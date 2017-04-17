@@ -1,5 +1,10 @@
 'use strict';
-const libraryReducer = (state = {}, action = {}) => {
+
+const defaultState = {
+  libraryOpen: false
+}
+
+const libraryReducer = (state = defaultState, action = {}) => {
   const { type } = action;
   switch (type) {
     case 'OPEN_LAYOUT':
