@@ -10,7 +10,7 @@
   introduction: 模板简介,
   version：当前模板版本，
   datavVersion：要求datavVersion的最低版本
-  previewImg：布局预览图像DataUrl或线上地址，最好为300*200，其它比例会被拉伸或缩放
+  previewImg：布局预览图像DataUrl或线上地址，最好为240*140，其它比例会被拉伸或缩放
 
   布局模板-模板信息：
   width: 模板宽度，百分比会根据上层容器宽度进行转换，auto为自动（配置时默认展示300px）

@@ -9,7 +9,8 @@ const libraryReducer = (state = defaultState, action = {}) => {
   switch (type) {
     case 'LIBRARY_OPEN_LAYOUT':
       return Object.assign({}, state, {
-        libraryOpen: 'layout'
+        libraryOpen: 'layout',
+        onlyLayout: action.onlyLayout || false
       });
       break;
     case 'LIBRARY_OPEN_MODULE':
@@ -25,6 +26,11 @@ const libraryReducer = (state = defaultState, action = {}) => {
     case 'LIBRARY_CLOSE':
       return Object.assign({}, state, {
         libraryOpen: false
+      });
+      break;
+    case 'ADD_LIBRARY':
+      return Object.assign({}, state, {
+        addLibararyData:action.data
       });
       break;
     default: return state;

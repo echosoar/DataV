@@ -16,7 +16,12 @@ class Index extends Component {
 	}
 
 	handleNolayoutSelect() {
-		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT"})
+		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true})
+	}
+
+	shouldComponentUpdate(nextProps) {
+		console.log("shouldComponentUpdate", this.props);
+		// this.setState({layout: nextProps.addLibararyData});
 	}
 
 	render(){

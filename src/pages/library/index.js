@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Component } from 'react';
 import { Tabs } from '../../common/';
 import classNames from 'classnames';
-
+import { notification } from 'antd';
 import { mapStateToProps } from '../../connect/libraryConnect.js';
 import Layout from './layout.js';
+
 
 require('./index.less');
 
@@ -19,7 +20,14 @@ class Library extends Component {
   }
 
   handleTabsClick(item) {
-    this.props.dispatch({ type: 'LIBRARY_OPEN_' + item.value.toUpperCase()});
+    if(!this.props.onlyLayout) {
+      this.props.dispatch({ type: 'LIBRARY_OPEN_' + item.value.toUpperCase()});
+    }else {
+      notification.open({
+        message: '目前只能选择布局模板',
+        description: '由于目前没有主布局，所以需要选择一个主布局模板。'
+      });
+    }
   }
 
   render() {

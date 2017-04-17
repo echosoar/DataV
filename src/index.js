@@ -9,6 +9,7 @@ import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
 import Base from './pages/base/';
 import Index from './pages/index/';
+import 'antd/dist/antd.css';
 
 let store = createStore(reducerAll);
 
