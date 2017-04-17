@@ -36,6 +36,7 @@ class LibraryLayout extends Component {
 
   handleItemClick(item) {
     this.props.dispatch({type: 'LIBRARY_CLOSE'});
+    console.log('item', item)
     this.props.dispatch({type: 'ADD_LIBRARY', data: item});
   }
 

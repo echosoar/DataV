@@ -10,25 +10,25 @@ class Index extends Component {
 		super(props);
 
 		this.state = {
-			layout: false,
-			nowPath: false
+			layout: false
 		}
 	}
 
 	handleNolayoutSelect() {
-		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true})
+		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true});
+		this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: ''});
 	}
 
-	shouldComponentUpdate(nextProps) {
-		console.log("shouldComponentUpdate", this.props);
-		// this.setState({layout: nextProps.addLibararyData});
-	}
+
 
 	render(){
-		let { layout } = this.state;
+		let { layoutData } = this.props;
+
+		console.log( layoutData )
+
 		return <div className="Index">
 			{
-				!layout && <div className="index-nolayout">
+				!layoutData && <div className="index-nolayout">
 					<div className="index-nolayout-thanks">
 							:)<br />
 							感谢使用DataV可视化您的数据

@@ -18,21 +18,28 @@ const libraryReducer = (state = defaultState, action = {}) => {
         libraryOpen: 'module'
       });
       break;
-      case 'LIBRARY_OPEN_VIEWMODULE':
-        return Object.assign({}, state, {
-          libraryOpen: 'viewmodule'
-        });
-        break;
+    case 'LIBRARY_OPEN_VIEWMODULE':
+      return Object.assign({}, state, {
+        libraryOpen: 'viewmodule'
+      });
+      break;
     case 'LIBRARY_CLOSE':
       return Object.assign({}, state, {
         libraryOpen: false
       });
       break;
     case 'ADD_LIBRARY':
-      return Object.assign({}, state, {
-        addLibararyData:action.data
-      });
+      console.log('ADD_LIBRARY', state, action);
+      let path = state.nowLayoutPath;
+      if(!path) {
+        state.layoutData = action.data;
+      }
+      return Object.assign({}, state);
       break;
+    case 'LAYOUT_CHANGE_PATH':
+      return Object.assign({}, state, {
+        nowLayoutPath: action.path
+      });
     default: return state;
   }
 };

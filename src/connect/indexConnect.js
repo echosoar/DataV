@@ -3,7 +3,7 @@ module.exports = {
     console.log("state", state)
     return {
       libraryOpen: state.libraryReducer.libraryOpen || false,
-      addLibararyData: state.libraryReducer.addLibararyData || false
+      layoutData: state.libraryReducer.layoutData || false
     }
   }
 }

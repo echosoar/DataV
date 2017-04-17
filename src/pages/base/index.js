@@ -19,8 +19,7 @@ class Base extends Component {
 	render(){
 
 		let button = BUTTON[this.props.route.path] || [];
-			console.log( this.props );
-			console.log(button)
+
 		return <div className="DataV">
 			<div className="header">
 				<i className="logo"></i>
