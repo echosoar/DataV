@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Component } from 'react';
 import { mapStateToProps } from '../../connect/baseConnect.js';
 import BUTTON from './button.js';
+import Library from '../library/';
 
 require('./base.less');
 
@@ -41,6 +42,7 @@ class Base extends Component {
 				}
 				</div>
 			</div>
+			<Library />
 			<div className="main">
 			{ this.props.children }
 			</div>
