@@ -1,5 +1,5 @@
 'use strict';
-
+import { connect } from 'react-redux';
 import {Component} from 'react';
 
 require('./base.less');
@@ -10,6 +10,7 @@ class Base extends Component {
 	}
 
 	render(){
+		console.log(this.props)
 		return <div className="DataV">
 			<div className="header">
 				<i className="logo"></i>
@@ -17,10 +18,13 @@ class Base extends Component {
 					Data<br />Configurator
 				</div>
 			</div>
-			{this.props.children}
+			<div className="main">
+			{ this.props.children }
+			</div>
+
 		</div>
 	}
 }
 
 
-module.exports = Base;
+module.exports = connect()(Base);
