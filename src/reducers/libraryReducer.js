@@ -17,6 +17,11 @@ const libraryReducer = (state = defaultState, action = {}) => {
         libraryOpen: 'module'
       });
       break;
+      case 'LIBRARY_OPEN_VIEWMODULE':
+        return Object.assign({}, state, {
+          libraryOpen: 'viewmodule'
+        });
+        break;
     case 'LIBRARY_CLOSE':
       return Object.assign({}, state, {
         libraryOpen: false

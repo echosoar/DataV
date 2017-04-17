@@ -1,7 +1,46 @@
 .Index {
+  position: relative;
   width: 960px;
   height: 100%;
   margin: 0 auto;
   background: #fff;
 
+  .index-nolayout {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    width: 40%;
+    height: 40%;
+    .index-nolayout-thanks {
+      font-size: 24px;
+      height: 72px;
+      line-height: 36px;
+      text-shadow: 0 0 2px #000;
+      font-weight: bold;
+      color: #fff;
+
+
+    }
+    .index-nolayout-select {
+      height: 36px;
+      line-height: 36px;
+      font-size: 13px;
+      margin-top: 10px;
+
+      .index-nolayout-select-layout {
+        font-style: normal;
+        margin-left: 6px;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background .3s ease;
+
+        &:hover {
+          background: #efefef;
+        }
+      }
+    }
+
+  }
 }

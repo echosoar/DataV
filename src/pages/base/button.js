@@ -1,17 +1,17 @@
 const button = {
 	'/': [
-		{
-      name: '布局模板',
-      action: 'LIBRARY_OPEN_LAYOUT',
-      icon: '',
-      title: '打开布局模板库'
-		},
-    {
-      name: '模块库',
-      action: 'LIBRARY_OPEN_MODULE',
-      icon: '',
-      title: '打开模块库'
-    },
+		// {
+    //   name: '布局模板',
+    //   action: 'LIBRARY_OPEN_LAYOUT',
+    //   icon: '',
+    //   title: '打开布局模板库'
+		// },
+    // {
+    //   name: '模块库',
+    //   action: 'LIBRARY_OPEN_MODULE',
+    //   icon: '',
+    //   title: '打开模块库'
+    // },
     {
       name: '',
       action: 'WINDOW_CLOSE',

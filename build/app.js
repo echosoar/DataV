@@ -3534,6 +3534,11 @@
 	        libraryOpen: 'module'
 	      });
 	      break;
+	    case 'LIBRARY_OPEN_VIEWMODULE':
+	      return Object.assign({}, state, {
+	        libraryOpen: 'viewmodule'
+	      });
+	      break;
 	    case 'LIBRARY_CLOSE':
 	      return Object.assign({}, state, {
 	        libraryOpen: false
@@ -3673,17 +3678,20 @@
 	'use strict';
 
 	var button = {
-	  '/': [{
-	    name: '布局模板',
-	    action: 'LIBRARY_OPEN_LAYOUT',
-	    icon: '',
-	    title: '打开布局模板库'
-	  }, {
-	    name: '模块库',
-	    action: 'LIBRARY_OPEN_MODULE',
-	    icon: '',
-	    title: '打开模块库'
-	  }, {
+	  '/': [
+	  // {
+	  //   name: '布局模板',
+	  //   action: 'LIBRARY_OPEN_LAYOUT',
+	  //   icon: '',
+	  //   title: '打开布局模板库'
+	  // },
+	  // {
+	  //   name: '模块库',
+	  //   action: 'LIBRARY_OPEN_MODULE',
+	  //   icon: '',
+	  //   title: '打开模块库'
+	  // },
+	  {
 	    name: '',
 	    action: 'WINDOW_CLOSE',
 	    icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABNElEQVRYR+2WUQ0CMRBEBwfgAAlIAAXgAHAwThgH4AALSEACEpBAmnBJc1x7u1uS44P7vnZeZ7fTnWHibzaxPv4Av+sAyaWkxzd6hORc0nNor0EHSO4AnAFsJN1bIEheAOwlDWoVS/BeuG2B6MQBHCUlkI+v2gMtEBbxRDPahBEIkgRwqp28s2IUIP3ogSB5ePdP0fa8DiYAK4RX3FSCnLbmRETcDVByIioeAuhDAFh5at6/h+Ye6C/MyjG3dHspzFoB9gBSxIYTMwSQhwyANYBwYroBhhLOkxNNPVCL1yiE2QFLtkcgTAAW8c5aL8QogEc8AmF5jtNVMz0s1tg2PUaRk1fCqpgTtZHsGjl5CULSwjwRpSESQBpKm+bBrCfWkm5mgJYh1Lt29BZ4N/T+/weY3IEXsk3FIZTHIRAAAAAASUVORK5CYII=',
@@ -3704,11 +3712,17 @@
 
 	var _react = __webpack_require__(1);
 
+	var _common = __webpack_require__(847);
+
 	var _classnames = __webpack_require__(58);
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
 	var _libraryConnect = __webpack_require__(836);
+
+	var _layout = __webpack_require__(851);
+
+	var _layout2 = _interopRequireDefault(_layout);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3733,8 +3747,12 @@
 	    this.props.dispatch({ type: 'LIBRARY_CLOSE' });
 	  };
 
+	  Library.prototype.handleTabsClick = function handleTabsClick(item) {
+	    this.props.dispatch({ type: 'LIBRARY_OPEN_' + item.value.toUpperCase() });
+	  };
+
 	  Library.prototype.render = function render() {
-	    console.log(Tabs);
+
 	    return React.createElement(
 	      'div',
 	      { className: (0, _classnames2.default)({ library: true, libraryOpen: this.props.libraryOpen != false }) },
@@ -3743,6 +3761,24 @@
 	        { className: 'library-title' },
 	        'DataV\u7EC4\u4EF6\u5E93',
 	        React.createElement('i', { className: 'library-close', onClick: this.handleClick.bind(this) })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'library-main' },
+	        React.createElement(_common.Tabs, { items: [{
+	            name: '布局模板',
+	            value: 'layout'
+	          }, {
+	            name: '基础模块',
+	            value: 'module'
+	          }, {
+	            name: '数据模块',
+	            value: 'viewmodule'
+	          }],
+	          nowItem: this.props.libraryOpen,
+	          onClick: this.handleTabsClick.bind(this)
+	        }),
+	        this.props.libraryOpen == 'layout' && React.createElement(_layout2.default, null)
 	      )
 	    );
 	  };
@@ -3859,7 +3895,7 @@
 
 
 	// module
-	exports.push([module.id, ".library {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 360px;\n  height: 100%;\n  z-index: 10;\n  background: #ffffff;\n  box-shadow: 1px 0 3px #999;\n  -webkit-transform: translate(-100%);\n  -ms-transform: translate(-100%);\n  transform: translate(-100%);\n  -webkit-transition: -webkit-transform 0.3s ease;\n  transition: -webkit-transform 0.3s ease;\n  transition: transform .3s ease;\n  transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n}\n.library .library-title {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  left: 0;\n  z-index: 3;\n  height: 40px;\n  line-height: 40px;\n  font-size: 14px;\n  color: #333;\n  box-shadow: 0 1px 1px #ccc;\n  padding-left: 12px;\n}\n.library .library-title .library-close {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  width: 20px;\n  height: 20px;\n  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABNElEQVRYR+2WUQ0CMRBEBwfgAAlIAAXgAHAwThgH4AALSEACEpBAmnBJc1x7u1uS44P7vnZeZ7fTnWHibzaxPv4Av+sAyaWkxzd6hORc0nNor0EHSO4AnAFsJN1bIEheAOwlDWoVS/BeuG2B6MQBHCUlkI+v2gMtEBbxRDPahBEIkgRwqp28s2IUIP3ogSB5ePdP0fa8DiYAK4RX3FSCnLbmRETcDVByIioeAuhDAFh5at6/h+Ye6C/MyjG3dHspzFoB9gBSxIYTMwSQhwyANYBwYroBhhLOkxNNPVCL1yiE2QFLtkcgTAAW8c5aL8QogEc8AmF5jtNVMz0s1tg2PUaRk1fCqpgTtZHsGjl5CULSwjwRpSESQBpKm+bBrCfWkm5mgJYh1Lt29BZ4N/T+/weY3IEXsk3FIZTHIRAAAAAASUVORK5CYII=') center center / contain no-repeat;\n  cursor: pointer;\n}\n.library.libraryOpen {\n  -webkit-transform: translate(0);\n  -ms-transform: translate(0);\n  transform: translate(0);\n}\n", ""]);
+	exports.push([module.id, ".library {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 360px;\n  height: 100%;\n  z-index: 10;\n  background: #ffffff;\n  box-shadow: 1px 0 3px #999;\n  -webkit-transform: translate(-100%);\n  -ms-transform: translate(-100%);\n  transform: translate(-100%);\n  -webkit-transition: -webkit-transform 0.3s ease;\n  transition: -webkit-transform 0.3s ease;\n  transition: transform .3s ease;\n  transition: transform 0.3s ease, -webkit-transform 0.3s ease;\n}\n.library .library-title {\n  position: absolute;\n  top: 0;\n  width: 100%;\n  left: 0;\n  z-index: 3;\n  height: 40px;\n  line-height: 40px;\n  font-size: 14px;\n  color: #333;\n  box-shadow: 0 1px 1px #ccc;\n  padding-left: 12px;\n}\n.library .library-title .library-close {\n  position: absolute;\n  top: 10px;\n  right: 10px;\n  width: 20px;\n  height: 20px;\n  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABNElEQVRYR+2WUQ0CMRBEBwfgAAlIAAXgAHAwThgH4AALSEACEpBAmnBJc1x7u1uS44P7vnZeZ7fTnWHibzaxPv4Av+sAyaWkxzd6hORc0nNor0EHSO4AnAFsJN1bIEheAOwlDWoVS/BeuG2B6MQBHCUlkI+v2gMtEBbxRDPahBEIkgRwqp28s2IUIP3ogSB5ePdP0fa8DiYAK4RX3FSCnLbmRETcDVByIioeAuhDAFh5at6/h+Ye6C/MyjG3dHspzFoB9gBSxIYTMwSQhwyANYBwYroBhhLOkxNNPVCL1yiE2QFLtkcgTAAW8c5aL8QogEc8AmF5jtNVMz0s1tg2PUaRk1fCqpgTtZHsGjl5CULSwjwRpSESQBpKm+bBrCfWkm5mgJYh1Lt29BZ4N/T+/weY3IEXsk3FIZTHIRAAAAAASUVORK5CYII=') center center / contain no-repeat;\n  cursor: pointer;\n}\n.library .library-main {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  padding-top: 40px;\n  z-index: 2;\n}\n.library.libraryOpen {\n  -webkit-transform: translate(0);\n  -ms-transform: translate(0);\n  transform: translate(0);\n}\n", ""]);
 
 	// exports
 
@@ -4230,7 +4266,11 @@
 
 	'use strict';
 
+	var _reactRedux = __webpack_require__(3);
+
 	var _react = __webpack_require__(1);
+
+	var _indexConnect = __webpack_require__(852);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4246,17 +4286,53 @@
 		function Index(props) {
 			_classCallCheck(this, Index);
 
-			return _possibleConstructorReturn(this, _Component.call(this, props));
+			var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+			_this.state = {
+				layout: false,
+				nowPath: false
+			};
+			return _this;
 		}
 
+		Index.prototype.handleNolayoutSelect = function handleNolayoutSelect() {
+			this.props.dispatch({ type: "LIBRARY_OPEN_LAYOUT" });
+		};
+
 		Index.prototype.render = function render() {
-			return React.createElement('div', { className: 'Index' });
+			var layout = this.state.layout;
+
+			return React.createElement(
+				'div',
+				{ className: 'Index' },
+				!layout && React.createElement(
+					'div',
+					{ className: 'index-nolayout' },
+					React.createElement(
+						'div',
+						{ className: 'index-nolayout-thanks' },
+						':)',
+						React.createElement('br', null),
+						'\u611F\u8C22\u4F7F\u7528DataV\u53EF\u89C6\u5316\u60A8\u7684\u6570\u636E'
+					),
+					React.createElement(
+						'div',
+						{ className: 'index-nolayout-select' },
+						'\u8FDB\u884C\u6570\u636E\u9875\u9762\u642D\u5EFA\u8BF7\u5148',
+						React.createElement(
+							'i',
+							{ className: 'index-nolayout-select-layout', onClick: this.handleNolayoutSelect.bind(this) },
+							'\u9009\u62E9\u4E3B\u5E03\u5C40\u6A21\u677F'
+						)
+					)
+				)
+			);
 		};
 
 		return Index;
 	}(_react.Component);
 
-	module.exports = Index;
+	module.exports = (0, _reactRedux.connect)(_indexConnect.mapStateToProps)(Index);
 
 /***/ },
 
@@ -4295,10 +4371,201 @@
 
 
 	// module
-	exports.push([module.id, ".Index {\n  width: 960px;\n  height: 100%;\n  margin: 0 auto;\n  background: #fff;\n}\n", ""]);
+	exports.push([module.id, ".Index {\n  position: relative;\n  width: 960px;\n  height: 100%;\n  margin: 0 auto;\n  background: #fff;\n}\n.Index .index-nolayout {\n  position: absolute;\n  top: 30%;\n  left: 30%;\n  width: 40%;\n  height: 40%;\n}\n.Index .index-nolayout .index-nolayout-thanks {\n  font-size: 24px;\n  height: 72px;\n  line-height: 36px;\n  text-shadow: 0 0 2px #000;\n  font-weight: bold;\n  color: #fff;\n}\n.Index .index-nolayout .index-nolayout-select {\n  height: 36px;\n  line-height: 36px;\n  font-size: 13px;\n  margin-top: 10px;\n}\n.Index .index-nolayout .index-nolayout-select .index-nolayout-select-layout {\n  font-style: normal;\n  margin-left: 6px;\n  padding: 5px 10px;\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  cursor: pointer;\n  -webkit-transition: background .3s ease;\n  transition: background 0.3s ease;\n}\n.Index .index-nolayout .index-nolayout-select .index-nolayout-select-layout:hover {\n  background: #efefef;\n}\n", ""]);
 
 	// exports
 
+
+/***/ },
+
+/***/ 847:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	exports.__esModule = true;
+
+	var _Tabs = __webpack_require__(848);
+
+	Object.defineProperty(exports, 'Tabs', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Tabs).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+
+/***/ 848:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _classnames = __webpack_require__(58);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	__webpack_require__(849);
+
+	var Tabs = function (_Component) {
+	  _inherits(Tabs, _Component);
+
+	  function Tabs(props) {
+	    _classCallCheck(this, Tabs);
+
+	    return _possibleConstructorReturn(this, _Component.call(this, props));
+	  }
+
+	  Tabs.prototype.handleClick = function handleClick(item) {
+	    if (this.props.onClick && this.props.nowItem != item.value) {
+	      this.props.onClick(item);
+	    }
+	  };
+
+	  Tabs.prototype.render = function render() {
+	    var _this2 = this;
+
+	    var _props = this.props,
+	        items = _props.items,
+	        nowItem = _props.nowItem;
+
+	    return React.createElement(
+	      'div',
+	      { className: 'component-tabs' },
+	      items.map(function (item) {
+	        return React.createElement(
+	          'i',
+	          { className: (0, _classnames2.default)({
+	              "component-tabs-item": true,
+	              "component-tabs-item-now": item.value == nowItem
+	            }),
+	            onClick: _this2.handleClick.bind(_this2, item)
+	          },
+	          item.name
+	        );
+	      })
+	    );
+	  };
+
+	  return Tabs;
+	}(_react.Component);
+
+	module.exports = Tabs;
+
+/***/ },
+
+/***/ 849:
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(850);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(840)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/.0.23.1@css-loader/index.js!./../../../node_modules/.2.2.3@less-loader/index.js!./../../../node_modules/.0.8.2@postcss-loader/index.js!./../../../node_modules/.1.6.1@resolve-url-loader/index.js!./index.less", function() {
+				var newContent = require("!!./../../../node_modules/.0.23.1@css-loader/index.js!./../../../node_modules/.2.2.3@less-loader/index.js!./../../../node_modules/.0.8.2@postcss-loader/index.js!./../../../node_modules/.1.6.1@resolve-url-loader/index.js!./index.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+
+/***/ 850:
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(839)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".component-tabs {\n  height: 36px;\n  overflow: hidden;\n  white-space: nowrap;\n  box-shadow: 0 1px 0 #eee;\n}\n.component-tabs .component-tabs-item {\n  display: inline-block;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  font-style: normal;\n  padding: 0 10px;\n  height: 36px;\n  line-height: 34px;\n  font-size: 12px;\n  color: #999;\n  background: #fff;\n  cursor: pointer;\n}\n.component-tabs .component-tabs-item.component-tabs-item-now {\n  color: #333;\n  border-bottom: 2px solid #69c;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+
+/***/ 851:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _reactRedux = __webpack_require__(3);
+
+	var _react = __webpack_require__(1);
+
+	var _libraryLayoutConnect = __webpack_require__(853);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var LibraryLayout = function (_Component) {
+	  _inherits(LibraryLayout, _Component);
+
+	  function LibraryLayout(props) {
+	    _classCallCheck(this, LibraryLayout);
+
+	    return _possibleConstructorReturn(this, _Component.call(this, props));
+	  }
+
+	  return LibraryLayout;
+	}(_react.Component);
+
+/***/ },
+
+/***/ 852:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	  mapStateToProps: function mapStateToProps(state) {
+	    return {
+	      libraryOpen: state.libraryReducer.libraryOpen || false
+	    };
+	  }
+	};
+
+/***/ },
+
+/***/ 853:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	module.exports = {
+	  mapStateToProps: function mapStateToProps(state) {
+	    return {
+	      libraryOpen: state.libraryReducer.libraryOpen || false
+	    };
+	  }
+	};
 
 /***/ }
 
