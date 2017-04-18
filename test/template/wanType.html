@@ -1,0 +1,30 @@
+卐字形布局测试
+<style>
+* {
+  box-sizing: border-box;
+}
+.template-container {
+  position: relative;
+  min-height: 300px;
+}
+.template-item {
+  border: 2px solid #ccc;
+  min-height: 100px;
+}
+
+.template-wantype {
+  width: 100%;
+}
+
+</style>
+<table class="template-container template-wantype">
+  <tr>
+    <td colspan="2" class="template-item"></td><td rowspan="2"  class="template-item"></td>
+  </tr>
+  <tr>
+    <td rowspan="2"  class="template-item"></td><td  class="template-item"></td>
+  </tr>
+  <tr>
+    <td colspan="2"  class="template-item"></td>
+  </tr>
+</table>

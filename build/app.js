@@ -114165,16 +114165,29 @@
 	var mockData = [{
 	  "name": "无限横向布局模板",
 	  "introduction": "暂无简介",
+	  "enName": "horizontal",
 	  "version": "1.0.0",
 	  "datavVersion": "1.0.0",
 	  "previewImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAACMCAYAAABCtSQoAAACO0lEQVR4nO3c3W0aURCA0blpgHTgdEA6oASXQEpIB3YHTglJBS7B6cDpwEkFVioYvzgIIQF77SvCLOc8rlbDj/QtWhATAQAAAAAAAAAAAAAAAAAAAAAAAP9XGz0wM3P0TJiL1trQ5j6MHAacloChMAFDYQKGwgQMhQkYChMwFCZgKEzAAAAAAAAAAAAAwAWzEwtOyE4sYEPAUJiAoTABQ2EChsIEDIUJGAoTMBQmYAAAAAAAAAAAAOCC2YkFJ2QnFrAhYChMwFCYgKEwAUNhAobCBAyFCRgKEzAAAAAAAAAAAABwwezEghOyEwvYEDAUJmAoTMBQmIChMAFDYQKGwgQMhQkYAAAAAAAAAAAAuGB2YsEJ2YkFbAgYChMwFCZgKEzAUJiAoTABQ2EChsIEDAAAAAAAAAAAAFyw4TuxeJ/MXEfEl53D31trP94waxURXyPi49bhnxHxrbX2t3PWVUTcRsSnrcO/I+K2tfan97nB7GTmTe530zlrdWDWQ+esRWY+75n1nJmLvlcKM3MkuH9WE2cdCq77gpCZD0dmdV0QYHYy83FCwI8TZ91NmJU54ZMzM68nzrp+/7tAL38nPB+fB50z+rzRj8lAAobCBHw+fg06Z/R5ox8T5mfiveak+8zMvMrjX2LddTy3Y/fnk+7NYdby8JdPk4N7nbU+EPFDdvz0k5nLzHzaM+spM5f9rxZm6DW8p51A1m+ctdz59HzuvRBszVpk5v1OvPc9FwIAAAAAAAAAAAA4Py+Yx5ElJSG0iAAAAABJRU5ErkJggg==",
-	  "layout": [{
-	    "width": "100%",
-	    "height": "auto",
+	  "layout": {
 	    "repeat-x": "1",
 	    "repeat-y": "unlimited",
-	    "layout": []
-	  }]
+	    "template": {
+	      "component": "div",
+	      "props": {
+	        "className": "template-container"
+	      },
+	      "childs": [{
+	        "template": {
+	          "component": "div",
+	          "props": {
+	            "className": "template-item"
+	          },
+	          "childs": []
+	        }
+	      }]
+	    }
+	  }
 	}];
 
 	var LibraryLayout = function (_Component) {
@@ -114388,7 +114401,11 @@
 
 	var _react = __webpack_require__(1);
 
+	var React = _interopRequireWildcard(_react);
+
 	var _indexConnect = __webpack_require__(853);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -114398,13 +114415,13 @@
 
 	__webpack_require__(854);
 
-	var Index = function (_Component) {
-		_inherits(Index, _Component);
+	var Index = function (_React$Component) {
+		_inherits(Index, _React$Component);
 
 		function Index(props) {
 			_classCallCheck(this, Index);
 
-			var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+			var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
 
 			_this.state = {
 				layout: false
@@ -114417,11 +114434,58 @@
 			this.props.dispatch({ type: "LAYOUT_CHANGE_PATH", path: '' });
 		};
 
+		Index.prototype.renderLayoutConfig = function renderLayoutConfig() {
+			var _this2 = this;
+
+			return {
+				component: 'div',
+				props: {
+					className: 'config-button config-button-add-Layout',
+					'data-title': '添加子模版',
+					'onClick': function onClick(e) {
+						_this2.props.dispatch({ type: "LIBRARY_OPEN_LAYOUT" });
+						_this2.props.dispatch({ type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path') });
+					}
+				}
+			};
+		};
+
+		Index.prototype.renderComponent = function renderComponent(layoutData, path) {
+			var _this3 = this;
+
+			if (!layoutData) return null;
+
+			var layout = Object.assign({}, layoutData),
+			    template = layout.template,
+			    child = [],
+			    component = layout.component,
+			    props = layout.props;
+
+
+			if (template) {
+				// 存在template即为模板
+				component = template.component;
+				props = template.props;
+
+				child = template.childs && template.childs.map(function (item, itemIndex) {
+					return _this3.renderComponent.call(_this3, item, path + '-' + itemIndex);
+				}) || [];
+
+				if (props.className.indexOf('template-item') != -1) {
+					child.push(this.renderComponent.call(this, this.renderLayoutConfig.call(this), path));
+				}
+			}
+
+			props['data-path'] = path;
+
+			return React.createElement.apply(React, [component, props].concat(child));
+		};
+
 		Index.prototype.render = function render() {
 			var layoutData = this.props.layoutData;
 
 
-			console.log(layoutData);
+			console.log("layoutData", layoutData);
 
 			return React.createElement(
 				'div',
@@ -114446,12 +114510,13 @@
 							'\u9009\u62E9\u4E3B\u5E03\u5C40\u6A21\u677F'
 						)
 					)
-				)
+				),
+				layoutData && this.renderComponent.call(this, layoutData.layout, '0')
 			);
 		};
 
 		return Index;
-	}(_react.Component);
+	}(React.Component);
 
 	module.exports = (0, _reactRedux.connect)(_indexConnect.mapStateToProps)(Index);
 
@@ -114506,7 +114571,7 @@
 
 
 	// module
-	exports.push([module.id, ".Index {\n  position: relative;\n  width: 960px;\n  height: 100%;\n  margin: 0 auto;\n  background: #fff;\n}\n.Index .index-nolayout {\n  position: absolute;\n  top: 30%;\n  left: 30%;\n  width: 40%;\n  height: 40%;\n}\n.Index .index-nolayout .index-nolayout-thanks {\n  font-size: 24px;\n  height: 72px;\n  line-height: 36px;\n  text-shadow: 0 0 2px #000;\n  font-weight: bold;\n  color: #fff;\n}\n.Index .index-nolayout .index-nolayout-select {\n  height: 36px;\n  line-height: 36px;\n  font-size: 13px;\n  margin-top: 10px;\n}\n.Index .index-nolayout .index-nolayout-select .index-nolayout-select-layout {\n  font-style: normal;\n  margin-left: 6px;\n  padding: 5px 10px;\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  cursor: pointer;\n  -webkit-transition: background .3s ease;\n  transition: background 0.3s ease;\n}\n.Index .index-nolayout .index-nolayout-select .index-nolayout-select-layout:hover {\n  background: #efefef;\n}\n", ""]);
+	exports.push([module.id, "@-webkit-keyframes titleFadeIn {\n  0% {\n    -webkit-transform: translate(0, -5px);\n    transform: translate(0, -5px);\n    opacity: 0;\n  }\n  100% {\n    -webkit-transform: translate(0, 0);\n    transform: translate(0, 0);\n    opacity: 1;\n  }\n}\n@keyframes titleFadeIn {\n  0% {\n    -webkit-transform: translate(0, -5px);\n    transform: translate(0, -5px);\n    opacity: 0;\n  }\n  100% {\n    -webkit-transform: translate(0, 0);\n    transform: translate(0, 0);\n    opacity: 1;\n  }\n}\n.Index {\n  position: relative;\n  width: 960px;\n  height: 100%;\n  margin: 0 auto;\n  background: #fff;\n}\n.Index .index-nolayout {\n  position: absolute;\n  top: 30%;\n  left: 30%;\n  width: 40%;\n  height: 40%;\n}\n.Index .index-nolayout .index-nolayout-thanks {\n  font-size: 24px;\n  height: 72px;\n  line-height: 36px;\n  text-shadow: 0 0 2px #000;\n  font-weight: bold;\n  color: #fff;\n}\n.Index .index-nolayout .index-nolayout-select {\n  height: 36px;\n  line-height: 36px;\n  font-size: 13px;\n  margin-top: 10px;\n}\n.Index .index-nolayout .index-nolayout-select .index-nolayout-select-layout {\n  font-style: normal;\n  margin-left: 6px;\n  padding: 5px 10px;\n  border: 1px solid #ccc;\n  border-radius: 3px;\n  cursor: pointer;\n  -webkit-transition: background .3s ease;\n  transition: background 0.3s ease;\n}\n.Index .index-nolayout .index-nolayout-select .index-nolayout-select-layout:hover {\n  background: #efefef;\n}\n.Index .template-container {\n  position: relative;\n  width: 100%;\n  border: 2px solid #ccc;\n  border-top: 30px solid #ccc;\n}\n.Index .template-item {\n  position: relative;\n  border: 2px solid #eee;\n  border-top: 30px solid #eee;\n  min-height: 60px;\n}\n.Index .config-button {\n  position: absolute;\n  height: 20px;\n  width: 20px;\n  background: #fff;\n  border-radius: 3px;\n  cursor: pointer;\n  box-shadow: 1px 1px 2px #999;\n}\n.Index .config-button:hover::before {\n  content: attr(data-title);\n  position: absolute;\n  top: 30px;\n  right: 0px;\n  white-space: nowrap;\n  background: #333;\n  color: #fff;\n  padding: 0 6px;\n  height: 24px;\n  line-height: 24px;\n  font-size: 12px;\n  border-radius: 3px;\n  -webkit-animation: titleFadeIn .5s ease;\n  animation: titleFadeIn .5s ease;\n}\n.Index .config-button:hover::after {\n  content: ' ';\n  position: absolute;\n  top: 25px;\n  right: 7px;\n  border: 5px solid transparent;\n  border-top: 0;\n  border-bottom: 6px solid #333;\n  -webkit-animation: titleFadeIn .5s ease;\n  animation: titleFadeIn .5s ease;\n}\n.Index .config-button.config-button-add-Layout {\n  top: -25px;\n  right: 5px;\n  background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkUlEQVQ4T2NkoBAwgvRPnz7dgYmJyZ4Us/79+3cwMzPzANiAmTNnNjAwMNSTYgADA0Njenp6A3UMINFmFOWwMFBgZmaWB8mwsrJeBNG/f//Wx2fw379/H2ZmZj7A8MK/f/8cQRqZmJj2E3AZ9jAYNYCBYYiGATQzOYDi/d+/fwug6SABXzr49+/fAXhmoiQpAwDIb3IRJXhKeQAAAABJRU5ErkJggg==') center center / 16px no-repeat;\n}\n", ""]);
 
 	// exports
 

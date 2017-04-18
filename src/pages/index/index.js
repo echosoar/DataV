@@ -1,11 +1,13 @@
 'use strict';
 import { connect } from 'react-redux';
-import { Component } from 'react';
+import * as React from 'react';
 import { mapStateToProps } from '../../connect/indexConnect.js';
 
 require('./index.less');
 
-class Index extends Component {
+
+
+class Index extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -14,17 +16,59 @@ class Index extends Component {
 		}
 	}
 
+
 	handleNolayoutSelect() {
 		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true});
 		this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: ''});
 	}
 
+	renderLayoutConfig() {
+		return {
+			component: 'div',
+			props: {
+				className: 'config-button config-button-add-Layout',
+				'data-title': '添加子模版',
+				'onClick': e=>{
+					this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT"});
+					this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path')});
+				}
+			}
+		}
+	}
 
+	renderComponent(layoutData, path) {
+
+		if(!layoutData) return null;
+
+		let layout = Object.assign({}, layoutData),
+				template = layout.template,
+				child = [],
+				{ component, props} = layout;
+
+		if(template) { // 存在template即为模板
+			component = template.component;
+			props = template.props;
+
+			child = template.childs && template.childs.map((item, itemIndex) => this.renderComponent.call(this, item, path + '-' + itemIndex)) || [];
+
+			if(props.className.indexOf('template-item')!=-1) {
+				child.push( this.renderComponent.call(this, this.renderLayoutConfig.call(this), path) );
+			}
+		}
+
+		props['data-path'] = path;
+
+		return React.createElement(
+			component,
+			props,
+			...child
+		);
+	}
 
 	render(){
 		let { layoutData } = this.props;
 
-		console.log( layoutData )
+		console.log( "layoutData", layoutData )
 
 		return <div className="Index">
 			{
@@ -40,6 +84,9 @@ class Index extends Component {
 					</div>
 
 				</div>
+			}
+			{
+				layoutData && this.renderComponent.call( this, layoutData.layout, '0' )
 			}
 		</div>
 	}
