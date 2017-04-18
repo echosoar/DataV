@@ -24,24 +24,6 @@ class Index extends React.Component {
 	}
 
 	renderLayoutConfig(path) {
-		// return {
-		// 	conponent: Tooltip,
-		// 	props: {
-		// 		placement: "bottom",
-		// 		title: "new"
-		// 	},
-		// 	childs: [
-		// 		this.renderComponent.call(this, {
-		// 			component: 'div',
-		// 			props: {
-		// 				className: 'config-button config-button-add-Layout',
-		// 				'data-path': path,
-
-		// 			}
-		// 		})
-		// 	]
-		//
-		// }
 		return  <Tooltip placement="bottom" title="添加子模板">
         <div
 					className="config-button config-button-add-Layout"
@@ -54,24 +36,55 @@ class Index extends React.Component {
       </Tooltip>
 	}
 
-	renderComponent(layoutData, path) {
+	renderDeleteButton(path) {
+		return  <Tooltip placement="bottom" title="删除">
+        <div
+					className="config-button config-button-delete"
+					onClick={e=>{
+						this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path')});
+					}}
+					data-path={path}
+					></div>
+      </Tooltip>
+	}
+
+	checkIsMultiModule(layout, layoutData) { // 检测是否是多个
+		return layout && layout.template && layoutData.template.props.className.indexOf('template-item')!=-1 && layout.repeat == 'unlimited';
+	}
+
+	renderDoingButton( buttons ){
+		return <div className="doingButtonContainer">{ buttons }</div>
+	}
+
+	renderComponent(layoutData, path, preLayout) {
 
 		if(!layoutData) return null;
 
 		let layout = Object.assign({}, layoutData),
 				child = layout.childs || [],
-				{ component, props, template } = layout;
+				{ component, props, template } = layout,
+				doingButton = [];
 
 		if(template) { // 存在template即为模板
 			component = template.component;
 			props = template.props;
 
-			child = template.childs && template.childs.map((item, itemIndex) => this.renderComponent.call(this, item, path + '-' + itemIndex)) || [];
+			child = template.childs && template.childs.map((item, itemIndex) => this.renderComponent.call(this, item, path + '-' + itemIndex, layoutData)) || [];
 			if(props.className.indexOf('template-item')!=-1) {
-				child.push( this.renderLayoutConfig.call(this, path) );
+				doingButton.push( this.renderLayoutConfig.call(this, path) );
+			}
+
+			if(props.className.indexOf('template-container')!=-1 || this.checkIsMultiModule(preLayout, layoutData) ){
+				doingButton.push( this.renderDeleteButton.call(this, path) );
 			}
 
 		}
+
+		if(doingButton.length) {
+			child.push( this.renderDoingButton.call(this, doingButton) );
+		}
+
+		 // 删除
 
 		props['data-path'] = path;
 
@@ -84,8 +97,6 @@ class Index extends React.Component {
 
 	render(){
 		let { layoutData } = this.props;
-
-		//console.log( "layoutData", layoutData )
 
 		return <div className="Index">
 			{
