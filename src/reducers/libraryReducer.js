@@ -10,13 +10,16 @@ const defaultState = {
 
 let fun_changeTemplate = (template, path, data) => {
   if(path.length==1) {
-    template.childs[path.shift()].template.childs.push(data);
+    if(data) {
+      template.childs[path.shift()].template.childs.push(data);
+    } else {
+      template.childs.splice(path.shift(), 1);
+    }
+
     return template
   }
 
   let nowIndex = path.shift();
-  console.log("new data", data)
-
 
   let newTemplate = Object.assign({}, template.childs[nowIndex].template);
 
@@ -24,8 +27,9 @@ let fun_changeTemplate = (template, path, data) => {
   return template;
 }
 
-const libraryReducer = (state = defaultState, action = {}) => {
+const libraryReducer = (preState = defaultState, action = {}) => {
   const { type } = action;
+  let state = deepClone(preState);
   switch (type) {
     case 'LIBRARY_OPEN_LAYOUT':
       return Object.assign({}, state, {
@@ -49,8 +53,7 @@ const libraryReducer = (state = defaultState, action = {}) => {
       });
       break;
     case 'ADD_LIBRARY':
-      //console.log('ADD_LIBRARY', state, action);
-      let data = deepClone(action.data);
+      let data =action.data;
       let path = state.nowLayoutPath;
       if(!path) {
         state.layoutData = data;
@@ -59,7 +62,6 @@ const libraryReducer = (state = defaultState, action = {}) => {
         pathArr.shift();
         let temObj = state.layoutData.template;
         state.layoutData.template = fun_changeTemplate(temObj, pathArr, data);
-
       }
       return Object.assign({}, state);
       break;
@@ -67,6 +69,23 @@ const libraryReducer = (state = defaultState, action = {}) => {
       return Object.assign({}, state, {
         nowLayoutPath: action.path
       });
+      break;
+    case 'INDEX_DELETE_MODULE':
+      if(action.path == '0') {
+        state.layoutData = false;
+      }else{
+        let pathArr = action.path.split('-');
+        console.clear();
+        console.log(action.path);
+        pathArr.shift();
+        let temObj = state.layoutData.template;
+        state.layoutData.template = fun_changeTemplate(temObj, pathArr, false);
+      }
+      console.log(state)
+      return Object.assign({}, state, {
+        date: new Date()
+      });
+      break;
     default: return state;
   }
 };

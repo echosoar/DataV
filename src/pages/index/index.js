@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { mapStateToProps } from '../../connect/indexConnect.js';
-import { Tooltip } from 'antd';
+import { Tooltip, Modal } from 'antd';
 
 require('./index.less');
 
@@ -41,7 +41,17 @@ class Index extends React.Component {
         <div
 					className="config-button config-button-delete"
 					onClick={e=>{
-						this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path')});
+						let path = e.target.getAttribute('data-path');
+						let _this = this;
+						Modal.confirm({
+					    title: '真的要删除这个模块吗?',
+					    content: '删除不可恢复，此模块及所有子布局、子组件都会被删除',
+					    onOk: () => {
+								this.props.dispatch({type: "INDEX_DELETE_MODULE", path: path});
+					    },
+					    onCancel() {}
+					  });
+
 					}}
 					data-path={path}
 					></div>
@@ -81,10 +91,10 @@ class Index extends React.Component {
 		}
 
 		if(doingButton.length) {
-			child.push( this.renderDoingButton.call(this, doingButton) );
+			child.push( this.renderDoingButton.call(this, doingButton) ); // 删除
 		}
 
-		 // 删除
+
 
 		props['data-path'] = path;
 
@@ -96,7 +106,10 @@ class Index extends React.Component {
 	}
 
 	render(){
+
 		let { layoutData } = this.props;
+
+		console.log( "render", layoutData );
 
 		return <div className="Index">
 			{

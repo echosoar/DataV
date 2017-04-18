@@ -60,12 +60,7 @@ let mockData = [
     "template": {
       "component": "div",
       "props": {
-        "className": "template-container",
-        "style": {
-          "white-space": "nowrap",
-          "overflow-x": "auto",
-          "overflow-y": "visible"
-        }
+        "className": "template-container"
       },
       "childs": [
         {
