@@ -1,7 +1,27 @@
 'use strict';
 
+
+const deepClone = require('deepclone');
+
 const defaultState = {
   libraryOpen: false
+}
+
+
+let fun_changeTemplate = (template, path, data) => {
+  if(path.length==1) {
+    template.childs[path.shift()].template.childs.push(data);
+    return template
+  }
+
+  let nowIndex = path.shift();
+  console.log("new data", data)
+
+
+  let newTemplate = Object.assign({}, template.childs[nowIndex].template);
+
+  template.childs[nowIndex].template = fun_changeTemplate(newTemplate, path, data);
+  return template;
 }
 
 const libraryReducer = (state = defaultState, action = {}) => {
@@ -29,10 +49,17 @@ const libraryReducer = (state = defaultState, action = {}) => {
       });
       break;
     case 'ADD_LIBRARY':
-      console.log('ADD_LIBRARY', state, action);
+      //console.log('ADD_LIBRARY', state, action);
+      let data = deepClone(action.data);
       let path = state.nowLayoutPath;
       if(!path) {
-        state.layoutData = action.data;
+        state.layoutData = data;
+      }else{
+        let pathArr = path.split('-');
+        pathArr.shift();
+        let temObj = state.layoutData.template;
+        state.layoutData.template = fun_changeTemplate(temObj, pathArr, data);
+
       }
       return Object.assign({}, state);
       break;

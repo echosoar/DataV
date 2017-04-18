@@ -34,7 +34,7 @@ class Library extends Component {
 
     return <div className={classNames({library: true, libraryOpen: this.props.libraryOpen!=false})}>
       <div className="library-title">
-        DataV组件库
+        DataV 模板组件库
         <i className="library-close" onClick={this.handleClick.bind(this)}></i>
       </div>
       <div className="library-main">
@@ -44,11 +44,11 @@ class Library extends Component {
               value: 'layout'
             },
             {
-              name: '基础模块',
+              name: '基础组件',
               value: 'module'
             },
             {
-              name: '数据模块',
+              name: '数据组件',
               value: 'viewmodule'
             }
           ]}

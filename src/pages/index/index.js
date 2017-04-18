@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { mapStateToProps } from '../../connect/indexConnect.js';
+import { Tooltip } from 'antd';
 
 require('./index.less');
 
@@ -22,18 +23,35 @@ class Index extends React.Component {
 		this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: ''});
 	}
 
-	renderLayoutConfig() {
-		return {
-			component: 'div',
-			props: {
-				className: 'config-button config-button-add-Layout',
-				'data-title': '添加子模版',
-				'onClick': e=>{
-					this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT"});
-					this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path')});
-				}
-			}
-		}
+	renderLayoutConfig(path) {
+		// return {
+		// 	conponent: Tooltip,
+		// 	props: {
+		// 		placement: "bottom",
+		// 		title: "new"
+		// 	},
+		// 	childs: [
+		// 		this.renderComponent.call(this, {
+		// 			component: 'div',
+		// 			props: {
+		// 				className: 'config-button config-button-add-Layout',
+		// 				'data-path': path,
+
+		// 			}
+		// 		})
+		// 	]
+		//
+		// }
+		return  <Tooltip placement="bottom" title="添加子模板">
+        <div
+					className="config-button config-button-add-Layout"
+					onClick={e=>{
+						this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT"});
+						this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path')});
+					}}
+					data-path={path}
+					></div>
+      </Tooltip>
 	}
 
 	renderComponent(layoutData, path) {
@@ -41,19 +59,18 @@ class Index extends React.Component {
 		if(!layoutData) return null;
 
 		let layout = Object.assign({}, layoutData),
-				template = layout.template,
-				child = [],
-				{ component, props} = layout;
+				child = layout.childs || [],
+				{ component, props, template } = layout;
 
 		if(template) { // 存在template即为模板
 			component = template.component;
 			props = template.props;
 
 			child = template.childs && template.childs.map((item, itemIndex) => this.renderComponent.call(this, item, path + '-' + itemIndex)) || [];
-
 			if(props.className.indexOf('template-item')!=-1) {
-				child.push( this.renderComponent.call(this, this.renderLayoutConfig.call(this), path) );
+				child.push( this.renderLayoutConfig.call(this, path) );
 			}
+
 		}
 
 		props['data-path'] = path;
@@ -68,7 +85,7 @@ class Index extends React.Component {
 	render(){
 		let { layoutData } = this.props;
 
-		console.log( "layoutData", layoutData )
+		//console.log( "layoutData", layoutData )
 
 		return <div className="Index">
 			{
@@ -86,7 +103,7 @@ class Index extends React.Component {
 				</div>
 			}
 			{
-				layoutData && this.renderComponent.call( this, layoutData.layout, '0' )
+				layoutData && this.renderComponent.call( this, layoutData, '0' )
 			}
 		</div>
 	}
