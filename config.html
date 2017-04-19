@@ -6,6 +6,10 @@
   </head>
   <body>
 	<div id="container"></div>
+  <script>
+  const electron = require('electron');
+  window.ipcRenderer = electron.ipcRenderer;
+  </script>
 	<script src="./lib/react.js"></script>
 	<script src="./lib/react-dom.js"></script>
 	<script src="./lib/ReactRouter.js"></script>

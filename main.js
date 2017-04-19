@@ -37,6 +37,11 @@ function fun_ConfigWindow () {
 	configWin.on('closed', function () {
 	 configWin = null
 	})
+
+	listenerRendererMsg("exitConfig").then(args=>{
+		fun_PreWindow();
+		configWin.close();
+	});
 }
 
 function fun_PreWindow() {

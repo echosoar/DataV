@@ -17,18 +17,22 @@ class Index extends React.Component {
 		this.state = {
 			layout: false
 		}
+
+		this.handleIndexClick = this.handleIndexClick.bind(this);
 	}
 
 	handleNolayoutSelect() {
+		this.handleIndexClick();
 		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true});
 		this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: ''});
 	}
 
 	renderLayoutConfig(path) {
-		return  <Tooltip placement="bottom" title="添加子模板">
+		return  <Tooltip placement="bottom" title="添加子模板 / 组件">
         <div
 					className="config-button config-button-add-Layout"
 					onClick={e=>{
+						this.handleIndexClick();
 						this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT"});
 						this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: e.target.getAttribute('data-path')});
 					}}
@@ -48,7 +52,9 @@ class Index extends React.Component {
 					    title: '真的要删除这个模块吗?',
 					    content: '删除不可恢复，此模块及所有子布局、子组件都会被删除',
 					    onOk: () => {
+								this.handleIndexClick();
 								this.props.dispatch({type: "INDEX_DELETE_MODULE", path: path});
+
 					    },
 					    onCancel() {}
 					  });
@@ -84,6 +90,7 @@ class Index extends React.Component {
         <div
 					className={"config-button " + className}
 					onClick={e=>{
+						this.handleIndexClick();
 						let path = e.target.getAttribute('data-path');
 						this.props.dispatch({type: "ADD_SAME_MODULE", path: path, isPre});
 					}}
@@ -124,8 +131,9 @@ class Index extends React.Component {
         <div
 					className="config-button config-button-layout-style-setting"
 					onClick={e=>{
+						this.handleIndexClick();
 						let path = e.target.getAttribute('data-path');
-						this.props.dispatch({type: "LAYOUT_STYLE_SETTING", path: path, style});
+						this.props.dispatch({type: "STYLE_LAYOUT_OPEN", path: path, style});
 					}}
 					data-path={path}
 					></div>
@@ -177,6 +185,12 @@ class Index extends React.Component {
 			props,
 			...child
 		);
+	}
+
+	handleIndexClick () {
+		// 为了保护修改样式的元素一直存在，先采用先把库面板、样式面板关闭的方案
+		this.props.dispatch({type: "LAYOUT_STYLE_CLOSE"});
+		this.props.dispatch({ type: 'LIBRARY_CLOSE'});
 	}
 
 	render(){

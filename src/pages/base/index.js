@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { mapStateToProps } from '../../connect/baseConnect.js';
 import BUTTON from './button.js';
 import Library from '../library/';
+import Style from '../style/';
 
 require('./base.less');
 
@@ -42,6 +43,7 @@ class Base extends Component {
 				</div>
 			</div>
 			<Library />
+			<Style />
 			<div className="main">
 			{ this.props.children }
 			</div>
