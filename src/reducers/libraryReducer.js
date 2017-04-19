@@ -7,11 +7,27 @@ const defaultState = {
   libraryOpen: false
 }
 
-
-let fun_changeTemplate = (template, path, data) => {
+/*
+index的错用代表添加到指定index后
+*/
+let fun_changeTemplate = (template, path, data, index) => {
   if(path.length==1) {
     if(data) {
-      template.childs[path.shift()].template.childs.push(data);
+      let childsIndex = path.shift();
+      let childsLength = template.childs[childsIndex].template.childs.length;
+      if(data===true) {
+        data = deepClone(template.childs[childsIndex]);
+        data.template.childs = [];
+      }
+      if(index == null) {
+        template.childs[childsIndex].template.childs.push(data);
+      }else{
+        if(index< 0) {
+          template.childs.unshift(data);
+        }else{
+          template.childs.splice(index, 0, data);
+        }
+      }
     } else {
       template.childs.splice(path.shift(), 1);
     }
@@ -23,7 +39,7 @@ let fun_changeTemplate = (template, path, data) => {
 
   let newTemplate = Object.assign({}, template.childs[nowIndex].template);
 
-  template.childs[nowIndex].template = fun_changeTemplate(newTemplate, path, data);
+  template.childs[nowIndex].template = fun_changeTemplate(newTemplate, path, data, index);
   return template;
 }
 
@@ -75,13 +91,22 @@ const libraryReducer = (preState = defaultState, action = {}) => {
         state.layoutData = false;
       }else{
         let pathArr = action.path.split('-');
-        console.clear();
-        console.log(action.path);
         pathArr.shift();
         let temObj = state.layoutData.template;
         state.layoutData.template = fun_changeTemplate(temObj, pathArr, false);
       }
       console.log(state)
+      return Object.assign({}, state, {
+        date: new Date()
+      });
+      break;
+    case 'ADD_SAME_MODULE':
+      let pathArr = action.path.split('-');
+      pathArr.shift();
+      let index = pathArr[pathArr.length-1];
+      if(!action.isPre) index++;
+      let temObj = state.layoutData.template;
+      state.layoutData.template = fun_changeTemplate(temObj, pathArr, true, index);
       return Object.assign({}, state, {
         date: new Date()
       });

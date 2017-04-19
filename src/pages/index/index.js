@@ -4,19 +4,20 @@ import * as React from 'react';
 import { mapStateToProps } from '../../connect/indexConnect.js';
 import { Tooltip, Modal } from 'antd';
 
+import TEMPLATE_STYLE_SUPPORT from '../../common/tempalteStyleSupport.js';
+
 require('./index.less');
+
 
 
 
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			layout: false
 		}
 	}
-
 
 	handleNolayoutSelect() {
 		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true});
@@ -51,7 +52,40 @@ class Index extends React.Component {
 					    },
 					    onCancel() {}
 					  });
+					}}
+					data-path={path}
+					></div>
+      </Tooltip>
+	}
 
+	renderAdjacentSubassemblies(path, isPre, direction) {// 添加相邻子组件
+		let directionText = '',
+				className = '';
+
+		if(isPre) {
+			if(direction) {
+				directionText = '前';
+				className = 'config-button-addsamepre';
+			} else {
+				directionText = '上';
+				className = 'config-button-addsametop';
+			}
+		}else {
+			if(direction) {
+				directionText = '后';
+				className = 'config-button-addsamenext';
+			} else {
+				directionText = '下';
+				className = 'config-button-addsamebottom';
+			}
+		}
+
+		return  <Tooltip placement="bottom" title={"向" +(isPre? (direction? '前': '上'): (direction? '后': '下')) + "添加同一组件"}>
+        <div
+					className={"config-button " + className}
+					onClick={e=>{
+						let path = e.target.getAttribute('data-path');
+						this.props.dispatch({type: "ADD_SAME_MODULE", path: path, isPre});
 					}}
 					data-path={path}
 					></div>
@@ -59,11 +93,43 @@ class Index extends React.Component {
 	}
 
 	checkIsMultiModule(layout, layoutData) { // 检测是否是多个
-		return layout && layout.template && layoutData.template.props.className.indexOf('template-item')!=-1 && layout.repeat == 'unlimited';
+		return layout && layout.template && layoutData.template.props.className.indexOf('template-item')!=-1 && layout.repeat && layout.repeat.indexOf('unlimited')!=-1 ;
 	}
 
 	renderDoingButton( buttons ){
 		return <div className="doingButtonContainer">{ buttons }</div>
+	}
+
+	templateStyleExec( style ) {
+		if(!style) return[];
+		let styleRes = [],
+				keys = Object.keys(style);
+
+				keys && keys.map(key => {
+					let lowerKey = key.replace(/\s/g,'').toLowerCase();
+					if(TEMPLATE_STYLE_SUPPORT.indexOf('|' + lowerKey + '|')!=-1){
+						styleRes.push({
+							style: lowerKey,
+							key: key,
+							value: style[key]
+						})
+					}
+				});
+
+		return styleRes;
+	}
+
+	renderLayoutStyleSetting(path, style) {
+		return  <Tooltip placement="bottom" title="设置模板样式">
+        <div
+					className="config-button config-button-layout-style-setting"
+					onClick={e=>{
+						let path = e.target.getAttribute('data-path');
+						this.props.dispatch({type: "LAYOUT_STYLE_SETTING", path: path, style});
+					}}
+					data-path={path}
+					></div>
+      </Tooltip>
 	}
 
 	renderComponent(layoutData, path, preLayout) {
@@ -85,16 +151,24 @@ class Index extends React.Component {
 			}
 
 			if(props.className.indexOf('template-container')!=-1 || this.checkIsMultiModule(preLayout, layoutData) ){
-				doingButton.push( this.renderDeleteButton.call(this, path) );
+					if(props.className.indexOf('template-container')!=-1 || preLayout.template.childs.length>1) { // 只剩一个的时候不允许删除
+						doingButton.push( this.renderDeleteButton.call(this, path) );
+					}
+					if(props.className.indexOf('template-item')!=-1) {
+						doingButton.push( this.renderAdjacentSubassemblies.call(this, path, true, preLayout.repeat.indexOf('-x')!=-1 ) );
+						doingButton.push( this.renderAdjacentSubassemblies.call(this, path, false, preLayout.repeat.indexOf('-x')!=-1 ) );
+					}
 			}
 
+			let templateStyle = this.templateStyleExec(props.style);
+			if(templateStyle.length > 0) {
+				doingButton.push( this.renderLayoutStyleSetting.call(this, path, templateStyle) );
+			}
 		}
 
 		if(doingButton.length) {
 			child.push( this.renderDoingButton.call(this, doingButton) ); // 删除
 		}
-
-
 
 		props['data-path'] = path;
 

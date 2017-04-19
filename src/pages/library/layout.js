@@ -13,7 +13,7 @@ let mockData = [
     "version": "1.0.0",
     "datavVersion": "1.0.0",
     "previewImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAACMCAYAAABCtSQoAAACO0lEQVR4nO3c3W0aURCA0blpgHTgdEA6oASXQEpIB3YHTglJBS7B6cDpwEkFVioYvzgIIQF77SvCLOc8rlbDj/QtWhATAQAAAAAAAAAAAAAAAAAAAAAAAP9XGz0wM3P0TJiL1trQ5j6MHAacloChMAFDYQKGwgQMhQkYChMwFCZgKEzAAAAAAAAAAAAAwAWzEwtOyE4sYEPAUJiAoTABQ2EChsIEDIUJGAoTMBQmYAAAAAAAAAAAAOCC2YkFJ2QnFrAhYChMwFCYgKEwAUNhAobCBAyFCRgKEzAAAAAAAAAAAABwwezEghOyEwvYEDAUJmAoTMBQmIChMAFDYQKGwgQMhQkYAAAAAAAAAAAAuGB2YsEJ2YkFbAgYChMwFCZgKEzAUJiAoTABQ2EChsIEDAAAAAAAAAAAAFyw4TuxeJ/MXEfEl53D31trP94waxURXyPi49bhnxHxrbX2t3PWVUTcRsSnrcO/I+K2tfan97nB7GTmTe530zlrdWDWQ+esRWY+75n1nJmLvlcKM3MkuH9WE2cdCq77gpCZD0dmdV0QYHYy83FCwI8TZ91NmJU54ZMzM68nzrp+/7tAL38nPB+fB50z+rzRj8lAAobCBHw+fg06Z/R5ox8T5mfiveak+8zMvMrjX2LddTy3Y/fnk+7NYdby8JdPk4N7nbU+EPFDdvz0k5nLzHzaM+spM5f9rxZm6DW8p51A1m+ctdz59HzuvRBszVpk5v1OvPc9FwIAAAAAAAAAAAA4Py+Yx5ElJSG0iAAAAABJRU5ErkJggg==",
-    "repeat": "unlimited",
+    "repeat": "unlimited-y",
     "template": {
       "component": "div",
       "props": {
@@ -38,15 +38,7 @@ let mockData = [
             "childs": []
           }
         }
-      ],
-      "item": {
-        "template": {
-          "component": "div",
-          "props": {
-            "className": "template-item",
-          }
-        }
-      }
+      ]
     }
   },
   {
@@ -56,40 +48,41 @@ let mockData = [
     "version": "1.0.0",
     "datavVersion": "1.0.0",
     "previewImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAACMCAYAAABCtSQoAAADEUlEQVR4nO3c0U1UURCA4Rnju9rBdiAdSAl2AC1YgdABJUAH0IF2gB1sB2IF4wM3SggClwzZHfN9j3dP5vDy5+wucCIAAAAAAAAAAAAAAAAAAAAAAABgt7J7YFXVszbOfNbe5pm3y3n77s2ufwDg5QQMgwkYBhMwDCZgGEzAMJiAYTABw2AChsEEDIMJGAYTMAwmYBhMwDCYgGEwAcNgAobBBAyDCRgGEzAMJmAYTMAw2Ntd/wDwP6mqo4g4vvf4PDMvXmM/AUOTqvoaEScPvHRYVZvMPO3e08Xu5pnXoKo+RcS3J5YdZub3zn19BoYeZ01rVnECm2deg13t6wSGwQQMPa6b1qwiYOhx0rRmFQFDg8y8ise/pDpb1rQSMDTJzC9x+0cc2zuPtxFxvLzWv2f3wH3/VtE889bM23dOYBhMwDCYgGEwAcNgAobBBAyDCRgGEzAMJmAYTMAwmIBhMJfaQbPlfqw/uu/BukvA0KSqPkbEZURs7j3fRsTnzPzRvae30NCgqt5FxHnci3exiYjzZU0rAUOPk4g4eOT1g3iFGzn8P7B55jWoqp8R8f6JZTeZ+aFzXycw9Hgq3ueuWUXA0OOmac0qAoYel01rVvEZ2DzzGizfMG/j32+TbyJik5m/Ovd1AkODJcyDePjy9uuIOOiON8IJbJ55rZaT+HP8/X3wNiIuXyPeCAGbZ95o3kLDYAKGwQQMgwkYBhMwDCZgGEzAMJiAYTABw2AChsEEDIO5lRIaVdVRRBzfe3yemRevsZ+AoUlVfY2HL647rKpNZp527+m/kcwzr8Fymfu3J5Yddl/y7jMw9DhrWrOKE9g88xrsal8nMAwmYOjx0F1YL1mzioChx0nTmlUEDA0y8yoe/5LqbFnTSsDQJDO/xO0fcWzvPN5GxPHyWv+e3QP3/VtF88xbM2/fOYFhMAHDYAKGwQQMgwkYBhMwDCZgGEzAMJiAYTABw2AChsEEDIMJGAYTMAwmYBhMwDCYgGEwAcNgAobBBAyDCRgAAAAAAAAAAAAAAAAAAAAAAACAF/sNgI76MGsrjlIAAAAASUVORK5CYII=",
-    "repeat": "unlimited",
     "template": {
       "component": "div",
       "props": {
         "className": "template-container"
+
       },
       "childs": [
         {
+          "repeat": "unlimited-x",
           "template": {
             "component": "div",
             "props": {
-              "className": "template-item",
+              "className": "template-middle",
               "style": {
-                "display": " inline-block",
-                "width": "25%"
+                "overflow-x": "auto",
+                "white-space": "nowrap"
               }
             },
-            "childs": []
+            "childs": [{
+              "template": {
+                "component": "div",
+                "props": {
+                  "className": "template-item",
+                  "style": {
+                    "display": " inline-block",
+                    "width": "25%",
+                    "verticalAlign": "top"
+                  }
+                },
+                "childs": []
+              }
+            }]
           }
         }
-      ],
-      "item": {
-        "template": {
-          "component": "div",
-          "props": {
-            "className": "template-item",
-            "style": {
-              "display": " inline-block",
-              "width": "25%"
-            }
-          },
-          "childs": []
-        }
-      }
+      ]
     }
   },
   {
@@ -185,10 +178,7 @@ let mockData = [
             ]
           }
         }
-      ],
-      "item": {
-
-      }
+      ]
     }
   }
 
