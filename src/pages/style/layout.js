@@ -1,6 +1,7 @@
 'use strict';
 import { connect } from 'react-redux';
 import { Component } from 'react';
+const deepClone = require('deepclone');
 
 import classNames from 'classnames';
 import { mapStateToProps } from '../../connect/styleLayoutConnect.js';
@@ -17,7 +18,7 @@ const styleConfig = {
     "type": "size"
   },
   "verticalalign": {
-    "name": "水平对齐",
+    "name": "水平对齐方式",
     "type": "array",
     "value": [
       {
@@ -49,7 +50,15 @@ class LayoutStyle extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        let newStyleData = this.props.styleData.map( item => {
+          if( values[item.style] ) {
+            item.value = values[item.style];
+          }
+          return item;
+        });
+        this.props.dispatch( { type: 'LAYOUT_STYLE_CLOSE'} );
+        this.props.dispatch( { type: 'LIBRARY_LAYOUT_STYLE_CHANGE', path: this.props.elementPath, newStyle: newStyleData} );
+
       }
     });
   }
