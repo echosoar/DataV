@@ -211,7 +211,9 @@ class Index extends React.Component {
 						进行数据页面搭建请先
 						<i className="index-nolayout-select-layout" onClick={this.handleNolayoutSelect.bind(this)}>选择主布局模板</i>
 					</div>
-
+					<div className="index-nolayout-copyright">
+						© 2013-2017 IWenKu.net All rights reserved.
+					</div>
 				</div>
 			}
 			{

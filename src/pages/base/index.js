@@ -25,7 +25,7 @@ class Base extends Component {
 			<div className="header">
 				<i className="logo"></i>
 				<div className="header-title">
-					Data<br />Configurator
+					Page<br />Configurator
 				</div>
 				<div className="header-button-container">
 				{
