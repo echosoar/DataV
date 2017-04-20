@@ -1,4 +1,5 @@
 'use strict';
+
 import { Modal } from 'antd';
 const defaultState = {};
 const deepClone = require('deepclone');

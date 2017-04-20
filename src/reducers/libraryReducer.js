@@ -91,7 +91,7 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       });
       break;
     case 'ADD_LIBRARY':
-      let data =action.data;
+      let data = deepClone(action.data);
       let path = state.nowLayoutPath;
       if(!path) {
         state.layoutData = data;

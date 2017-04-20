@@ -12,6 +12,16 @@ const button = {
     //   icon: '',
     //   title: '打开模块库'
     // },
+		{
+			name: '保存此页面',
+			action: 'SAVE_THIS_PAGE',
+			title: '保存此页面中添加或编辑的内容'
+		},
+		{
+			name: '打开页面库',
+			action: 'OPEN_SAVED',
+			title: '浏览已保存的页面已便使用或重新编辑'
+		},
     {
       name: '',
       action: 'WINDOW_CLOSE',

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { notification } from 'antd';
 import { mapStateToProps } from '../../connect/libraryConnect.js';
 import Layout from './layout.js';
+import BaseModule from './baseModule.js';
 
 
 require('./index.less');
@@ -57,6 +58,9 @@ class Library extends Component {
           />
         {
           this.props.libraryOpen == 'layout' && <Layout />
+        }
+        {
+          this.props.libraryOpen == 'module' && <BaseModule />
         }
       </div>
 
