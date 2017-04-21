@@ -23,3 +23,7 @@
 }
 
 childs可以处理两个值@state和@props
+
+
+第一种模式，使用React.createElement来创建一个元素，然后无内部数据处理等逻辑
+第二种模式，使用React.createClass和React.createElement两种模式来做（首选）

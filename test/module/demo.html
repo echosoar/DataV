@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Demo - DataV</title>
+  </head>
+  <body>
+	<div id="container"></div>
+	<script src="../../lib/react.js"></script>
+	<script src="../../lib/react-dom.js"></script>
+	<script src="../../lib/ReactRouter.js"></script>
+	<script src="./reactCreateClass/build/app.js"></script>
+  <script>
+  var testModule = React.createElement(window.datavModule.testModule);
+  ReactDOM.render(
+    testModule,
+    document.getElementById('container')
+  );
+  </script>
+  </body>
+</html>
