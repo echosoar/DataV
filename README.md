@@ -6,7 +6,6 @@ Data Visualization Platform
 
 还要做的事情记录（优先级从上到下）：
 
-  + 总结属性type，目前有size、address、text、array四种类型
   + 总结布局配置信息，模块配置信息
   + 页面配置器里面增加 添加模板、添加基础组件、添加数据组件 三块功能。
   + 页面配置器中库内容读取方式通过接口实现，本地起一个server来跑这个事情，这个server地址可以进行配置
@@ -19,7 +18,7 @@ Data Visualization Platform
 
 ***
 
-已完成工作：
+已完成工作（时间从前到后）：
 
   - 技术选型 - Webpack + React + React-Router + Redux + Electron
   - 启动页面（启动页面配置器，数据展示器和退出）
@@ -30,3 +29,4 @@ Data Visualization Platform
   - 页面配置器 - 布局引擎 - 布局模板样式配置
   - 页面配置器 - 基础模块引擎 - 通用模块json设计
   - 页面配置器 - 基础模块引擎 - 模块异步加载方案/实现
+  - 总结属性type，目前有size、color、text、array四种类型
