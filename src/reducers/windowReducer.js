@@ -21,7 +21,15 @@ const windowReducer = (preState = defaultState, action = {}) => {
       }
       return state;
       break;
+    case 'WINDOW_RETUEN_INDEX':
+      location.href = '#index';
+      return state;
+    case 'WINDOW_SETTING':
+      location.href = '#setting';
+      return state;
+    case 'UPDATE_SYSTEM_CONFIG':
 
+      return state;
     default: return state;
   }
 };

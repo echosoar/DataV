@@ -30,6 +30,9 @@ class Base extends Component {
 				<div className="header-button-container">
 				{
 					button.map( buttonItem => {
+						if( buttonItem.rule ) {
+							if( !buttonItem.rule(this) ) return '';
+						}
 						return <i
 							className="header-button"
 							onClick={()=>{ this.headerButton.call(this, buttonItem.action); }}

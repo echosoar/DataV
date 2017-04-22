@@ -1,5 +1,5 @@
 const electron = require('electron')
-
+const fs = require('fs');
 const path = require('path')
 const url = require('url')
 
@@ -37,6 +37,12 @@ function fun_ConfigWindow () {
 	configWin.on('closed', function () {
 	 configWin = null
 	})
+
+	listenerRendererMsg("getSystemConfig").then(args=>{
+		let systemConfigFileAddr = path.join(__dirname, './config/systemConfig.json');
+		let data = fs.readFileSync(systemConfigFileAddr);
+		console.log(data);
+	});
 
 	listenerRendererMsg("exitConfig").then(args=>{
 		fun_PreWindow();

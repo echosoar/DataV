@@ -135,6 +135,9 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       state.layoutData.template = fun_changeTemplateStyle(state.layoutData.template, pathStyleArr, action.newStyle);
       return state;
       break;
+    case 'LIBRARY_MANAGE_OPEN':
+      location.href = '#librartManage';
+      return state;
     default: return state;
   }
 };

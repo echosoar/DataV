@@ -9,8 +9,6 @@ const deepClone = require('deepclone');
 require('./index.less');
 
 
-
-
 class Index extends React.Component {
 	constructor(props) {
 		super(props);
