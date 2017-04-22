@@ -38,10 +38,10 @@ function fun_ConfigWindow () {
 	 configWin = null
 	})
 
-	listenerRendererMsg("getSystemConfig").then(args=>{
+	ipcMain.on("getSystemConfig", args=>{
 		let systemConfigFileAddr = path.join(__dirname, './config/systemConfig.json');
 		let data = fs.readFileSync(systemConfigFileAddr);
-		console.log(data);
+		configWin.webContents.send('resultGetSystemConfig', data.toString('utf-8'));
 	});
 
 	listenerRendererMsg("exitConfig").then(args=>{

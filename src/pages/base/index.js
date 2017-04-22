@@ -11,6 +11,16 @@ require('./base.less');
 class Base extends Component {
 	constructor(props) {
 		super(props);
+		/*
+		获取全局配置信息
+		*/
+
+		if(window.ipcRenderer) {
+			window.ipcRenderer.send('getSystemConfig');
+			window.ipcRenderer.on('resultGetSystemConfig', (event, args)=>{
+				this.props.dispatch({type: 'UPDATE_SYSTEM_CONFIG', data: JSON.parse(args)});
+			})
+		}
 	}
 
 	headerButton( action ) {

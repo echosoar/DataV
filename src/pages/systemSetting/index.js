@@ -1,6 +1,7 @@
 'use strict';
 import { connect } from 'react-redux';
 import * as React from 'react';
+import SystemSettingApi from './api.js';
 import { Menu } from 'antd';
 require('./systemSetting.less');
 
@@ -19,6 +20,7 @@ class SystemSetting extends React.Component {
 	}
 
   render() {
+		let {page} = this.state;
 
     return <div className="systemSetting-container">
 			<div className="systemSetting-left-container">
@@ -31,6 +33,11 @@ class SystemSetting extends React.Component {
 	      >
 					<Menu.Item key="api">接口设置</Menu.Item>
 				</Menu>
+			</div>
+			<div className="systemSetting-right-container">
+			{
+				page == 'api' && <div><SystemSettingApi /></div>
+			}
 			</div>
     </div>
   }

@@ -1,0 +1,36 @@
+@keyframes loadingAnimate {
+  0% {
+    transform: rotate( 0deg );
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.component-loading-container {
+  height: 80px;
+  padding: 10px 0;
+  text-align: center;
+  width: 100%;
+
+  .component-loading-animate {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #9cf;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-radius: 50%;
+    animation: loadingAnimate 1s linear infinite;
+  }
+
+  .component-loading-text {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: #666;
+  }
+}

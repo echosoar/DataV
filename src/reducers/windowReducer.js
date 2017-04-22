@@ -28,7 +28,8 @@ const windowReducer = (preState = defaultState, action = {}) => {
       location.href = '#setting';
       return state;
     case 'UPDATE_SYSTEM_CONFIG':
-
+    console.log("upupup")
+      state.defaultConfig = action.data;
       return state;
     default: return state;
   }

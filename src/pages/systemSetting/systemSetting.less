@@ -4,6 +4,7 @@
 
   .systemSetting-left-container {
     position: absolute;
+    z-index: 3;
     height: 100%;
     width: 120px;
     background: #fff;
@@ -17,6 +18,15 @@
       font-weight: bold;
       border-bottom: 1px solid #eee;
     }
+  }
+
+  .systemSetting-right-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    padding-left: 120px;
+    overflow: auto;
   }
 
 }
