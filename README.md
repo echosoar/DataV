@@ -1,10 +1,10 @@
-DataV
+### DataV
 
-Data Visualization Platform
+##### 可视化数据可视化系统搭建平台
 
 ***
 
-还要做的事情记录（优先级从上到下）：
+##### 还要做的事情记录（优先级从上到下）：
 
   + 总结布局配置信息，模块配置信息
   + 页面配置器里面增加 添加模板、添加基础组件、添加数据组件 三块功能。
@@ -18,7 +18,7 @@ Data Visualization Platform
 
 ***
 
-已完成工作（时间从前到后）：
+##### 已完成工作（时间从前到后）：
 
   - 技术选型 - Webpack + React + React-Router + Redux + Electron
   - 启动页面（启动页面配置器，数据展示器和退出）

@@ -18,7 +18,6 @@ let mockData = [{
   hashName: "datavBaseModuleImage278920E14B69B02754BB95EA8B4293D6",
   scriptType: "local",
   scriptAddr: "./test/module/reactCreateClass/build/app.js",
-  component: 'div',
   props: {
     style: {
       "color": "#000000",
