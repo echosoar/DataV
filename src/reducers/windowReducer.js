@@ -28,8 +28,15 @@ const windowReducer = (preState = defaultState, action = {}) => {
       location.href = '#setting';
       return state;
     case 'UPDATE_SYSTEM_CONFIG':
-    console.log("upupup")
       state.defaultConfig = action.data;
+      state.defaultConfigChange = false;
+      return state;
+    case 'UPDATE_SYSTEM_CONFIG_API':
+      state.defaultConfig.api = action.data;
+      state.defaultConfigChange = true;
+      if(window.ipcRenderer){
+        window.ipcRenderer.send('UPDATE_SYSTEM_CONFIG', JSON.stringify(state.defaultConfig));
+      }
       return state;
     default: return state;
   }

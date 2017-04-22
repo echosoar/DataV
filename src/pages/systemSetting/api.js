@@ -20,16 +20,14 @@ const FormItem = Form.Item;
 class SystemSettingApi extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-
-		}
+		this.state = {}
 	}
 
   handleSubmit( e ) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values)
+        this.props.dispatch({type: 'UPDATE_SYSTEM_CONFIG_API', data: values});
       }
     });
   }
@@ -49,7 +47,7 @@ class SystemSettingApi extends React.Component {
     let { defaultConfig } = this.props;
 
     if( !defaultConfig || !defaultConfig.api ) return <Loading />;
-    let apis = Object.keys(defaultConfig.api);
+    let apis = Object.keys(apiKeyToCn);
     return <div className="systemSettingApi-container">
       <Form onSubmit={this.handleSubmit.bind(this)}>
         {

@@ -5,6 +5,7 @@ import { mapStateToProps } from '../../connect/baseConnect.js';
 import BUTTON from './button.js';
 import Library from '../library/';
 import Style from '../style/';
+import { message } from 'antd';
 
 require('./base.less');
 
@@ -18,6 +19,9 @@ class Base extends Component {
 		if(window.ipcRenderer) {
 			window.ipcRenderer.send('getSystemConfig');
 			window.ipcRenderer.on('resultGetSystemConfig', (event, args)=>{
+				if(this.props.windowDefaultConfigChange) {
+					message.success('DataV系统配置修改成功');
+				}
 				this.props.dispatch({type: 'UPDATE_SYSTEM_CONFIG', data: JSON.parse(args)});
 			})
 		}

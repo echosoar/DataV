@@ -1,10 +1,1 @@
-{
-  "api": {
-    "layoutLibraryListAll": "",
-    "baseModuleListAll": "",
-    "dataModuleListAll": "",
-    "layoutLibraryListByName": "",
-    "baseModuleListByName": "",
-    "dataModuleListByName": ""
-  }
-}
+{"api":{"baseModuleListAll":"http://127.0.0.1","baseModuleListByName":"http://127.0.0.1","dataModuleListAll":"http://127.0.0.1:8088/","dataModuleListByName":"http://127.0.0.1","layoutLibraryListAll":"http://127.0.0.1","layoutLibraryListByName":"http://127.0.0.1"}}

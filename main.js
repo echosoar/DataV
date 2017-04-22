@@ -44,6 +44,12 @@ function fun_ConfigWindow () {
 		configWin.webContents.send('resultGetSystemConfig', data.toString('utf-8'));
 	});
 
+	ipcMain.on("UPDATE_SYSTEM_CONFIG", (e, data)=>{
+		let systemConfigFileAddr = path.join(__dirname, './config/systemConfig.json');
+		fs.writeFileSync(systemConfigFileAddr, data);
+		configWin.webContents.send('resultGetSystemConfig', data);
+	})
+
 	listenerRendererMsg("exitConfig").then(args=>{
 		fun_PreWindow();
 		configWin.close();
