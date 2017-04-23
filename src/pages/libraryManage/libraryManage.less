@@ -8,6 +8,7 @@
     width: 120px;
     background: #fff;
     box-shadow: 1px 0 3px #ccc;
+    z-index: 3;
 
     .libraryManage-title {
       height: 60px;
@@ -17,6 +18,15 @@
       font-weight: bold;
       border-bottom: 1px solid #eee;
     }
+  }
+
+  .libraryManage-right-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    padding-left: 120px;
+    overflow: auto;
   }
 
 }

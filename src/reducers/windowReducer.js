@@ -32,7 +32,7 @@ const windowReducer = (preState = defaultState, action = {}) => {
       state.defaultConfigChange = false;
       return state;
     case 'UPDATE_SYSTEM_CONFIG_API':
-      state.defaultConfig.api = action.data;
+      state.defaultConfig.api = Object.assign({}, state.defaultConfig.api, action.data);
       state.defaultConfigChange = true;
       if(window.ipcRenderer){
         window.ipcRenderer.send('UPDATE_SYSTEM_CONFIG', JSON.stringify(state.defaultConfig));

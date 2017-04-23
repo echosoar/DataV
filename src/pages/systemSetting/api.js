@@ -26,7 +26,7 @@ class SystemSettingApi extends React.Component {
   handleSubmit( e ) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      if (!err) {
+      if (!err && values) {
         this.props.dispatch({type: 'UPDATE_SYSTEM_CONFIG_API', data: values});
       }
     });
@@ -60,8 +60,6 @@ class SystemSettingApi extends React.Component {
               {getFieldDecorator(apiItem, {
                 rules: [{
                     type: 'url', message: '需要填入一个URL地址',
-                  }, {
-                    required: true, message: '不可为空!',
                   }],
                 initialValue: defaultConfig.api[apiItem]
               })(
