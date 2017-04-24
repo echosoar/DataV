@@ -7,7 +7,8 @@
     background: #fff;
     box-shadow: 0 1px 3px #ccc;
     line-height: 60px;
-    padding:15px 30px;
+    padding:15px 15px;
+    min-width: 660px;
 
     .layoutLibraryManage-top-search {
       width: 300px;
@@ -19,7 +20,7 @@
       top: 15px;
       height: 30px;
       width: 30px;
-      left: 430px;
+      left: 415px;
     }
 
     .layoutLibraryManage-top-button-add {
@@ -39,6 +40,79 @@
       font-weight: bold;
       color: #333;
     }
+  }
+
+  .layoutLibraryManage-main {
+    padding: 10px;
+    .layoutLibraryManage-main-add {
+      background: #fff;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 0 3px #ccc;
+      min-width: 640px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 10px 0;
+
+      .layoutLibraryManage-main-add-item {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+        padding: 10px 20px;
+
+        &:last-child {
+          border-left: 1px solid #efefef;
+        }
+
+        .layoutLibraryManage-main-add-item-title {
+          font-weight: bold;
+          font-size: 18px;
+          height: 40px;
+          line-height: 40px;
+        }
+        .layoutLibraryManage-main-add-item-stitle {
+          font-weight: bold;
+          font-size: 16px;
+          height: 30px;
+          margin: 10px 0;
+          line-height: 30px;
+        }
+        .layoutLibraryManage-main-add-error {
+          height: 36px;
+          line-height: 36px;
+          color: #f00;
+          font-size: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        &.layoutLibraryManage-main-add-info {
+          ul {
+            padding-left: 20px;
+            li {
+              margin-top: 10px;
+              position: relative;
+              line-height: 15px;
+
+              &::before {
+                content: ' ';
+                position: absolute;
+                left: -10px;
+                width: 5px;
+                height: 5px;
+                top: 5px;
+                background: #666;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+      }
+    }
+
+
   }
 
 }

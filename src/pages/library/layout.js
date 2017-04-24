@@ -17,14 +17,14 @@ let mockData = [
     "template": {
       "component": "div",
       "props": {
-        "className": "template-container",
+        "className": "template-container"
       },
       "childs": [
         {
           "template": {
             "component": "div",
             "props": {
-              "className": "template-item",
+              "className": "template-item"
             },
             "childs": []
           }
@@ -33,7 +33,7 @@ let mockData = [
           "template": {
             "component": "div",
             "props": {
-              "className": "template-item",
+              "className": "template-item"
             },
             "childs": []
           }

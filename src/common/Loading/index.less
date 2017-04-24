@@ -9,16 +9,27 @@
 }
 
 .component-loading-container {
-  height: 80px;
-  padding: 10px 0;
-  text-align: center;
+  position: absolute;
+  z-index: 9999999;
+  background: rgba(0,0,0,.2);
+  left: 0;
+  top: 0;
+  height: 100%;
   width: 100%;
+
+  .component-loading-verticle-middle {
+    position: relative;
+    top: 50%;
+    height: 60px;
+    transform: translate(0, -30px);
+    text-align: center;
+  }
 
   .component-loading-animate {
     display: inline-block;
     width: 30px;
     height: 30px;
-    border: 3px solid #9cf;
+    border: 3px solid #fff;
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
     border-radius: 50%;
@@ -31,6 +42,7 @@
     text-align: center;
     font-size: 13px;
     font-weight: bold;
-    color: #666;
+    color: #fff;
+    text-shadow: 0 0 1px #333;
   }
 }

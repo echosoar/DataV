@@ -7,12 +7,15 @@ import { Menu, Form, Input, Button } from 'antd';
 require('./api.less');
 
 const apiKeyToCn = {
+  'datavApiTitle_1': "数据查询接口",
   baseModuleListAll: "所有基础组件接口",
   baseModuleListByName: "根据名称查询基础组件接口",
   dataModuleListAll: "所有数据组件接口",
   dataModuleListByName: "根据名称查询数据组件接口",
   layoutLibraryListAll: "所有布局列表接口",
-  layoutLibraryListByName: "根据名称查询布局列表接口"
+  layoutLibraryListByName: "根据名称查询布局列表接口",
+  'datavApiTitle_2': "数据添加接口",
+  layoutLibraryAdd: '添加新布局模板接口'
 }
 
 const FormItem = Form.Item;
@@ -46,12 +49,15 @@ class SystemSettingApi extends React.Component {
         };
     let { defaultConfig } = this.props;
 
-    if( !defaultConfig || !defaultConfig.api ) return <Loading />;
+    if( !defaultConfig || !defaultConfig.api ) return <Loading text="API配置加载中" style={{'padding-left': '120px'}}/>;
     let apis = Object.keys(apiKeyToCn);
     return <div className="systemSettingApi-container">
       <Form onSubmit={this.handleSubmit.bind(this)}>
         {
           apis.map(apiItem => {
+            if(apiItem.indexOf('datavApiTitle_')!=-1){
+              return <div className="systemSettingApi-title">{ apiKeyToCn[apiItem] }</div>
+            }
             return (
               <FormItem
                 {...formItemLayout}
