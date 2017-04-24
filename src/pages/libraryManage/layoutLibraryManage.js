@@ -1,25 +1,38 @@
 'use strict';
 import { connect } from 'react-redux';
 import * as React from 'react';
+import refetch from 'refetch';
 import { Input, Button, message } from 'antd';
 import Loading from '../../common/Loading/';
-
 import { mapStateToProps } from '../../connect/layoutLibraryManageConnect.js';
+import List from './list.js';
 require('./layoutLibraryManage.less');
 
 class LayoutLibraryManage extends React.Component {
   constructor( props ) {
     super( props );
-
     this.state = {
+      data: [],
       isOpenNew: false,
       newLayoutJsonIsCanUse: false,
-      newLayoutJsonData: ''
+      newLayoutJsonData: '',
+      searchName: '',
+      name: '',
+      page: 1,
+      size: 10
     }
   }
 
+
   handleAddNewLayout(isOpenNew) {
-    this.setState( {isOpenNew} );
+    this.setState( {
+      isOpenNew,
+      newLayoutJsonIsCanUse: false,
+      searchName: '',
+      newLayoutJsonData: '',
+      name: '',
+      page: 1
+    });
   }
 
   handleAddNewLayoutJson(e) {
@@ -41,34 +54,58 @@ class LayoutLibraryManage extends React.Component {
   }
 
   handleAddThisLayoutTemplate() {
-    let { newLayoutJsonIsCanUse, newLayoutJsonData } = this.state;
+    let { newLayoutJsonIsCanUse, newLayoutJsonData, name, page, size } = this.state;
     let { defaultConfig } = this.props;
     if(newLayoutJsonIsCanUse) {
 
       if(!defaultConfig) {
-        message.error('获取系统配置出错，请重启本应用');
+        message.error('获取系统配置出错');
         return;
       }
       if(!defaultConfig.api || !defaultConfig.api.layoutLibraryAdd) {
         message.error('请进入 “设置->接口设置->数据添加接口” ，设置 “添加新布局模板接口” 地址');
         return;
       }
-      
 
+      refetch.post( defaultConfig.api.layoutLibraryAdd, {data: newLayoutJsonData } ).then(res=>{
+        if(res.success){
+          this.handleAddNewLayout.call(this, false);
+        }else{
+          message.error((res && res.msg) || '接口请求错误');
+        }
+      }).catch(err=>{
+        message.error('接口请求错误');
+      })
     } else {
       message.error('请输入正确的JSON字符串，并包含必须字段');
     }
   }
 
+  handleSearchNameChange(e) {
+    this.setState({
+      searchName: e.target.value
+    })
+  }
+
+  handleSearchClick() {
+    this.setState({
+      name: this.state.searchName
+    })
+  }
+
+
+
   render() {
 
-    let { isOpenNew, newLayoutJsonIsCanUse } = this.state;
+    let { isOpenNew, newLayoutJsonIsCanUse, page, size, name } = this.state;
+
+    let {defaultConfig} = this.props;
     return <div className="layoutLibraryManage-container">
       <div className="layoutLibraryManage-top">
       {
         !isOpenNew && <div>
-          <Input className="layoutLibraryManage-top-search" addonBefore="检索布局模块" placeholder="请输入布局名称，按Enter键/点击右侧按钮搜索"/>
-          <Button className="layoutLibraryManage-top-search-button" shape="circle" icon="search" />
+          <Input className="layoutLibraryManage-top-search" addonBefore="检索布局模块" onChange={this.handleSearchNameChange.bind(this)} onPressEnter={this.handleSearchClick.bind(this)} placeholder="请输入布局名称，按Enter键/点击右侧按钮搜索"/>
+          <Button className="layoutLibraryManage-top-search-button" shape="circle" icon="search" onClick={this.handleSearchClick.bind(this)}/>
           <Button className="layoutLibraryManage-top-button-add" type="primary" onClick={this.handleAddNewLayout.bind(this, true)}>添加新布局</Button>
         </div>
       }
@@ -124,6 +161,9 @@ class LayoutLibraryManage extends React.Component {
               </ul>
           </div>
         </div>
+      }
+      {
+        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryList} page={page} name={name} size={size}/>
       }
       </div>
     </div>

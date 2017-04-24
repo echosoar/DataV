@@ -8,12 +8,9 @@ require('./api.less');
 
 const apiKeyToCn = {
   'datavApiTitle_1': "数据查询接口",
-  baseModuleListAll: "所有基础组件接口",
-  baseModuleListByName: "根据名称查询基础组件接口",
-  dataModuleListAll: "所有数据组件接口",
-  dataModuleListByName: "根据名称查询数据组件接口",
-  layoutLibraryListAll: "所有布局列表接口",
-  layoutLibraryListByName: "根据名称查询布局列表接口",
+  baseModuleList: "基础组件接口",
+  dataModuleList: "数据组件接口",
+  layoutLibraryList: "布局列表接口",
   'datavApiTitle_2': "数据添加接口",
   layoutLibraryAdd: '添加新布局模板接口'
 }

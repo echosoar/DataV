@@ -2,17 +2,11 @@
 
 ***
 
-+ 所有布局列表接口（layoutLibraryListAll）
-    - 发送参数：page（当前页号），size（每一页数量）
-+ 所有基础组件接口（baseModuleListAll）
-    - 发送参数：page（当前页号），size（每一页数量）
-+ 所有数据组件接口（dataModuleListAll）
-    - 发送参数：page（当前页号），size（每一页数量）
-+ 根据名称查询布局列表接口（layoutLibraryListByName）
++ 布局列表接口（layoutLibraryList）
     - 发送参数：name（查询名称），page（当前页号），size（每一页数量）
-+ 根据名称查询基础组件接口（baseModuleListByName）
++ 基础组件接口（baseModuleList）
     - 发送参数：name（查询名称），page（当前页号），size（每一页数量）
-+ 根据名称查询数据组件接口（dataModuleListByName）
++ 数据组件接口（dataModuleList）
     - 发送参数：name（查询名称），page（当前页号），size（每一页数量）
 
 以上接口返回数据格式：
@@ -27,7 +21,7 @@
         // 数据
       ]
   },
-  errTip: '错误提示'
+  msg: '错误提示'
 }
 ```
 ***
