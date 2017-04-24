@@ -4,9 +4,10 @@ import * as React from 'react';
 import refetch from 'refetch';
 import { Input, Button, message } from 'antd';
 import Loading from '../../common/Loading/';
-import { mapStateToProps } from '../../connect/layoutLibraryManageConnect.js';
+import { mapStateToProps } from '../../connect/libraryManageConnect.js';
 import List from './list.js';
-require('./layoutLibraryManage.less');
+import Top from './top.js';
+require('./libraryManageItem.less');
 
 class LayoutLibraryManage extends React.Component {
   constructor( props ) {
@@ -16,7 +17,6 @@ class LayoutLibraryManage extends React.Component {
       isOpenNew: false,
       newLayoutJsonIsCanUse: false,
       newLayoutJsonData: '',
-      searchName: '',
       name: '',
       page: 1,
       size: 10
@@ -28,7 +28,6 @@ class LayoutLibraryManage extends React.Component {
     this.setState( {
       isOpenNew,
       newLayoutJsonIsCanUse: false,
-      searchName: '',
       newLayoutJsonData: '',
       name: '',
       page: 1
@@ -81,58 +80,42 @@ class LayoutLibraryManage extends React.Component {
     }
   }
 
-  handleSearchNameChange(e) {
+
+  handleSearchClick( data ) {
     this.setState({
-      searchName: e.target.value
+      name: data
     })
   }
-
-  handleSearchClick() {
-    this.setState({
-      name: this.state.searchName
-    })
-  }
-
-
 
   render() {
 
     let { isOpenNew, newLayoutJsonIsCanUse, page, size, name } = this.state;
 
     let {defaultConfig} = this.props;
-    return <div className="layoutLibraryManage-container">
-      <div className="layoutLibraryManage-top">
+    return <div className="libraryManageItem-container">
+      <Top
+        text="布局模板"
+        isOpenNew={isOpenNew}
+        onChange={this.handleAddNewLayout.bind(this)}
+        onSearch={this.handleSearchClick.bind(this)}
+        />
+      <div className="libraryManageItem-main">
       {
-        !isOpenNew && <div>
-          <Input className="layoutLibraryManage-top-search" addonBefore="检索布局模块" onChange={this.handleSearchNameChange.bind(this)} onPressEnter={this.handleSearchClick.bind(this)} placeholder="请输入布局名称，按Enter键/点击右侧按钮搜索"/>
-          <Button className="layoutLibraryManage-top-search-button" shape="circle" icon="search" onClick={this.handleSearchClick.bind(this)}/>
-          <Button className="layoutLibraryManage-top-button-add" type="primary" onClick={this.handleAddNewLayout.bind(this, true)}>添加新布局</Button>
-        </div>
-      }
-      {
-        isOpenNew && <div>
-          <div className="layoutLibraryManage-top-add-title">添加新布局模板</div>
-          <Button className="layoutLibraryManage-top-button-add" type="primary" onClick={this.handleAddNewLayout.bind(this, false)}>返回列表</Button>
-        </div>
-      }
-      </div>
-      <div className="layoutLibraryManage-main">
-      {
-        isOpenNew && <div className="layoutLibraryManage-main-add">
+        isOpenNew && <div className="libraryManageItem-main-add">
 
-          <div className="layoutLibraryManage-main-add-item">
-            <div className="layoutLibraryManage-main-add-item-title">布局模板配置JSON</div>
+          <div className="libraryManageItem-main-add-item">
+            <div className="libraryManageItem-main-add-item-title">布局模板配置JSON</div>
             <Input type="textarea" placeholder="请输入布局模板配置JSON" onChange={this.handleAddNewLayoutJson.bind(this)} autosize={{ minRows: 20}} />
-            <div className="layoutLibraryManage-main-add-error">
+            <div className="libraryManageItem-main-add-error">
             {
               !newLayoutJsonIsCanUse && '请输入正确的JSON字符串，并包含必须字段'
             }
             </div>
-            <Button className="layoutLibraryManage-main-add-button" type="primary" onClick={this.handleAddThisLayoutTemplate.bind(this)}>确认添加布局模板</Button>
+            <Button className="libraryManageItem-main-add-button" type="primary" onClick={this.handleAddThisLayoutTemplate.bind(this)}>确认添加布局模板</Button>
           </div>
-          <div className="layoutLibraryManage-main-add-item layoutLibraryManage-main-add-info">
-            <div className="layoutLibraryManage-main-add-item-title">布局模板包含：</div>
-            <div className="layoutLibraryManage-main-add-item-stitle">1. 模板基本信息：</div>
+          <div className="libraryManageItem-main-add-item libraryManageItem-main-add-info">
+            <div className="libraryManageItem-main-add-item-title">布局模板包含：</div>
+            <div className="libraryManageItem-main-add-item-stitle">1. 模板基本信息：</div>
             <ul>
               <li>name ：【必须】模板名称。</li>
               <li>introduction ： 模板简介信息。</li>
@@ -142,7 +125,7 @@ class LayoutLibraryManage extends React.Component {
               <li>previewImg ：布局预览图像，可使用DataUrl或线上地址，大小最好为240*140，其它比例会被拉伸或缩放。</li>
               <li>repeat ：模块条目是否可重复</li>
             </ul>
-            <div className="layoutLibraryManage-main-add-item-stitle">2. 模板布局信息：</div>
+            <div className="libraryManageItem-main-add-item-stitle">2. 模板布局信息：</div>
 
               DataV 会根据这里的信息，递归调用React.createElement方法进行模板渲染。
               <ul>

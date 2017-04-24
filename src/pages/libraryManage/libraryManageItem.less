@@ -1,0 +1,76 @@
+.libraryManageItem-container {
+
+  .libraryManageItem-main {
+    padding: 10px;
+    .libraryManageItem-main-add {
+      background: #fff;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 0 3px #ccc;
+      min-width: 640px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 10px 0;
+
+      .libraryManageItem-main-add-item {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        width: 50%;
+        padding: 10px 20px;
+
+        &:last-child {
+          border-left: 1px solid #efefef;
+        }
+
+        .libraryManageItem-main-add-item-title {
+          font-weight: bold;
+          font-size: 18px;
+          height: 40px;
+          line-height: 40px;
+        }
+        .libraryManageItem-main-add-item-stitle {
+          font-weight: bold;
+          font-size: 16px;
+          height: 30px;
+          margin: 10px 0;
+          line-height: 30px;
+        }
+        .libraryManageItem-main-add-error {
+          height: 36px;
+          line-height: 36px;
+          color: #f00;
+          font-size: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        &.libraryManageItem-main-add-info {
+          ul {
+            padding-left: 20px;
+            li {
+              margin-top: 10px;
+              position: relative;
+              line-height: 15px;
+
+              &::before {
+                content: ' ';
+                position: absolute;
+                left: -10px;
+                width: 5px;
+                height: 5px;
+                top: 5px;
+                background: #666;
+                border-radius: 50%;
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+
+}

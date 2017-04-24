@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import { Menu } from 'antd';
 import LayoutLibraryManage from './layoutLibraryManage.js';
+import BaseModuleLibraryManage from './baseModuleLibraryManage.js';
+import DataModuleLibraryManage from './dataModuleLibraryManage.js';
 require('./libraryManage.less');
 
 class LibraryManage extends React.Component {
@@ -40,6 +42,12 @@ class LibraryManage extends React.Component {
 			<div className="libraryManage-right-container">
 				{
 					page == 'layout' && <LayoutLibraryManage />
+				}
+				{
+					page == 'baseModule' && <BaseModuleLibraryManage />
+				}
+				{
+					page == 'dataModule' && <DataModuleLibraryManage />
 				}
 			</div>
     </div>
