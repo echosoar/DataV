@@ -19,7 +19,7 @@ class BaseModuleLibraryManage extends React.Component {
       newJsonData: '',
       name: '',
       page: 1,
-      size: 10
+      size: 8
     }
   }
 
@@ -67,6 +67,7 @@ class BaseModuleLibraryManage extends React.Component {
       }
 
       refetch.post( defaultConfig.api.baseModuleLibraryAdd, {data: newJsonData } ).then(res=>{
+        res = JSON.parse(res);
         if(res.success){
           this.handleAddNew.call(this, false);
         }else{

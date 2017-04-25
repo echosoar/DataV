@@ -19,7 +19,7 @@ class DataModuleLibraryManage extends React.Component {
       newJsonData: '',
       name: '',
       page: 1,
-      size: 10
+      size: 8
     }
   }
 
@@ -67,6 +67,7 @@ class DataModuleLibraryManage extends React.Component {
       }
 
       refetch.post( defaultConfig.api.dataModuleLibraryAdd, {data: newJsonData } ).then(res=>{
+        res = JSON.parse(res);
         if(res.success){
           this.handleAddNew.call(this, false);
         }else{

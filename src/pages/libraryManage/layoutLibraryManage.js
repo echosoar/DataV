@@ -19,7 +19,7 @@ class LayoutLibraryManage extends React.Component {
       newLayoutJsonData: '',
       name: '',
       page: 1,
-      size: 10
+      size: 8
     }
   }
 
@@ -67,6 +67,7 @@ class LayoutLibraryManage extends React.Component {
       }
 
       refetch.post( defaultConfig.api.layoutLibraryAdd, {data: newLayoutJsonData } ).then(res=>{
+        res = JSON.parse(res);
         if(res.success){
           this.handleAddNewLayout.call(this, false);
         }else{
