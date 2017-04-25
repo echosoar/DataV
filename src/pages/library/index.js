@@ -5,8 +5,7 @@ import { Tabs } from '../../common/';
 import classNames from 'classnames';
 import { notification } from 'antd';
 import { mapStateToProps } from '../../connect/libraryConnect.js';
-import Layout from './layout.js';
-import BaseModule from './baseModule.js';
+import List from './list.js';
 
 
 require('./index.less');
@@ -32,7 +31,7 @@ class Library extends Component {
   }
 
   render() {
-
+    let {defaultConfig} = this.props;
     return <div className={classNames({library: true, libraryOpen: this.props.libraryOpen!=false})}>
       <div className="library-title">
         DataV 模板组件库
@@ -57,11 +56,15 @@ class Library extends Component {
           onClick={this.handleTabsClick.bind(this)}
           />
         {
-          this.props.libraryOpen == 'layout' && <Layout />
+          this.props.libraryOpen == 'layout' && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryList}/>
         }
         {
-          this.props.libraryOpen == 'module' && <BaseModule />
+          this.props.libraryOpen == 'module' && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.baseModuleList}/>
         }
+        {
+          this.props.libraryOpen == 'viewmodule' && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.dataModuleList}/>
+        }
+
       </div>
 
     </div>
