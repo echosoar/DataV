@@ -88,6 +88,12 @@ class LayoutLibraryManage extends React.Component {
     })
   }
 
+  handlePageChange(page) {
+    this.setState({
+      page
+    })
+  }
+
   render() {
 
     let { isOpenNew, newLayoutJsonIsCanUse, page, size, name } = this.state;
@@ -147,7 +153,7 @@ class LayoutLibraryManage extends React.Component {
         </div>
       }
       {
-        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryList} page={page} name={name} size={size}/>
+        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryList} page={page} name={name} size={size} onPageChange={this.handlePageChange.bind(this)}/>
       }
       </div>
     </div>

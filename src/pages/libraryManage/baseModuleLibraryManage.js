@@ -88,6 +88,13 @@ class BaseModuleLibraryManage extends React.Component {
     })
   }
 
+
+  handlePageChange(page) {
+    this.setState({
+      page
+    })
+  }
+
   render() {
 
     let { isOpenNew, newJsonIsCanUse, page, size, name } = this.state;
@@ -149,7 +156,7 @@ class BaseModuleLibraryManage extends React.Component {
         </div>
       }
       {
-        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.baseModuleList} page={page} name={name} size={size}/>
+        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.baseModuleList} page={page} name={name} size={size}  onPageChange={this.handlePageChange.bind(this)}/>
       }
       </div>
     </div>

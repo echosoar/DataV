@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import refetch from 'refetch';
 import deepEqual from 'deeper';
-import {  Modal,message } from 'antd';
+import {  Modal, message, Pagination } from 'antd';
 
 require('./list.less');
 
@@ -54,10 +54,16 @@ class List extends Component {
     });
   }
 
+  handlePageChange(page) {
+    this.props.onPageChange && this.props.onPageChange(page);
+  }
+
   render() {
     let { data } = this.state;
 
-    if(!this.props.api) return <div>API 接口不存在，请进入 “设置->接口设置->数据添加接口” ，设置接口地址</div>;
+    let { api, page, size } = this.props;
+
+    if(!api) return <div>API 接口不存在，请进入 “设置->接口设置->数据添加接口” ，设置接口地址</div>;
 
     if(!data || !data.tolCount || data.tolCount == '0') return <div>暂无数据</div>;
 
@@ -75,6 +81,7 @@ class List extends Component {
         })
       }
       </div>
+      <Pagination total={data.tolCount} pageSize={size} current={page} onChange={this.handlePageChange.bind(this)}/>
     </div>
   }
 }
