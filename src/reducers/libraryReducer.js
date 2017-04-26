@@ -11,6 +11,11 @@ const defaultState = {
 index的错用代表添加到指定index后
 */
 let fun_changeTemplate = (template, path, data, index) => {
+  if(path.length==0) {
+    if(data) template.childs.push(data);
+    else return false;
+    return template;
+  }
   if(path.length==1) {
     if(data) {
       let childsIndex = path.shift();
@@ -46,6 +51,14 @@ let fun_changeTemplate = (template, path, data, index) => {
 /*修改模板样式*/
 
 let fun_changeTemplateStyle = (template, path, newStyle) => {
+  if(path.length==0) {
+    let preStyle = template.props.style;
+    newStyle.map( styleItem => {
+      preStyle[styleItem.key] = styleItem.value;
+    });
+    template.props.style = preStyle;
+    return template;
+  }
 
   if(path.length==1) {
     let childsIndex = path.shift();
@@ -54,7 +67,7 @@ let fun_changeTemplateStyle = (template, path, newStyle) => {
       preStyle[styleItem.key] = styleItem.value;
     });
     template.childs[childsIndex].template.props.style = preStyle;
-    console.log("template", template)
+
     return template;
   }
   let nowIndex = path.shift();
@@ -62,6 +75,25 @@ let fun_changeTemplateStyle = (template, path, newStyle) => {
   let newTemplate = Object.assign({}, template.childs[nowIndex].template);
 
   template.childs[nowIndex].template = fun_changeTemplateStyle(newTemplate, path, newStyle);
+  return template;
+}
+
+/*修改数据*/
+
+let fun_changeData = (template, path, data) => {
+  if(path.length==0) {
+    return data;
+  }
+  if(path.length==1) {
+    let childsIndex = path.shift();
+    template.childs[childsIndex] = data;
+    return template;
+  }
+  let nowIndex = path.shift();
+
+  let newTemplate = Object.assign({}, template.childs[nowIndex].template);
+
+  template.childs[nowIndex].template = fun_changeData(newTemplate, path, data);
   return template;
 }
 
@@ -129,7 +161,6 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       return state;
       break;
     case 'LIBRARY_LAYOUT_STYLE_CHANGE':
-      console.log('LIBRARY_LAYOUT_STYLE_CHANGE', action)
       let pathStyleArr = action.path.split('-');
       pathStyleArr.shift();
       state.layoutData.template = fun_changeTemplateStyle(state.layoutData.template, pathStyleArr, action.newStyle);
@@ -137,6 +168,11 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       break;
     case 'LIBRARY_MANAGE_OPEN':
       location.href = '#librartManage';
+      return state;
+    case 'MODULE_PROPS_CHANGE':
+      let pathPropsArr = action.path.split('-');
+      pathPropsArr.shift();
+      state.layoutData.template = fun_changeData(state.layoutData.template, pathPropsArr, action.data);
       return state;
     default: return state;
   }

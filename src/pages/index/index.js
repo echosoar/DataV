@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { mapStateToProps } from '../../connect/indexConnect.js';
-import { Tooltip, Modal } from 'antd';
+import { Tooltip, Modal, Popover } from 'antd';
 
 import TEMPLATE_STYLE_SUPPORT from '../../common/tempalteStyleSupport.js';
 const deepClone = require('deepclone');
@@ -103,7 +103,16 @@ class Index extends React.Component {
 	}
 
 	renderDoingButton( buttons ){
-		return <div className="doingButtonContainer">{ buttons }</div>
+		//let xxx = (<div className="doingButtonContainer">{ buttons }</div>);
+		return <div className="doingButtonContainer">
+			{ buttons.length<=1 && buttons }
+			{
+				buttons.length>1 && <Popover content={ buttons } title={false} trigger="hover" >
+						<div className="config-button config-button-tools"></div>
+					</Popover>
+			}
+			</div>
+
 	}
 
 	templateStyleExec( style ) {
@@ -142,7 +151,7 @@ class Index extends React.Component {
 	renderModulePropsSetting(path, props) {
 		return  <Tooltip placement="bottom" title="设置模块属性">
         <div
-					className="config-button config-button-layout-style-setting"
+					className="config-button config-button-layout-props-setting"
 					onClick={e=>{
 						this.handleIndexClick();
 						let path = e.target.getAttribute('data-path');
@@ -272,6 +281,8 @@ class Index extends React.Component {
 	renderComponent(layoutData, path, preLayout) {
 
 		if(!layoutData) return null;
+		console.log("preLayout", preLayout)
+
 
 		let layout = Object.assign({}, layoutData),
 				child = layout.childs || [],
@@ -301,8 +312,10 @@ class Index extends React.Component {
 						doingButton.push( this.renderDeleteButton.call(this, path) );
 					}
 					if(props.className.indexOf('template-item')!=-1) {
-						doingButton.push( this.renderAdjacentSubassemblies.call(this, path, true, preLayout.repeat.indexOf('-x')!=-1 ) );
-						doingButton.push( this.renderAdjacentSubassemblies.call(this, path, false, preLayout.repeat.indexOf('-x')!=-1 ) );
+						if(preLayout && preLayout.repeat) {
+							doingButton.push( this.renderAdjacentSubassemblies.call(this, path, true, preLayout.repeat.indexOf('-x')!=-1 ) );
+							doingButton.push( this.renderAdjacentSubassemblies.call(this, path, false, preLayout.repeat.indexOf('-x')!=-1 ) );
+						}
 					}
 			}
 
@@ -315,7 +328,7 @@ class Index extends React.Component {
 		}
 
 		if(doingButton.length) {
-			child.push( this.renderDoingButton.call(this, doingButton) ); // 删除
+			child.push( this.renderDoingButton.call(this, doingButton) );
 		}
 
 		props['data-path'] = path;
@@ -337,7 +350,7 @@ class Index extends React.Component {
 	render(){
 
 		let { layoutData } = this.props;
-
+		console.clear();
 		console.log( "render", layoutData );
 
 		return <div className="Index">

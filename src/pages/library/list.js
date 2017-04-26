@@ -6,6 +6,7 @@ import deepEqual from 'deeper';
 import {  Modal, message, Pagination, Input } from 'antd';
 import { mapStateToProps } from '../../connect/libraryListConnect.js';
 import Loading from '../../common/Loading/';
+const deepClone = require('deepclone');
 require('./list.less');
 
 class LibraryList extends Component {
@@ -18,7 +19,7 @@ class LibraryList extends Component {
       size: 5,
       name: '',
       searchData: '',
-      tolCount: 0
+      tolCount: 1
     }
 
     this.fetchData = this.fetchData.bind(this);
@@ -27,7 +28,7 @@ class LibraryList extends Component {
 
   handleItemClick(item) {
     this.props.dispatch({type: 'LIBRARY_CLOSE'});
-    this.props.dispatch({type: 'ADD_LIBRARY', data: item});
+    this.props.dispatch({type: 'ADD_LIBRARY', data: deepClone(item)});
   }
 
   componentWillReceiveProps(newProps) {

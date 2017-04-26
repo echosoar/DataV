@@ -4,6 +4,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { mapStateToProps } from '../../connect/propsSettingConnect.js';
 import { Form, Select, Input, Button } from 'antd';
+const deepClone = require('deepclone');
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -72,6 +73,24 @@ class PropsSetting extends React.Component {
     callback();
   }
 
+  handleSubmit( e ) {
+    e.preventDefault();
+    let newPropsData = deepClone(this.props.propsData);
+    if(!newPropsData.props) newPropsData.props = {};
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let keys = Object.keys(values);
+        keys.map(key=>{
+          if(newPropsData.props[key]!=null){
+            newPropsData.props[key].value = values[key];
+          }
+        });
+        this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
+        this.props.dispatch({type: 'MODULE_PROPS_CHANGE', path: this.props.propsPath, data: newPropsData});
+      }
+    });
+  }
+
   render() {
     let { propsSettingOpen, propsData, propsPath, form } = this.props,
         keys = [];
@@ -90,11 +109,11 @@ class PropsSetting extends React.Component {
       </div>
       <div className="propsSetting-main">
         {
-          keys.length > 0 && <Form onSubmit={()=>{}}>
+          keys.length > 0 && <Form onSubmit={ this.handleSubmit.bind(this) }>
             {
               keys.map(item => {
                 if( KeepKeywords[item] ) return '';
-                if( item == 'style') return 'style';
+                if( item == 'style') return '';
                 let itemData =  propsData.props[item];
                 let { text, type, value } = itemData;
                 return <FormItem label={ text }>

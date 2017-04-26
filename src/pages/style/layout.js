@@ -17,6 +17,10 @@ const styleConfig = {
     "name": "宽度",
     "type": "size"
   },
+  "background": {
+    "name": "背景",
+    "type": "text"
+  },
   "height": {
     "name": "高度",
     "type": "size"
