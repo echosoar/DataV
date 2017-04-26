@@ -13,6 +13,28 @@ const button = {
     //   title: '打开模块库'
     // },
 		{
+			name: '预览',
+			action: 'PAGE_EDITING_PREVIEW',
+			title: '预览已编辑的页面内容',
+			rule: (that) => {
+				if( !that.props.layoutData ) return false;
+				if( that.props.isUsePreView ) return false;
+				if(location.href.indexOf('index')!=-1) return true;
+				return false;
+			}
+		},
+		{
+			name: '退出预览，继续编辑',
+			action: 'PAGE_EDITING_EDIT',
+			title: '继续编辑此页面',
+			rule: (that) => {
+				if( !that.props.layoutData ) return false;
+				if( !that.props.isUsePreView ) return false;
+				if(location.href.indexOf('index')!=-1) return true;
+				return false;
+			}
+		},
+		{
 			name: '保存此页面',
 			action: 'SAVE_THIS_PAGE',
 			title: '保存此页面中添加或编辑的内容',

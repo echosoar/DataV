@@ -38,6 +38,12 @@ const windowReducer = (preState = defaultState, action = {}) => {
         window.ipcRenderer.send('UPDATE_SYSTEM_CONFIG', JSON.stringify(state.defaultConfig));
       }
       return state;
+    case 'PAGE_EDITING_PREVIEW':
+      state.isUsePreView = true;
+      return state;
+    case 'PAGE_EDITING_EDIT':
+      state.isUsePreView = false;
+      return state;
     default: return state;
   }
 };

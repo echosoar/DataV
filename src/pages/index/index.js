@@ -282,6 +282,15 @@ class Index extends React.Component {
 			component = template.component;
 			props = template.props;
 
+			if(this.props.isUsePreView && props.className.indexOf('datavEditPreviewOpen')==-1) {
+				props.className += ' datavEditPreviewOpen';
+			}
+
+			if(!this.props.isUsePreView && props.className.indexOf('datavEditPreviewOpen')!=-1) {
+				props.className = props.className.replace(/\s*datavEditPreviewOpen\s*/g, ' ');
+			}
+
+
 			child = template.childs && template.childs.map((item, itemIndex) => this.renderComponent.call(this, item, path + '-' + itemIndex, layoutData)) || [];
 			if(props.className.indexOf('template-item')!=-1) {
 				doingButton.push( this.renderLayoutConfig.call(this, path) );
@@ -322,6 +331,7 @@ class Index extends React.Component {
 		// 为了保护修改样式的元素一直存在，先采用先把库面板、样式面板关闭的方案
 		this.props.dispatch({type: "LAYOUT_STYLE_CLOSE"});
 		this.props.dispatch({ type: 'LIBRARY_CLOSE'});
+		this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
 	}
 
 	render(){

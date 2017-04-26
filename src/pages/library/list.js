@@ -90,7 +90,7 @@ class LibraryList extends Component {
         data && data.map(item => {
           return <div className="libraryList-item">
             <div className="libraryList-item-name">{ item.name }</div>
-            <div className="libraryList-item-introduction">{ item.introduction }</div>
+            <div className="libraryList-item-introduction" title={ item.introduction }>{ item.introduction }</div>
             <div className="libraryList-item-preview" style={{background: '#eee url(' + item.previewImg +') center center/contain no-repeat'}}></div>
             <div
               className="libraryList-item-add-button"

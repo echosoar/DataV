@@ -74,7 +74,7 @@ class List extends Component {
           let item = JSON.parse(itemJson);
           return <div className="libraryManageListItem">
             <div className="libraryManageListItem-name">{ item.name }</div>
-            <div className="libraryManageListItem-introduction">{ item.introduction }</div>
+            <div className="libraryManageListItem-introduction" title={ item.introduction }>{ item.introduction }</div>
             <div className="libraryManageListItem-preview" style={{background: '#eee url(' + item.previewImg +') center center/contain no-repeat'}}></div>
             <div className="libraryManageListItem-viewjson" onClick={this.handleViewJson.bind(this, itemJson)}>JSON</div>
           </div>
