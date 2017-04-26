@@ -17,6 +17,10 @@ const styleConfig = {
     "name": "宽度",
     "type": "size"
   },
+  "height": {
+    "name": "高度",
+    "type": "size"
+  },
   "verticalalign": {
     "name": "水平对齐方式",
     "type": "array",

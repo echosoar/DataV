@@ -80,9 +80,9 @@ class List extends Component {
           </div>
         })
       }
+        <Pagination total={data.tolCount} pageSize={size} current={page} onChange={this.handlePageChange.bind(this)}/>
       </div>
-      <Pagination total={data.tolCount} pageSize={size} current={page} onChange={this.handlePageChange.bind(this)}/>
-    </div>
+      </div>
   }
 }
 
