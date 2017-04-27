@@ -161,82 +161,7 @@ class Index extends React.Component {
 					></div>
       </Tooltip>
 	}
-	//
-	// moduleEventHandle(hashName, modulepath, eventName) {
-	// 	let returnFun = e=>{
-	// 		if(window.datavModule[hashName]){
-	// 			if(window.datavModule[hashName][eventName]) {
-	// 				window.datavModule[hashName][eventName].call(this, e, this, hashName, modulepath);
-	// 			}
-	// 		}
-  //   };
-	// 	return returnFun.bind(this);
-  // }
-	//
-	// renderModule(mainModuleConfig, moduleConfig, modulepath, path) {
-	//
-  //   let { component, props, childs } = moduleConfig;
-  //   let { hashName } = mainModuleConfig;
-  //   if(!window.datavModule) window.datavModule = {};
-	//
-	// 	if( modulepath == path && !this.state[modulepath]) {
-	// 		this.state[modulepath] = Object.assign({}, mainModuleConfig.defaultState || {},{loaded: !!window.datavModule[hashName]});
-	// 	}
-  //   if( !window.datavModule[hashName] && !window.datavModule[hashName + '_element']) {
-	//
-  //     let scriptElement = document.createElement('script');
-  //     scriptElement.setAttribute('src', mainModuleConfig.scriptAddr);
-  //     document.head.appendChild(scriptElement);
-  //     window.datavModule[hashName + '_element'] = scriptElement;
-  //     window.datavModule[hashName + '_element'].onload = () => {
-  //       let newState = deepClone(this.state[modulepath]);
-  //       newState.loaded = true;
-  //       this.setState({[modulepath]: newState});
-  //     }
-  //   }
-	//
-  //   Object.keys(props).map(key => {
-  //     if(/\{@event/.test(props[key])){
-  //       props[key] = this.moduleEventHandle.call( this, mainModuleConfig.hashName, modulepath, props[key].replace(/\{@event\|(.*?)\}/, "$1"));
-  //     }
-  //   });
-	//
-  //   childs = childs.map( (child, childIndex) => {
-  //     if(typeof child == 'string') {
-  //       child = child.replace(/\{@state\|(.*?)\}/g, (value, valueIndex)=>{
-  //         return this.state[modulepath][valueIndex]!=null? this.state[modulepath][valueIndex]: 'loading';
-  //       });
-  //       return child;
-  //     }
-  //     return this.renderModule.call( this, mainModuleConfig, child, modulepath, path + '-' + childIndex );
-  //   });
-	//
-  //   props['data-path'] = path;
-	//
-  //   return React.createElement(
-	// 		component,
-	// 		props,
-	// 		...childs
-	// 	);
-  // }
-	//
-	// renderModuleSetting(mainModuleConfig, renderPath) { // 添加和渲染模块工具条
-	// 	let path = renderPath + '-0';
-	// 	let childs = [ this.renderModule.call(this, mainModuleConfig, mainModuleConfig, path, path) ],
-	// 			doingButton = [];
-	//
-	// 		doingButton.push( this.renderModulePropsSetting.call( this, path, mainModuleConfig ) );
-	//
-	// 	childs.push( this.renderDoingButton.call(this, doingButton) );
-	// 	return React.createElement(
-	// 		'div',
-	// 		{
-	// 			className: 'datav-module-edit-container',
-	// 			path: path
-	// 		},
-	// 		...childs
-	// 	);
-	// }
+
 	renderModule(mainModuleConfig, modulepath) {
 		let { hashName } = mainModuleConfig,
 				moduleLoaded = true;
@@ -266,6 +191,7 @@ class Index extends React.Component {
 				doingButton = [];
 
 			doingButton.push( this.renderModulePropsSetting.call( this, path, mainModuleConfig ) );
+			doingButton.push( this.renderDeleteButton.call(this, path) );
 
 		childs.push( this.renderDoingButton.call(this, doingButton) );
 		return React.createElement(

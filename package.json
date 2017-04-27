@@ -33,6 +33,7 @@
     "optimist": "^0.6.1",
     "rc-editor": "^1.5.3",
     "rc-editor-core": "^0.6.19",
+    "react-json-edit": "^0.2.7",
     "react-json-tree": "^0.10.9",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",

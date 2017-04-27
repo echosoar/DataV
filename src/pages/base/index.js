@@ -30,6 +30,11 @@ class Base extends Component {
 
 	headerButton( action ) {
 		this.props.dispatch( {type: action} );
+
+		/*关闭所有侧边栏*/
+		this.props.dispatch({type: "LAYOUT_STYLE_CLOSE"});
+		this.props.dispatch({ type: 'LIBRARY_CLOSE'});
+		this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
 	}
 
 	render(){

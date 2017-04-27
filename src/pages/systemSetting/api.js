@@ -14,7 +14,11 @@ const apiKeyToCn = {
   'datavApiTitle_2': "数据添加接口",
   layoutLibraryAdd: '添加新布局模板接口',
   baseModuleLibraryAdd: '添加新基础组件接口',
-  dataModuleLibraryAdd: '添加新数据组件接口'
+  dataModuleLibraryAdd: '添加新数据组件接口',
+  'datavApiTitle_3': "数据修改接口",
+  layoutLibraryEdit: '布局模板修改接口',
+  baseModuleLibraryEdit: '基础组件修改接口',
+  dataModuleLibraryEdit: '数据组件修改接口'
 }
 
 const FormItem = Form.Item;

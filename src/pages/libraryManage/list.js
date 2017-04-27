@@ -2,7 +2,7 @@
 import { Component } from 'react';
 import refetch from 'refetch';
 import deepEqual from 'deeper';
-import {  Modal, message, Pagination } from 'antd';
+import {  Modal, message, Pagination, Input } from 'antd';
 
 require('./list.less');
 
@@ -40,18 +40,43 @@ class List extends Component {
     })
   }
 
-  handleViewJson(json) {
-     Modal.info({
-       title: '查看配置JSON',
+  handleViewJson(data) {
+    let json = data.json;
+    this.state.temViewJsonData = json;
+     Modal.confirm({
+       title: '查看/编辑配置JSON',
        content: (
           <div style={{'word-break': 'break-all', 'max-height': '320px', 'overflow-y': 'auto'}}>
-          {
-            json
-          }
+            <Input type="textarea" defaultValue={json} autosize={{maxRows: 16}} onChange={this.handleViewJsonEdit.bind(this)}/>
           </div>
       ),
-      onOk() {}
+      width: '640px',
+      onOk: this.handleViewJsonEditSave.bind(this, json, data.id),
+      onCancel: () => {
+        this.state.temViewJsonData = false;
+      },
+      okText: '保存修改',
+      cancelText: '关闭'
     });
+  }
+
+  handleViewJsonEdit(e) {
+    this.state.temViewJsonData =  e.target.value;
+  }
+
+  handleViewJsonEditSave(oldData, id) {
+    console.log(id)
+    let newData = {};
+    try {
+      newData = JSON.parse(this.state.temViewJsonData);
+      oldData = JSON.parse(oldData);
+    }catch(e){
+      message.error('修改后的数据不是一个正确的JSON字符串');
+      return new Promise.reject();
+    }
+    if(deepEqual(newData, oldData)) {
+      return;
+    }
   }
 
   handlePageChange(page) {
@@ -71,7 +96,7 @@ class List extends Component {
       <div className="libraryManageListItemContainer">
       {
         data.data.map(itemJson => {
-          let item = JSON.parse(itemJson);
+          let item = JSON.parse(itemJson.json);
           return <div className="libraryManageListItem">
             <div className="libraryManageListItem-name">{ item.name }</div>
             <div className="libraryManageListItem-introduction" title={ item.introduction }>{ item.introduction }</div>

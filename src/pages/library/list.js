@@ -49,7 +49,7 @@ class LibraryList extends Component {
       res = JSON.parse(res);
       if( res.success) {
         this.setState({
-          data: res.model.data.map(item=>JSON.parse(item)),
+          data: res.model.data.map(item=>JSON.parse(item.json)),
           tolCount: res.model.tolCount
         })
       }else{
