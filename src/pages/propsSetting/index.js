@@ -11,7 +11,10 @@ const Option = Select.Option;
 require('./index.less');
 
 // 保留关键字，不会做处理
-const KeepKeywords = {}
+const KeepKeywords = {
+  'siteDisplay': true,
+  'siteDisplayChange': true
+}
 
 class PropsSetting extends React.Component {
   constructor( props ) {
@@ -116,6 +119,7 @@ class PropsSetting extends React.Component {
                 if( item == 'style') return '';
                 let itemData =  propsData.props[item];
                 let { text, type, value } = itemData;
+                if(type=='tip') return <div className="propsSetting-tip">{ value }</div>
                 return <FormItem label={ text }>
                 {
                   getFieldDecorator(item, {
