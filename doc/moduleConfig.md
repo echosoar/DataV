@@ -27,6 +27,7 @@
     - _loacl_ ：本地模块，发布的时候会进行本地模块打包操作。
     - _online_ ：线上模块。
 + _scriptAddr_ ：模块脚本文件地址，支持本地或线上地址。
++ _display_ : 全局显示控制字段。
 + _props_ ：模块的属性
     - _style_ ：模块的样式，如果下面的值匹配上了样式配置列表里面的属性，那么就可以唤起样式属性配置面板进行样式配置。
     - _其它属性_ ：这些属性都是一个对象来表示：
@@ -49,6 +50,7 @@
   hashName: "datavBaseModuleImage278920E14B69B02754BB95EA8B4293D6",
   scriptType: "local",
   scriptAddr: "./test/module/reactCreateClass/build/app.js",
+  display: "",
   props: {
     style: {
       "color": "#000000",

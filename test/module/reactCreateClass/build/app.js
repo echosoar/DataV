@@ -65,21 +65,33 @@
 	  function DataVBaseModuleImage(props) {
 	    _classCallCheck(this, DataVBaseModuleImage);
 
-	    return _possibleConstructorReturn(this, _React$Component.call(this, props));
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+
+	    console.log("module", props);
+	    return _this;
 	  }
 
 	  DataVBaseModuleImage.prototype.handleClick = function handleClick() {
 	    alert("click");
 	  };
 
-	  DataVBaseModuleImage.prototype.renderImage = function renderImage(width, height, src) {
+	  DataVBaseModuleImage.prototype.renderImage = function renderImage(width, height, src, borderRadius) {
 	    if (width.value == 'auto' || height.value == 'auto') {
-	      return React.createElement('img', { src: src.value, width: width.value, height: height.value });
+	      return React.createElement('img', {
+	        src: src.value,
+	        width: width.value,
+	        height: height.value,
+	        style: {
+	          'border-radius': borderRadius.value
+	        }
+	      });
 	    } else {
 	      return React.createElement('div', { style: {
 	          width: width.value,
 	          height: height.value,
-	          background: 'url("' + src.value + '") center center / contain no-repeat'
+	          background: 'url("' + src.value + '") center center / cover no-repeat',
+	          'border-radius': borderRadius.value,
+	          'overflow': 'hidden'
 	        } });
 	    }
 	  };
@@ -90,8 +102,10 @@
 	        height = _props.height,
 	        href = _props.href,
 	        src = _props.src,
-	        target = _props.target;
+	        target = _props.target,
+	        borderRadius = _props.borderRadius;
 
+	    if (!borderRadius || borderRadius.value == 'auto') borderRadius.value = '0px';
 	    if (!src.value) {
 	      return React.createElement(
 	        'div',
@@ -100,8 +114,8 @@
 	            height: '60px',
 	            'line-height': '20px',
 	            'text-align': 'center'
-
-	          } },
+	          }
+	        },
 	        'DataV \u57FA\u672C\u56FE\u7247\u7EC4\u4EF6',
 	        React.createElement('br', null),
 	        '\u8BF7\u70B9\u51FB\u53F3\u4E0A\u89D2\u6309\u94AE\u914D\u7F6E\u56FE\u7247\u5C5E\u6027'
@@ -111,10 +125,10 @@
 	      return React.createElement(
 	        'a',
 	        { href: href.value, target: target.value },
-	        this.renderImage.call(this, width, height, src)
+	        this.renderImage.call(this, width, height, src, borderRadius)
 	      );
 	    }
-	    return this.renderImage.call(this, width, height, src);
+	    return this.renderImage.call(this, width, height, src, borderRadius);
 	  };
 
 	  return DataVBaseModuleImage;

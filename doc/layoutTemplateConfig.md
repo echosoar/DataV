@@ -35,6 +35,7 @@
   DataV 会根据这里的信息，递归调用React.createElement方法进行模板渲染。
   + _template_ ：模板当前层信息，是一个对象。
     - _component_ ：当前标签名称，是一个字符串类型的值，如 div、table、span等等。
+    - _display_ ：全局显示控制字段
     - _props_ ：当前标签层属性值
       + _className_ ：必要属性，代表当前标签层class值。作为一个DataV的布局模板，要求模板主容器层的className需要包含 _template-container_ ；模板的子条目层需要包含 _template-item_ ；其它中间层都需要有 _template-middle_ ，使用方法可以查看下面的demo。
       + _style_ ：可选属性，代表模板的样式，如果下面的值匹配上了样式配置列表里面的属性，那么就可以唤起属性配置面板进行属性配置。
@@ -52,6 +53,7 @@
     "previewImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAACMCAYAAABCtSQoAAADEUlEQVR4nO3c0U1UURCA4Rnju9rBdiAdSAl2AC1YgdABJUAH0IF2gB1sB2IF4wM3SggClwzZHfN9j3dP5vDy5+wucCIAAAAAAAAAAAAAAAAAAAAAAABgt7J7YFXVszbOfNbe5pm3y3n77s2ufwDg5QQMgwkYBhMwDCZgGEzAMJiAYTABw2AChsEEDIMJGAYTMAwmYBhMwDCYgGEwAcNgAobBBAyDCRgGEzAMJmAYTMAw2Ntd/wDwP6mqo4g4vvf4PDMvXmM/AUOTqvoaEScPvHRYVZvMPO3e08Xu5pnXoKo+RcS3J5YdZub3zn19BoYeZ01rVnECm2deg13t6wSGwQQMPa6b1qwiYOhx0rRmFQFDg8y8ise/pDpb1rQSMDTJzC9x+0cc2zuPtxFxvLzWv2f3wH3/VtE889bM23dOYBhMwDCYgGEwAcNgAobBBAyDCRgGEzAMJmAYTMAwmIBhMJfaQbPlfqw/uu/BukvA0KSqPkbEZURs7j3fRsTnzPzRvae30NCgqt5FxHnci3exiYjzZU0rAUOPk4g4eOT1g3iFGzn8P7B55jWoqp8R8f6JZTeZ+aFzXycw9Hgq3ueuWUXA0OOmac0qAoYel01rVvEZ2DzzGizfMG/j32+TbyJik5m/Ovd1AkODJcyDePjy9uuIOOiON8IJbJ55rZaT+HP8/X3wNiIuXyPeCAGbZ95o3kLDYAKGwQQMgwkYBhMwDCZgGEzAMJiAYTABw2AChsEEDIO5lRIaVdVRRBzfe3yemRevsZ+AoUlVfY2HL647rKpNZp527+m/kcwzr8Fymfu3J5Yddl/y7jMw9DhrWrOKE9g88xrsal8nMAwmYOjx0F1YL1mzioChx0nTmlUEDA0y8yoe/5LqbFnTSsDQJDO/xO0fcWzvPN5GxPHyWv+e3QP3/VtF88xbM2/fOYFhMAHDYAKGwQQMgwkYBhMwDCZgGEzAMJiAYTABw2AChsEEDIMJGAYTMAwmYBhMwDCYgGEwAcNgAobBBAyDCRgAAAAAAAAAAAAAAAAAAAAAAACAF/sNgI76MGsrjlIAAAAASUVORK5CYII=",
     "template": {
       "component": "div",
+      "display": "",
       "props": {
         "className": "template-container"
 
@@ -71,6 +73,7 @@
             "childs": [{
               "template": {
                 "component": "div",
+                "display": "",
                 "props": {
                   "className": "template-item",
                   "style": {

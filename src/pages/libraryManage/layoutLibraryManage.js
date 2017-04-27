@@ -153,7 +153,14 @@ class LayoutLibraryManage extends React.Component {
         </div>
       }
       {
-        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryList} page={page} name={name} size={size} onPageChange={this.handlePageChange.bind(this)}/>
+        !isOpenNew && <List
+          api={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryList }
+          editApi={ defaultConfig && defaultConfig.api && defaultConfig.api.layoutLibraryEdit }
+          page={page}
+          name={name}
+          size={size}
+          onPageChange={this.handlePageChange.bind(this)}
+          />
       }
       </div>
     </div>

@@ -65,7 +65,11 @@ class List extends Component {
   }
 
   handleViewJsonEditSave(oldData, id) {
-    console.log(id)
+    let api = this.props.editApi;
+    if(!api) {
+      message.error('请设置数据修改接口');
+      return;
+    }
     let newData = {};
     try {
       newData = JSON.parse(this.state.temViewJsonData);
@@ -77,6 +81,17 @@ class List extends Component {
     if(deepEqual(newData, oldData)) {
       return;
     }
+    refetch.post( api, {data: this.state.temViewJsonData, id } ).then(res=>{
+      res = JSON.parse(res);
+      if(res.success){
+        message.success('修改成功');
+        this.fetchData();
+      }else{
+        message.error((res && res.msg) || '接口请求错误');
+      }
+    }).catch(err=>{
+      message.error('接口请求错误');
+    });
   }
 
   handlePageChange(page) {

@@ -156,7 +156,14 @@ class BaseModuleLibraryManage extends React.Component {
         </div>
       }
       {
-        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.baseModuleList} page={page} name={name} size={size}  onPageChange={this.handlePageChange.bind(this)}/>
+        !isOpenNew && <List
+          api={ defaultConfig && defaultConfig.api && defaultConfig.api.baseModuleList }
+          editApi={ defaultConfig && defaultConfig.api && defaultConfig.api.baseModuleLibraryEdit }
+          page={page}
+          name={name}
+          size={size}
+          onPageChange={this.handlePageChange.bind(this)}
+          />
       }
       </div>
     </div>

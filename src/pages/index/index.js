@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import * as React from 'react';
 import { mapStateToProps } from '../../connect/indexConnect.js';
-import { Tooltip, Modal, Popover } from 'antd';
+import { Tooltip, Modal, Popover, Input } from 'antd';
 
 import TEMPLATE_STYLE_SUPPORT from '../../common/tempalteStyleSupport.js';
 const deepClone = require('deepclone');
@@ -18,12 +18,18 @@ class Index extends React.Component {
 		this.deepClone = deepClone;
 
 		this.handleIndexClick = this.handleIndexClick.bind(this);
+		this.siteDisplayChange = this.siteDisplayChange.bind(this);
 	}
 
 	handleNolayoutSelect() {
 		this.handleIndexClick();
 		this.props.dispatch({type: "LIBRARY_OPEN_LAYOUT", onlyLayout: true});
 		this.props.dispatch({type: "LAYOUT_CHANGE_PATH", path: ''});
+	}
+
+	siteDisplayChange(data) {
+		// 修改全局展示控制逻辑
+		this.props.dispatch({type: 'SITE_DISPLAY_CHANGE', data});
 	}
 
 	renderLayoutConfig(path) {
@@ -135,7 +141,7 @@ class Index extends React.Component {
 	}
 
 	renderLayoutStyleSetting(path, style) {
-		return  <Tooltip placement="bottom" title="设置模板样式">
+		return  <Tooltip placement="bottom" title="设置模板属性">
         <div
 					className="config-button config-button-layout-style-setting"
 					onClick={e=>{
@@ -162,6 +168,43 @@ class Index extends React.Component {
       </Tooltip>
 	}
 
+	renderSiteDisplaySetting(path, display, layoutData) {
+		return  <Tooltip placement="bottom" title="设置模块显示控制属性">
+        <div
+					className="config-button config-button-display-setting"
+					onClick={e=>{
+						Modal.confirm({
+					    title: '设置模块显示控制属性的值为？',
+					    content: (<div>
+									<Input defaultValue={display} onChange={(e)=>{
+										this.state.temSiteDisplayChangeValue = e.target.value;
+									}}/>
+								</div>),
+					    okText: '确认修改',
+							onOk: ()=>{
+								if(this.state.temSiteDisplayChangeValue != display){
+									let newData = deepClone(layoutData);
+									if(newData.template) {
+										newData.template.display = this.state.temSiteDisplayChangeValue;
+									} else {
+										newData.display = this.state.temSiteDisplayChangeValue;
+									}
+
+									this.props.dispatch({
+										type: 'MODULE_PROPS_CHANGE',
+										path,
+										data: newData
+									})
+								}
+							},
+					    cancelText: '取消',
+					  });
+					}}
+					data-path={path}
+					></div>
+      </Tooltip>
+	}
+
 	renderModule(mainModuleConfig, modulepath) {
 		let { hashName } = mainModuleConfig,
 				moduleLoaded = true;
@@ -182,6 +225,9 @@ class Index extends React.Component {
 			</div>;
 	  }
 
+		mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
+		mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
+
 		return React.createElement( window.datavModule[hashName], mainModuleConfig.props );
 	}
 
@@ -192,6 +238,9 @@ class Index extends React.Component {
 
 			doingButton.push( this.renderModulePropsSetting.call( this, path, mainModuleConfig ) );
 			doingButton.push( this.renderDeleteButton.call(this, path) );
+			if( mainModuleConfig.display!=null ) {
+				doingButton.push( this.renderSiteDisplaySetting.call(this, path, mainModuleConfig.display, mainModuleConfig) );
+			}
 
 		childs.push( this.renderDoingButton.call(this, doingButton) );
 		return React.createElement(
@@ -204,20 +253,30 @@ class Index extends React.Component {
 		);
 	}
 
+
+
 	renderComponent(layoutData, path, preLayout) {
 
 		if(!layoutData) return null;
-		console.log("preLayout", preLayout)
-
 
 		let layout = Object.assign({}, layoutData),
 				child = layout.childs || [],
-				{ component, props, template } = layout,
+				{ component, props, template, display } = layout,
 				doingButton = [];
+
+		if(display!=null && display!='' && !this.props.siteDisplay[display]) {
+			return '';
+		}
+
 
 		if(template) { // 存在template即为模板
 			component = template.component;
 			props = template.props;
+			display = template.display;
+
+			if(display!=null && display!='' && !this.props.siteDisplay[display]) {
+				return '';
+			}
 
 			if(this.props.isUsePreView && props.className.indexOf('datavEditPreviewOpen')==-1) {
 				props.className += ' datavEditPreviewOpen';
@@ -243,6 +302,10 @@ class Index extends React.Component {
 							doingButton.push( this.renderAdjacentSubassemblies.call(this, path, false, preLayout.repeat.indexOf('-x')!=-1 ) );
 						}
 					}
+			}
+
+			if(display!=null) {
+				doingButton.push( this.renderSiteDisplaySetting.call(this, path, display, layoutData) );
 			}
 
 			let templateStyle = this.templateStyleExec(props.style);

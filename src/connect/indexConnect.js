@@ -3,7 +3,8 @@ module.exports = {
     return {
       libraryOpen: state.libraryReducer.libraryOpen || false,
       layoutData: state.libraryReducer.layoutData || false,
-      isUsePreView: state.windowReducer.isUsePreView || false
+      isUsePreView: state.windowReducer.isUsePreView || false,
+      siteDisplay: state.libraryReducer.siteDisplay || {}
     }
   }
 }

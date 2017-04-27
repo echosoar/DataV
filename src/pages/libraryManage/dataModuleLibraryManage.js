@@ -155,7 +155,14 @@ class DataModuleLibraryManage extends React.Component {
         </div>
       }
       {
-        !isOpenNew && <List api={ defaultConfig && defaultConfig.api && defaultConfig.api.dataModuleList} page={page} name={name} size={size} onPageChange={this.handlePageChange.bind(this)}/>
+        !isOpenNew && <List
+          api={ defaultConfig && defaultConfig.api && defaultConfig.api.dataModuleList}
+          editApi={ defaultConfig && defaultConfig.api && defaultConfig.api.dataModuleLibraryEdit }
+          page={page}
+          name={name}
+          size={size}
+          onPageChange={this.handlePageChange.bind(this)}
+          />
       }
       </div>
     </div>

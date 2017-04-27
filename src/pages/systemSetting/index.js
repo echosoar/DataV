@@ -1,7 +1,7 @@
 'use strict';
 import { connect } from 'react-redux';
 import * as React from 'react';
-import SystemSettingApi from './api.js';
+import SystemSettingLibraryApi from './systemSettingLibraryApi.js';
 import { Menu } from 'antd';
 require('./systemSetting.less');
 
@@ -9,7 +9,7 @@ class SystemSetting extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			page: 'api'
+			page: 'libraryApi'
 		}
 	}
 
@@ -28,15 +28,16 @@ class SystemSetting extends React.Component {
 				<Menu
 	        onClick={ this.changeMenu.bind(this) }
 	        style={{ width: 120 }}
-	        defaultSelectedKeys={['api']}
+	        defaultSelectedKeys={['libraryApi']}
 	        mode="inline"
 	      >
-					<Menu.Item key="api">接口设置</Menu.Item>
+					<Menu.Item key="libraryApi">库接口</Menu.Item>
+					<Menu.Item key="pageEditApi">页面存储</Menu.Item>
 				</Menu>
 			</div>
 			<div className="systemSetting-right-container">
 			{
-				page == 'api' && <div><SystemSettingApi /></div>
+				page == 'libraryApi' && <div><SystemSettingLibraryApi /></div>
 			}
 			</div>
     </div>

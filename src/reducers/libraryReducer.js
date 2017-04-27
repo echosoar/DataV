@@ -139,7 +139,6 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       return Object.assign({}, state, {
         nowLayoutPath: action.path
       });
-      break;
     case 'INDEX_DELETE_MODULE':
       if(action.path == '0') {
         state.layoutData = false;
@@ -150,7 +149,6 @@ const libraryReducer = (preState = defaultState, action = {}) => {
         state.layoutData.template = fun_changeTemplate(temObj, pathArr, false);
       }
       return state;
-      break;
     case 'ADD_SAME_MODULE':
       let pathArr = action.path.split('-');
       pathArr.shift();
@@ -159,20 +157,28 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       let temObj = state.layoutData.template;
       state.layoutData.template = fun_changeTemplate(temObj, pathArr, true, index);
       return state;
-      break;
     case 'LIBRARY_LAYOUT_STYLE_CHANGE':
       let pathStyleArr = action.path.split('-');
       pathStyleArr.shift();
       state.layoutData.template = fun_changeTemplateStyle(state.layoutData.template, pathStyleArr, action.newStyle);
       return state;
-      break;
     case 'LIBRARY_MANAGE_OPEN':
       location.href = '#librartManage';
       return state;
     case 'MODULE_PROPS_CHANGE':
-      let pathPropsArr = action.path.split('-');
-      pathPropsArr.shift();
-      state.layoutData.template = fun_changeData(state.layoutData.template, pathPropsArr, action.data);
+      if(action.path == '0') {
+        state.layoutData = action.data;
+      }else {
+        let pathPropsArr = action.path.split('-');
+        pathPropsArr.shift();
+        state.layoutData.template = fun_changeData(state.layoutData.template, pathPropsArr, action.data);
+      }
+      return state;
+    case 'SITE_DISPLAY_CHANGE':
+      if(state.siteDisplay==null) state.siteDisplay = {};
+      action.data && action.data.map(item=>{
+        state.siteDisplay[item.name] = item.value;
+      });
       return state;
     default: return state;
   }

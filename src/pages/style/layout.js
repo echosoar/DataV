@@ -17,13 +17,17 @@ const styleConfig = {
     "name": "宽度",
     "type": "size"
   },
-  "background": {
-    "name": "背景",
-    "type": "text"
-  },
   "height": {
     "name": "高度",
     "type": "size"
+  },
+  "borderradius": {
+    "name": "圆角半径",
+    "type": "size"
+  },
+  "background": {
+    "name": "背景",
+    "type": "text"
   },
   "verticalalign": {
     "name": "水平对齐方式",
