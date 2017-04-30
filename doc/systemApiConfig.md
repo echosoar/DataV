@@ -72,3 +72,29 @@
 
 ##### 页面编辑器数据接口
 + 数据保存接口 （pageDataAdd）
+    - 发送参数：name（页面名称），description（页面描述），data（页面json）
++ 页面列表接口（pageDataList）
+    - 发送参数：name（查询名称），page（当前页号），size（每一页数量）
+    ```
+    {
+      success: true,
+      model: {
+          tolSize: 100, // 总数量
+          data: [
+            // 数据
+            {
+              id: '5', // 页面id
+              name: 'page name', // 页面名称
+              description: 'page description', // 页面描述
+              createTime: 14721561223, // 页面创建时间戳
+              json: '{}' // 页面json配置数据
+            }
+          ]
+      },
+      msg: '错误提示'
+    }
+    ```
++ 页面删除接口（pageDataDelete）
+    - 发送参数：id（页面id）
++ 页面修改接口（pageDataEdit）
+    - 发送参数：id（页面id），name（页面名称），description（页面描述），data（页面json）

@@ -1,0 +1,54 @@
+{
+  "name": "DataV基础横向导航组件",
+  "introduction": "横向导航，可进行布局模板和组件的显示与隐藏",
+  "enName": "datavBaseModuleDataVBaseHorizontalNavigation",
+  "version": "1.0.0",
+  "datavVersion": "1.0.0",
+  "previewImg": "data:image/png;base64,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",
+  "hashName": "datavBaseModuleDataVBaseHorizontalNavigation4b3e68e53841939db2ccb37fe611a70b",
+  "scriptType": "local",
+  "scriptAddr": "./test/module/horizontalNavigation/build/app.js",
+  "display": "",
+  "props": {
+    "data": {
+      "text": "导航数据",
+      "type": "json",
+      "value": ""
+    },
+    "dataApiTip": {
+      "text": "",
+      "type": "tip",
+      "value": "导航数据是一个json字符串，最外层是一个对象，有两个属性：index（字符串，代表默认首页的显示控制属性），data（对象数组，代表导航条每一项，对象中包含text、display、link三个属性）"
+    },
+    "width": {
+      "text": "导航条总宽度",
+      "type": "size",
+      "value": "100%"
+    },
+    "height": {
+      "text": "导航条总高度",
+      "type": "size",
+      "value": "30px"
+    },
+    "background": {
+      "text": "导航条背景",
+      "type": "color",
+      "value": "#006699"
+    },
+    "textColor": {
+      "text": "导航文字颜色",
+      "type": "color",
+      "value": "#ffffff"
+    },
+    "itemBackground": {
+      "text": "已选择项背景",
+      "type": "color",
+      "value": "#0099CC"
+    },
+    "itemTextColor": {
+      "text": "已选择项文字颜色",
+      "type": "color",
+      "value": "#ffffff"
+    }
+  }
+}

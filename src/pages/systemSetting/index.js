@@ -31,8 +31,7 @@ class SystemSetting extends React.Component {
 	        defaultSelectedKeys={['libraryApi']}
 	        mode="inline"
 	      >
-					<Menu.Item key="libraryApi">库接口</Menu.Item>
-					<Menu.Item key="pageEditApi">页面存储</Menu.Item>
+					<Menu.Item key="libraryApi">接口</Menu.Item>
 				</Menu>
 			</div>
 			<div className="systemSetting-right-container">

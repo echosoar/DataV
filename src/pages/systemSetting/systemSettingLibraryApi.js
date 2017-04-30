@@ -7,19 +7,23 @@ import { Menu, Form, Input, Button } from 'antd';
 require('./systemSettingLibraryApi.less');
 
 const apiKeyToCn = {
-  'datavApiTitle_1': "数据查询接口",
+  'datavApiTitle_1': "库数据查询接口",
   baseModuleList: "基础组件接口",
   dataModuleList: "数据组件接口",
   layoutLibraryList: "布局列表接口",
-  'datavApiTitle_2': "数据保存接口",
+  'datavApiTitle_2': "库数据保存接口",
   layoutLibraryAdd: '添加新布局模板接口',
   baseModuleLibraryAdd: '添加新基础组件接口',
   dataModuleLibraryAdd: '添加新数据组件接口',
-  pageDataAdd: '页面数据保存接口',
-  'datavApiTitle_3': "数据修改接口",
+  'datavApiTitle_3': "库数据修改接口",
   layoutLibraryEdit: '布局模板修改接口',
   baseModuleLibraryEdit: '基础组件修改接口',
-  dataModuleLibraryEdit: '数据组件修改接口'
+  dataModuleLibraryEdit: '数据组件修改接口',
+  'datavApiTitle_4': "页面库相关接口",
+  pageDataAdd: '页面添加接口',
+  pageDataList: '页面列表接口',
+  pageDataDelete: '页面删除接口',
+  pageDataEdit: '页面修改接口'
 }
 
 const FormItem = Form.Item;

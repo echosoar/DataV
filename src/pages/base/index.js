@@ -28,13 +28,20 @@ class Base extends Component {
 		}
 	}
 
-	headerButton( action ) {
-		this.props.dispatch( {type: action} );
+	headerButton( actionObj ) {
+		let headerButtonInnerFun = (data = {})=>{
+			this.props.dispatch( {type: actionObj.action, data} );
+			/*关闭所有侧边栏*/
+			this.props.dispatch({type: "LAYOUT_STYLE_CLOSE"});
+			this.props.dispatch({ type: 'LIBRARY_CLOSE'});
+			this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
+		}
 
-		/*关闭所有侧边栏*/
-		this.props.dispatch({type: "LAYOUT_STYLE_CLOSE"});
-		this.props.dispatch({ type: 'LIBRARY_CLOSE'});
-		this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
+		if(actionObj.onClick) {
+			actionObj.onClick(this, headerButtonInnerFun);
+		}else{
+			headerButtonInnerFun();
+		}
 	}
 
 	render(){
@@ -55,7 +62,7 @@ class Base extends Component {
 						}
 						return <i
 							className="header-button"
-							onClick={()=>{ this.headerButton.call(this, buttonItem.action); }}
+							onClick={()=>{ this.headerButton.call(this, buttonItem); }}
 							data-title={ buttonItem.title }
 						>
 							{ buttonItem.icon && <span className="header-button-icon" style={{'background': 'url(' + buttonItem.icon + ') center center / contain no-repeat'}}></span>}

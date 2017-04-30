@@ -1,3 +1,6 @@
+import { Modal, message } from 'antd';
+
+import refetch from 'refetch';
 const button = {
 	'/': [
 		// {
@@ -38,6 +41,60 @@ const button = {
 			name: '保存此页面',
 			action: 'SAVE_THIS_PAGE',
 			title: '保存此页面中添加或编辑的内容',
+			onClick: (that, cb) => {
+
+				let { defaultConfig, layoutInfo, layoutData } = that.props,
+						doType = '添加';
+
+				let savePageFun = () => {
+					refetch.post( apiAddress, {name, description, data: JSON.stringify(layoutData), id: layoutInfo.id } ).then(res=>{
+						res = JSON.parse(res);
+						if(res.success){
+							message.success('保存成功');
+							cb();
+						}else{
+							message.error((res && res.msg) || '接口请求错误');
+						}
+					}).catch(err=>{
+						message.error('接口请求错误');
+					});
+				}
+				if(!defaultConfig || !defaultConfig.api) {
+					message.error("尚未页面库相关接口配置 (no loaded config)");
+					return;
+				}
+				let apiAddress = defaultConfig.api.pageDataAdd;
+				if( layoutInfo ) {
+					apiAddress = defaultConfig.api.pageDataEdit;
+					doType = '修改';
+				}else{
+					layoutInfo = {
+						name: '',
+						description: '暂无描述',
+						id: '-1'
+					}
+				}
+
+				if(!apiAddress) {
+					message.error("请设置页面库相关接口");
+					return;
+				}
+
+				Modal.confirm({
+					title: '设置页面的名称和描述',
+					content: (<div>
+							{
+							doType
+						}
+						</div>),
+					okText: '确认'+doType,
+					onOk: ()=>{
+
+					},
+					cancelText: '取消',
+				});
+
+			},
 			rule: (that) => {
 				if( !that.props.layoutData ) return false;
 				if(location.href.indexOf('index')!=-1) return true;

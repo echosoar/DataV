@@ -24,6 +24,7 @@
   "devDependencies": {
     "antd": "^2.9.1",
     "babel-plugin-transform-es2015-classes": "^6.18.0",
+    "babel-preset-stage-3": "^6.24.1",
     "copy-webpack-plugin": "^4.0.1",
     "deepclone": "^1.0.2",
     "deeper": "^2.1.0",
@@ -33,6 +34,7 @@
     "optimist": "^0.6.1",
     "rc-editor": "^1.5.3",
     "rc-editor-core": "^0.6.19",
+    "rctui": "^0.6.8",
     "react-json-edit": "^0.2.7",
     "react-json-tree": "^0.10.9",
     "react-redux": "^5.0.4",

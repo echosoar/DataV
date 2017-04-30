@@ -4,7 +4,9 @@
 const deepClone = require('deepclone');
 
 const defaultState = {
-  libraryOpen: false
+  libraryOpen: false,
+  layoutData: null,
+  layoutInfo: null
 }
 
 /*
@@ -179,6 +181,8 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       action.data && action.data.map(item=>{
         state.siteDisplay[item.name] = item.value;
       });
+      return state;
+    case 'SAVE_THIS_PAGE':
       return state;
     default: return state;
   }
