@@ -9,6 +9,7 @@ import { Router, Route, hashHistory, IndexRoute, IndexRedirect } from 'react-rou
 import Base from './pages/base/';
 import LibrartManage from './pages/libraryManage/';
 import SystemSetting from './pages/systemSetting/';
+import PagesList from './pages/pagesList/';
 import Index from './pages/index/';
 import 'antd/dist/antd.css';
 
@@ -28,6 +29,7 @@ class DataV extends Component {
 						<Route path="/index" component={Index}/>
 						<Route path="/librartManage" component={LibrartManage} />
 						<Route path="/setting" component={SystemSetting} />
+						<Route path="/pagesList" component={PagesList} />
 					</Route>
 				</Router>
 			</Provider>

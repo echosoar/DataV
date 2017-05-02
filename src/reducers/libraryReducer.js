@@ -126,6 +126,9 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       break;
     case 'ADD_LIBRARY':
       let data = deepClone(action.data);
+      if(data.previewImg) {
+        delete data.previewImg;
+      }
       let path = state.nowLayoutPath;
       if(!path) {
         state.layoutData = data;
@@ -143,7 +146,8 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       });
     case 'INDEX_DELETE_MODULE':
       if(action.path == '0') {
-        state.layoutData = false;
+        state.layoutData = null;
+        state.layoutInfo = null;
       }else{
         let pathArr = action.path.split('-');
         pathArr.shift();
@@ -167,6 +171,9 @@ const libraryReducer = (preState = defaultState, action = {}) => {
     case 'LIBRARY_MANAGE_OPEN':
       location.href = '#librartManage';
       return state;
+    case 'OPEN_SAVED':
+      location.href = '#pagesList';
+      return state;
     case 'MODULE_PROPS_CHANGE':
       if(action.path == '0') {
         state.layoutData = action.data;
@@ -183,6 +190,7 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       });
       return state;
     case 'SAVE_THIS_PAGE':
+      state.layoutInfo = action.data;
       return state;
     default: return state;
   }

@@ -1,20 +1,8 @@
-import { Modal, message } from 'antd';
+import { Modal, message, Input } from 'antd';
 
 import refetch from 'refetch';
 const button = {
 	'/': [
-		// {
-    //   name: '布局模板',
-    //   action: 'LIBRARY_OPEN_LAYOUT',
-    //   icon: '',
-    //   title: '打开布局模板库'
-		// },
-    // {
-    //   name: '模块库',
-    //   action: 'LIBRARY_OPEN_MODULE',
-    //   icon: '',
-    //   title: '打开模块库'
-    // },
 		{
 			name: '预览',
 			action: 'PAGE_EDITING_PREVIEW',
@@ -44,14 +32,30 @@ const button = {
 			onClick: (that, cb) => {
 
 				let { defaultConfig, layoutInfo, layoutData } = that.props,
-						doType = '添加';
+						doType = '创建新',
+						name = '',
+						description = '',
+						id = -1;
+
+				if(layoutInfo) {
+					 name = layoutInfo.name;
+					 description = layoutInfo.description;
+					 if(layoutInfo.id!=null) id = layoutInfo.id;
+				}
 
 				let savePageFun = () => {
-					refetch.post( apiAddress, {name, description, data: JSON.stringify(layoutData), id: layoutInfo.id } ).then(res=>{
+					refetch.post( apiAddress, { name, description, data: JSON.stringify(layoutData), id } ).then(res=>{
 						res = JSON.parse(res);
 						if(res.success){
+							id = res.model;
+							apiAddress = defaultConfig.api.pageDataEdit;
+							doType = '修改';
 							message.success('保存成功');
-							cb();
+							cb({
+								name,
+								description,
+								id
+							});
 						}else{
 							message.error((res && res.msg) || '接口请求错误');
 						}
@@ -67,12 +71,6 @@ const button = {
 				if( layoutInfo ) {
 					apiAddress = defaultConfig.api.pageDataEdit;
 					doType = '修改';
-				}else{
-					layoutInfo = {
-						name: '',
-						description: '暂无描述',
-						id: '-1'
-					}
 				}
 
 				if(!apiAddress) {
@@ -81,15 +79,20 @@ const button = {
 				}
 
 				Modal.confirm({
-					title: '设置页面的名称和描述',
+					title: doType+'页面 - 设置页面的名称和描述',
 					content: (<div>
-							{
-							doType
-						}
+							<Input addonBefore="页面名称" defaultValue={name} onChange={(e)=>{
+								name = e.target.value;
+							}} />
+							<div style={{ marginTop: 8 }}>
+								<Input addonBefore="页面描述" defaultValue={description} onChange={(e)=>{
+									description = e.target.value;
+								}} />
+							</div>
 						</div>),
-					okText: '确认'+doType,
+					okText: '确认' + doType + '页面',
 					onOk: ()=>{
-
+						savePageFun();
 					},
 					cancelText: '取消',
 				});
@@ -102,12 +105,16 @@ const button = {
 			}
 		},
 		{
-			name: '打开页面库',
+			name: '已存储页面',
 			action: 'OPEN_SAVED',
-			title: '浏览已保存的页面已便使用或重新编辑'
+			title: '浏览已保存的页面已便使用或重新编辑',
+			rule: (that) => {
+				if(location.href.indexOf('pagesList')!=-1) return false;
+				return true;
+			}
 		},
 		{
-			name: '库管理',
+			name: '模板组件库管理',
 			action: 'LIBRARY_MANAGE_OPEN',
 			title: '添加、配置或删除布局模板、组件',
 			rule: (that) => {
