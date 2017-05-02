@@ -93,8 +93,22 @@
 	    return index;
 	  };
 
-	  DataVBaseHorizontalNavigation.prototype.handleClick = function handleClick(item) {
-	    console.log(item);
+	  DataVBaseHorizontalNavigation.prototype.handleClick = function handleClick(nowItem, itemData) {
+	    if (!itemData.data) return;
+
+	    if (nowItem.link) {
+	      location.href = nowItem.value;
+	      return;
+	    }
+
+	    var newData = itemData.data.map(function (item) {
+	      return {
+	        name: item.value,
+	        value: item.value == nowItem.value
+	      };
+	    });
+
+	    this.props.siteDisplayChange(newData);
 	  };
 
 	  DataVBaseHorizontalNavigation.prototype.render = function render() {
@@ -114,7 +128,7 @@
 
 
 	    try {
-	      itemData = JSON.parse(data);
+	      itemData = JSON.parse(data.value);
 	    } catch (e) {}
 
 	    var indexValue = this.checkIndex(itemData, siteDisplay);
@@ -147,7 +161,7 @@
 	              'padding': '0 10px',
 	              'line-height': height.value
 	            },
-	            onClick: nowItemIsIndex ? function () {} : _this2.handleClick.bind(_this2, item)
+	            onClick: nowItemIsIndex ? function () {} : _this2.handleClick.bind(_this2, item, itemData)
 	          },
 	          item.text
 	        );

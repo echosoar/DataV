@@ -1,0 +1,74 @@
+{
+  "name": "D3基本折线图组件",
+  "introduction": "可进行折线图绘制",
+  "enName": "datavBaseModuleD3BaseLineChart",
+  "version": "1.0.0",
+  "datavVersion": "1.0.0",
+  "previewImg": "data:image/png;base64,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",
+  "hashName": "datavBaseModuleD3BaseLineChart4593a3162ed373bb5c0bdd57518ee077",
+  "scriptType": "local",
+  "scriptAddr": "./test/module/lineCharts/build/app.js",
+  "display": "",
+  "props": {
+    "title": {
+      "text": "标题",
+      "type": "text",
+      "value": "DataV 折线图"
+    },
+    "dataApi": {
+      "text": "数据接口",
+      "type": "address",
+      "value": ""
+    },
+    "dataApiTip": {
+      "text": "",
+      "type": "tip",
+      "value": "如果已设置数据接口，那么就会自动请求此接口数据，无论有无下面的静态数据，都不再使用"
+    },
+    "data": {
+      "text": "静态数据",
+      "type": "json",
+      "value": "[{\"name\":\"line one\",\"values\":[{\"x\":0,\"y\":20},{\"x\":24,\"y\":10}],\"strokeWidth\":3,\"strokeDashArray\":\"5,5\"},{\"name\":\"line two\",\"values\":[{\"x\":0,\"y\":28},{\"x\":16,\"y\":2}]}]"
+    },
+    "width": {
+      "text": "容器宽度",
+      "type": "size",
+      "value": "100%"
+    },
+    "height": {
+      "text": "容器高度",
+      "type": "size",
+      "value": "100%"
+    },
+    "startX": {
+      "text": "X轴起始刻度",
+      "type": "number",
+      "value": "0"
+    },
+    "startY": {
+      "text": "Y轴起始刻度",
+      "type": "number",
+      "value": "0"
+    },
+    "drawWidth": {
+      "text": "画布宽度（数字）",
+      "type": "number",
+      "value": "300"
+    },
+    "drawHeight": {
+      "text": "画布高度（数字）",
+      "type": "number",
+      "value": "300"
+    },
+    "xAxisLabel": {
+      "text": "X轴名称",
+      "type": "text",
+      "value": "X轴"
+    },
+    "yAxisLabel": {
+      "text": "Y轴名称",
+      "type": "text",
+      "value": "Y轴"
+    }
+  }
+}

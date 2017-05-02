@@ -32,8 +32,22 @@ class DataVBaseHorizontalNavigation extends React.Component {
     return index;
   }
 
-  handleClick(item) {
-    console.log(item);
+  handleClick(nowItem, itemData) {
+    if(!itemData.data) return;
+
+    if(nowItem.type && nowItem.type='link') {
+      location.href = nowItem.value;
+      return;
+    }
+
+    let newData = itemData.data.map(item=>{
+        return {
+          name: item.value,
+          value: item.value == nowItem.value
+        }
+    });
+
+    this.props.siteDisplayChange(newData);
   }
 
   render() {
@@ -42,7 +56,7 @@ class DataVBaseHorizontalNavigation extends React.Component {
         isHaveIndex = false;
 
     try {
-      itemData = JSON.parse(data);
+      itemData = JSON.parse(data.value);
     }catch(e){}
 
     let indexValue = this.checkIndex(itemData, siteDisplay);
@@ -72,7 +86,7 @@ class DataVBaseHorizontalNavigation extends React.Component {
             'padding': '0 10px',
             'line-height': height.value
           }}
-          onClick={nowItemIsIndex? (()=>{}): this.handleClick.bind(this, item)}
+          onClick={nowItemIsIndex? (()=>{}): this.handleClick.bind(this, item, itemData)}
           >
           {
             item.text

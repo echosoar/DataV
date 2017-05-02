@@ -13,12 +13,12 @@
     "data": {
       "text": "导航数据",
       "type": "json",
-      "value": ""
+      "value": "{\"index\":\"datavNavHome\",\"data\":[{\"text\":\"Home\",\"value\":\"datavNavHome\"},{\"text\":\"About\",\"value\":\"datavNavAbout\"},{\"text\":\"More\",\"value\":\"datavNavMore\"}]}"
     },
     "dataApiTip": {
       "text": "",
       "type": "tip",
-      "value": "导航数据是一个json字符串，最外层是一个对象，有两个属性：index（字符串，代表默认首页的显示控制属性），data（对象数组，代表导航条每一项，对象中包含text、display、link三个属性）"
+      "value": "导航数据是一个json字符串，最外层是一个对象，有两个属性：index（字符串，代表默认首页的显示控制属性），data（对象数组，代表导航条每一项，对象中包含text、type（空或display代表使用显示控制属性，link代表使用超链接）、value三个属性）"
     },
     "width": {
       "text": "导航条总宽度",

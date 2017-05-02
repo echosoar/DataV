@@ -40,6 +40,9 @@ class PropsSetting extends React.Component {
           }
         </Select>
         break;
+      case 'json':
+        return <Input type="textarea" autosize={{ minRows: 8, maxRows: 12 }}/>;
+        break;
       default:
         return <Input />;
         break;

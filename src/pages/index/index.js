@@ -339,7 +339,7 @@ class Index extends React.Component {
 	render(){
 
 		let { layoutData } = this.props;
-		// console.clear();
+		console.clear();
 		console.log( "render", layoutData );
 
 		return <div className="Index">
