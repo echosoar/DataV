@@ -20,10 +20,10 @@ const apiKeyToCn = {
   baseModuleLibraryEdit: '基础组件修改接口',
   dataModuleLibraryEdit: '数据组件修改接口',
   'datavApiTitle_4': "页面库相关接口",
-  pageDataAdd: '页面添加接口',
-  pageDataList: '页面列表接口',
-  pageDataDelete: '页面删除接口',
-  pageDataEdit: '页面修改接口'
+  pageDataAdd: '页面添加接口【POST】',
+  pageDataList: '页面列表接口【GET】',
+  pageDataDelete: '页面删除接口【GET】',
+  pageDataEdit: '页面修改接口【POST】'
 }
 
 const FormItem = Form.Item;

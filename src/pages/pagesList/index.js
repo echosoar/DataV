@@ -105,6 +105,33 @@ class PagesList extends React.Component {
 		}
 	}
 
+	handleClickDelete( id ) {
+		let { pageDataDelete } = this.props;
+		if(!pageDataDelete) {
+			message.error('未配置（或加载失败）页面删除接口');
+			return;
+		}
+		Modal.confirm({
+			title: '真的要删除这个页面吗？',
+			content: (<div>页面删除不可恢复，请谨慎操作</div>),
+			okText: '删除',
+			onOk: ()=>{
+				refetch.get( pageDataDelete, { id }).then( res => {
+		      res = JSON.parse(res);
+		      if( res.success) {
+						message.success('页面已删除');
+		        this.fetchData()
+		      }else{
+		        message.error(res.msg || '页面删除出现错误');
+		      }
+		    }).catch(e=>{
+		      message.error('请求页面删除接口出现错误');
+		    })
+			},
+			cancelText: '取消'
+		});
+	}
+
 	handlePageChange(page) {
 		this.state.page = page;
 		this.fetchData();
@@ -131,7 +158,7 @@ class PagesList extends React.Component {
 						<div className="pagesList-item-buttons">
 							<div className="pagesList-item-button" onClick={ this.handleClickReedit.bind(this, item) }>再编辑</div>
 							<div className="pagesList-item-button">编译导出</div>
-							<div className="pagesList-item-button">删除</div>
+							<div className="pagesList-item-button" onClick={ this.handleClickDelete.bind(this, item.id) }>删除</div>
 						</div>
           </div>
         })
