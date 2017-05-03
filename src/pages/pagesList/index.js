@@ -98,7 +98,9 @@ class PagesList extends React.Component {
 					handlePageSaveClick( this, changeData);
 				},
 				cancelText: '不保存直接替换',
-				onCancel: changeData
+				onCancel: ()=>{
+					changeData();
+				}
 			});
 		}
 	}
