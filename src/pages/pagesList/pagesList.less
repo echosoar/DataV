@@ -1,0 +1,105 @@
+.pagesList-container-outer {
+  padding: 10px;
+
+  .pagesList-top {
+    position: relative;
+    height: 60px;
+    background: #fff;
+    padding: 0 20px;
+    box-shadow: 1px 1px 3px #ccc;
+    margin-bottom: 10px;
+
+    .pagesList-title {
+      font-size: 14px;
+      color: #24292e;
+      line-height: 60px;
+      height: 60px;
+    }
+
+    .pagesList-search-container {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      height: 30px;
+      padding-right: 40px;
+
+      .pagesList-search {
+        height: 30px;
+        width: 240px;
+      }
+
+      .pagesList-searchh-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+  .pagesList-container {
+
+    .pagesList-item {
+      position: relative;
+      background: #fff;
+      padding: 10px;
+      height: 96px;
+      box-shadow: 1px 1px 3px #ccc;
+      margin-top: 10px;
+
+      .pagesList-item-name {
+        height: 36px;
+        line-height: 36px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .pagesList-item-description {
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        color: #333;
+      }
+
+      .pagesList-item-time {
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .pagesList-item-buttons {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        height: 96px;
+        line-height: 96px;
+
+        .pagesList-item-button {
+          display: inline-block;
+          height: 36px;
+          line-height: 36px;
+          color: #333;
+          background: #eee;
+          margin-left: 10px;
+          border-radius: 5px;
+          padding: 0 16px;
+          cursor: pointer;
+          transition: background .5s ease, color .5s ease;
+
+          &:hover {
+            background: #9cf;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .pagesList-pagination {
+    background: #fff;
+    padding: 10px;
+    box-shadow: 1px 1px 3px #ccc;
+    margin-top: 10px;
+  }
+}

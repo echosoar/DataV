@@ -1,6 +1,77 @@
 import { Modal, message, Input } from 'antd';
 
 import refetch from 'refetch';
+
+let handlePageSaveClick = (that, cb) => {
+
+	let { defaultConfig, layoutInfo, layoutData } = that.props,
+			doType = '创建新',
+			name = '',
+			description = '',
+			id = -1;
+
+	if(layoutInfo) {
+		 name = layoutInfo.name;
+		 description = layoutInfo.description;
+		 if(layoutInfo.id!=null) id = layoutInfo.id;
+	}
+
+	let savePageFun = () => {
+		refetch.post( apiAddress, { name, description, data: JSON.stringify(layoutData), id } ).then(res=>{
+			res = JSON.parse(res);
+			if(res.success){
+				id = parseInt(res.model);
+				apiAddress = defaultConfig.api.pageDataEdit;
+				doType = '修改';
+				message.success('保存成功');
+				cb({
+					name,
+					description,
+					id
+				});
+			}else{
+				message.error((res && res.msg) || '接口请求错误');
+			}
+		}).catch(err=>{
+			message.error('接口请求错误');
+		});
+	}
+	if(!defaultConfig || !defaultConfig.api) {
+		message.error("尚未页面库相关接口配置 (no loaded config)");
+		return;
+	}
+	let apiAddress = defaultConfig.api.pageDataAdd;
+	if( layoutInfo ) {
+		apiAddress = defaultConfig.api.pageDataEdit;
+		doType = '修改';
+	}
+
+	if(!apiAddress) {
+		message.error("请设置页面库相关接口");
+		return;
+	}
+
+	Modal.confirm({
+		title: doType+'页面 - 设置页面的名称和描述',
+		content: (<div>
+				<Input addonBefore="页面名称" defaultValue={name} onChange={(e)=>{
+					name = e.target.value;
+				}} />
+				<div style={{ marginTop: 8 }}>
+					<Input addonBefore="页面描述" defaultValue={description} onChange={(e)=>{
+						description = e.target.value;
+					}} />
+				</div>
+			</div>),
+		okText: '确认' + doType + '页面',
+		onOk: ()=>{
+			savePageFun();
+		},
+		cancelText: '取消',
+	});
+
+};
+
 const button = {
 	'/': [
 		{
@@ -29,75 +100,7 @@ const button = {
 			name: '保存此页面',
 			action: 'SAVE_THIS_PAGE',
 			title: '保存此页面中添加或编辑的内容',
-			onClick: (that, cb) => {
-
-				let { defaultConfig, layoutInfo, layoutData } = that.props,
-						doType = '创建新',
-						name = '',
-						description = '',
-						id = -1;
-
-				if(layoutInfo) {
-					 name = layoutInfo.name;
-					 description = layoutInfo.description;
-					 if(layoutInfo.id!=null) id = layoutInfo.id;
-				}
-
-				let savePageFun = () => {
-					refetch.post( apiAddress, { name, description, data: JSON.stringify(layoutData), id } ).then(res=>{
-						res = JSON.parse(res);
-						if(res.success){
-							id = res.model;
-							apiAddress = defaultConfig.api.pageDataEdit;
-							doType = '修改';
-							message.success('保存成功');
-							cb({
-								name,
-								description,
-								id
-							});
-						}else{
-							message.error((res && res.msg) || '接口请求错误');
-						}
-					}).catch(err=>{
-						message.error('接口请求错误');
-					});
-				}
-				if(!defaultConfig || !defaultConfig.api) {
-					message.error("尚未页面库相关接口配置 (no loaded config)");
-					return;
-				}
-				let apiAddress = defaultConfig.api.pageDataAdd;
-				if( layoutInfo ) {
-					apiAddress = defaultConfig.api.pageDataEdit;
-					doType = '修改';
-				}
-
-				if(!apiAddress) {
-					message.error("请设置页面库相关接口");
-					return;
-				}
-
-				Modal.confirm({
-					title: doType+'页面 - 设置页面的名称和描述',
-					content: (<div>
-							<Input addonBefore="页面名称" defaultValue={name} onChange={(e)=>{
-								name = e.target.value;
-							}} />
-							<div style={{ marginTop: 8 }}>
-								<Input addonBefore="页面描述" defaultValue={description} onChange={(e)=>{
-									description = e.target.value;
-								}} />
-							</div>
-						</div>),
-					okText: '确认' + doType + '页面',
-					onOk: ()=>{
-						savePageFun();
-					},
-					cancelText: '取消',
-				});
-
-			},
+			onClick: handlePageSaveClick,
 			rule: (that) => {
 				if( !that.props.layoutData ) return false;
 				if(location.href.indexOf('index')!=-1) return true;
@@ -105,7 +108,7 @@ const button = {
 			}
 		},
 		{
-			name: '已存储页面',
+			name: '查看已存储页面',
 			action: 'OPEN_SAVED',
 			title: '浏览已保存的页面已便使用或重新编辑',
 			rule: (that) => {
@@ -149,4 +152,7 @@ const button = {
 	]
 };
 
-module.exports = button;
+module.exports = {
+	BUTTON: button,
+	handlePageSaveClick
+}

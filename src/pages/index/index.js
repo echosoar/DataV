@@ -13,7 +13,8 @@ class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			layout: false
+			layout: false,
+			updateTime: (new Date() - 0)
 		}
 		this.deepClone = deepClone;
 
@@ -205,9 +206,11 @@ class Index extends React.Component {
       </Tooltip>
 	}
 
-	renderModule(mainModuleConfig, modulepath) {
+	renderModule(mainModuleConfig, modulepath) { // 需要处理
+
 		let { hashName } = mainModuleConfig,
 				moduleLoaded = true;
+
 		if(!window.datavModule) window.datavModule = {};
 		if( !window.datavModule[hashName] && !window.datavModule[hashName + '_element']) {
 			moduleLoaded = false;
@@ -216,19 +219,22 @@ class Index extends React.Component {
 	    document.head.appendChild(scriptElement);
 	    window.datavModule[hashName + '_element'] = scriptElement;
 	    window.datavModule[hashName + '_element'].onload = () => {
-	      let newState = deepClone(this.state[modulepath]) || {};
-	      newState.loaded = true;
-	      this.setState({[modulepath]: newState});
+				// Bug Repair@170503 由于js加载可能会快于剩余模块的渲染速度，所以需要把加载完成回调放在下一次事件循环
+				setTimeout(()=>{
+					let newState = deepClone(this.state[modulepath]) || {};
+		      newState.loaded = true;
+					this.setState({[modulepath]: newState});
+				},0);
 	    }
 			return <div className="datav-module-loading">
 				DataV Module Loading...
 			</div>;
-	  }
+	  }else {
+			mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
+			mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
 
-		mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
-		mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
-
-		return React.createElement( window.datavModule[hashName], mainModuleConfig.props );
+			return React.createElement( window.datavModule[hashName], mainModuleConfig.props );
+		}
 	}
 
 	renderModuleSetting(mainModuleConfig, renderPath) { // 添加和渲染模块工具条
@@ -314,6 +320,7 @@ class Index extends React.Component {
 			}
 		} else {
 			return this.renderModuleSetting.call( this, layoutData,  path );
+
 		}
 
 		if(doingButton.length) {
@@ -339,7 +346,7 @@ class Index extends React.Component {
 	render(){
 
 		let { layoutData } = this.props;
-		console.clear();
+		// console.clear();
 		console.log( "render", layoutData );
 
 		return <div className="Index">

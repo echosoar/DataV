@@ -35,7 +35,7 @@ class DataVBaseHorizontalNavigation extends React.Component {
   handleClick(nowItem, itemData) {
     if(!itemData.data) return;
 
-    if(nowItem.type && nowItem.type='link') {
+    if(nowItem.type && nowItem.type=='link') {
       location.href = nowItem.value;
       return;
     }

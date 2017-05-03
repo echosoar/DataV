@@ -192,6 +192,10 @@ const libraryReducer = (preState = defaultState, action = {}) => {
     case 'SAVE_THIS_PAGE':
       state.layoutInfo = action.data;
       return state;
+    case 'REEDIT_LAYOUT_DATA':
+      state.layoutData = action.layoutData;
+      state.layoutInfo = action.layoutInfo;
+      return state;
     default: return state;
   }
 };

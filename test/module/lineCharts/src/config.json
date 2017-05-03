@@ -27,7 +27,7 @@
     },
     "data": {
       "text": "静态数据",
-      "type": "text",
+      "type": "json",
       "value": "[{\"name\":\"line one\",\"values\":[{\"x\":0,\"y\":20},{\"x\":24,\"y\":10}],\"strokeWidth\":3,\"strokeDashArray\":\"5,5\"},{\"name\":\"line two\",\"values\":[{\"x\":0,\"y\":28},{\"x\":16,\"y\":2}]}]"
     },
     "width": {

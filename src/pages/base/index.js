@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import { mapStateToProps } from '../../connect/baseConnect.js';
-import BUTTON from './button.js';
+import { BUTTON } from './button.js';
 import Library from '../library/';
 import Style from '../style/';
 import PropsSetting from '../propsSetting/';

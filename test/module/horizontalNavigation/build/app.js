@@ -96,7 +96,7 @@
 	  DataVBaseHorizontalNavigation.prototype.handleClick = function handleClick(nowItem, itemData) {
 	    if (!itemData.data) return;
 
-	    if (nowItem.link) {
+	    if (nowItem.type && nowItem.type == 'link') {
 	      location.href = nowItem.value;
 	      return;
 	    }
