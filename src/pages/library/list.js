@@ -46,6 +46,7 @@ class LibraryList extends Component {
     let { size, page, name } = this.state;
     if(!api) return;
     refetch.get( api, {size, page, name}).then( res => {
+      res = res.replace(/#DataVSlashFormat#/g,'\\\\');
       res = JSON.parse(res);
       if( res.success) {
         this.setState({

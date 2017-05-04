@@ -11,12 +11,16 @@ class GlobalDataConfig extends Component {
 
 	}
 
+	handlePageClose() {
+		this.props.dispatch({ type: 'GLOBAL_DATA_CONFIG_CLOSE' });
+	}
 
 	render(){
-
-		return <div className="DataV">
-
-
+		return <div className="globalDataConfig">
+			<div className="globalDataConfig-top">
+				<div className="globalDataConfig-title">页面数据配置管理</div>
+				<div className="globalDataConfig-close" onClick={ this.handlePageClose.bind(this) }></div>
+			</div>
 		</div>
 	}
 }

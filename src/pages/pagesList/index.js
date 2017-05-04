@@ -37,6 +37,7 @@ class PagesList extends React.Component {
     let { pagesListApi } = props;
     if(!pagesListApi) return;
     refetch.get( pagesListApi, {size, page, name}).then( res => {
+			res = res.replace(/#DataVSlashFormat#/g,'\\\\');
       res = JSON.parse(res);
       if( res.success) {
         this.setState({

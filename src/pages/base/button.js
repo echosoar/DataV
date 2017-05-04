@@ -17,7 +17,9 @@ let handlePageSaveClick = (that, cb) => {
 	}
 
 	let savePageFun = () => {
-		refetch.post( apiAddress, { name, description, data: JSON.stringify(layoutData), id } ).then(res=>{
+		let newLayoutData = JSON.stringify(layoutData);
+		newLayoutData = newLayoutData.replace(/\\/g, "#DataVSlashFormat#");
+		refetch.post( apiAddress, { name, description, data: newLayoutData, id } ).then(res=>{
 			res = JSON.parse(res);
 			if(res.success){
 				id = parseInt(res.model);
@@ -109,7 +111,7 @@ const button = {
 		},
 		{
 			name: '页面数据配置管理',
-			action: 'GLOBAL_DATA_CONFIG',
+			action: 'GLOBAL_DATA_CONFIG_OPEN',
 			title: '配置全局数据对象、数据接口，管理页面数据、页面显示控制属性',
 			rule: (that) => {
 				if( !that.props.layoutData ) return false;

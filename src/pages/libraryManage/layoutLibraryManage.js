@@ -65,7 +65,7 @@ class LayoutLibraryManage extends React.Component {
         message.error('请进入 “设置->接口设置->数据添加接口” ，设置 “添加新布局模板接口” 地址');
         return;
       }
-
+      newLayoutJsonData = newLayoutJsonData.replace(/\\/g, "#DataVSlashFormat#");
       refetch.post( defaultConfig.api.layoutLibraryAdd, {data: newLayoutJsonData } ).then(res=>{
         res = JSON.parse(res);
         if(res.success){

@@ -65,7 +65,7 @@ class DataModuleLibraryManage extends React.Component {
         message.error('请进入 “设置->接口设置->数据添加接口” ，设置 “添加新数据组件接口” 地址');
         return;
       }
-
+      newJsonData = newJsonData.replace(/\\/g, "#DataVSlashFormat#");
       refetch.post( defaultConfig.api.dataModuleLibraryAdd, {data: newJsonData } ).then(res=>{
         res = JSON.parse(res);
         if(res.success){

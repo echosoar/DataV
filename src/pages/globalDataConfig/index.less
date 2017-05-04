@@ -1,0 +1,43 @@
+.globalDataConfig {
+  position: fixed;
+  top: 3%;
+  left: 3%;
+  width: 94%;
+  height: 94%;
+  background: #fff;
+  z-index: 999999999;
+  box-shadow: 0 0 3px #999;
+
+  .globalDataConfig-top {
+    position: absolute;
+    z-index: 3;
+    height: 60px;
+    width: 100%;
+    box-shadow: 0 1px 2px #ccc;
+
+    .globalDataConfig-title {
+      height: 60px;
+      line-height: 60px;
+      font-size: 16px;
+      padding: 0 20px;
+      font-weight: bold;
+    }
+
+    .globalDataConfig-close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      width: 30px;
+      height: 30px;
+      box-shadow: 1px 1px 5px #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: box-shadow .5s ease;
+
+      &:hover {
+        box-shadow: 0 0 3px #ccc;
+      }
+    }
+  }
+
+}

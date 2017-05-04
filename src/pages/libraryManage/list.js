@@ -27,15 +27,20 @@ class List extends Component {
     let { api, size, page, name } = props;
     if(!api) return;
     refetch.get( api, {size, page, name}).then( res => {
+      res = res.replace(/\n/g,'');
+      res = res.replace(/#DataVSlashFormat#/g,'\\\\');
       res = JSON.parse(res);
+
       if( res.success) {
         this.setState({
           data: res.model
         })
+
       }else{
         message.error(res.msg || '数据获取出现错误');
       }
     }).catch(e=>{
+      console.log(e)
       message.error('请求数据获取接口出现错误');
     })
   }

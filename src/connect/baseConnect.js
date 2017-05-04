@@ -6,7 +6,8 @@ module.exports = {
       layoutInfo: state.libraryReducer.layoutInfo,
       windowDefaultConfigChange: state.windowReducer.defaultConfigChange || false,
       isUsePreView: state.windowReducer.isUsePreView || false,
-      defaultConfig: state.windowReducer.defaultConfig || false
+      defaultConfig: state.windowReducer.defaultConfig || false,
+      isDisplayGlobalDataConfigPage: state.windowReducer.isDisplayGlobalDataConfigPage || false
     }
   }
 }

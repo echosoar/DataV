@@ -6,6 +6,7 @@ import { BUTTON } from './button.js';
 import Library from '../library/';
 import Style from '../style/';
 import PropsSetting from '../propsSetting/';
+import GlobalDataConfig from '../globalDataConfig/';
 import { message } from 'antd';
 
 require('./base.less');
@@ -75,6 +76,7 @@ class Base extends Component {
 			<Library />
 			<Style />
 			<PropsSetting />
+			{ this.props.isDisplayGlobalDataConfigPage && <GlobalDataConfig /> }
 			<div className="main">
 			{ this.props.children }
 			</div>

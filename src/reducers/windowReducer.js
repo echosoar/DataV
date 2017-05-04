@@ -44,6 +44,12 @@ const windowReducer = (preState = defaultState, action = {}) => {
     case 'PAGE_EDITING_EDIT':
       state.isUsePreView = false;
       return state;
+    case 'GLOBAL_DATA_CONFIG_OPEN':
+      state.isDisplayGlobalDataConfigPage = true;
+      return state;
+    case 'GLOBAL_DATA_CONFIG_CLOSE':
+      state.isDisplayGlobalDataConfigPage = false;
+      return state;
     default: return state;
   }
 };
