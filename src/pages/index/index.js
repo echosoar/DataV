@@ -8,6 +8,7 @@ import TEMPLATE_STYLE_SUPPORT from '../../common/tempalteStyleSupport.js';
 const deepClone = require('deepclone');
 require('./index.less');
 
+const globalDataReg = /\$\{\s*([a-zA-Z][a-zA-Z0-9\.]*)\s*\}/g;
 
 class Index extends React.Component {
 	constructor(props) {
@@ -20,6 +21,45 @@ class Index extends React.Component {
 
 		this.handleIndexClick = this.handleIndexClick.bind(this);
 		this.siteDisplayChange = this.siteDisplayChange.bind(this);
+
+	}
+
+	isType(ele, type) {
+		return ({}).toString.call(ele).slice(8, -1).toLowerCase() == type.toLowerCase();
+	}
+
+	transformGlobalVar( varArr, globalObject ) { // 全局接口取过来的变量替换
+
+		if(!varArr || !varArr.length || !globalObject) return null;
+		let nowIndex = varArr.shift();
+		let nowGlobalData = globalObject[nowIndex];
+		if(!varArr.length) return nowGlobalData;
+		return this.transformGlobalVar( varArr, nowGlobalData);
+	}
+
+	transformGlobalData(preData) {
+		if( this.isType(preData, 'array') ) {
+			return preData.map(item => {
+				return this.transformGlobalData( item );
+			});
+		}else if( this.isType(preData, 'object') ) {
+			let newData = {};
+			Object.keys(preData).map(key => {
+				newData[key] = this.transformGlobalData( preData[key] );
+			});
+			return newData;
+		}else if( this.isType(preData, 'string') ) {
+			if(globalDataReg.test(preData)) {
+				preData = preData.replace(globalDataReg, (regMatch, name)=>{
+					let transformRes = this.transformGlobalVar(name.split('.'), this.props.datavGlobalData);
+					if(transformRes!=null) return transformRes;
+					return regMatch;
+				})
+			}
+			return preData;
+		}else{
+			return preData;
+		}
 	}
 
 	handleNolayoutSelect() {
@@ -233,7 +273,8 @@ class Index extends React.Component {
 			mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
 			mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
 
-			return React.createElement( window.datavModule[hashName], mainModuleConfig.props );
+			// Bug Repair@170504 转换全局数据对象（方法：transformGlobalData）的时候本来在Index的render中，但是导致修改数据的时候查看到的是转换后的数据，所以把全局数据对象的匹配放到了每个模块和模板的处理中
+			return React.createElement( window.datavModule[hashName], this.transformGlobalData.call( this, mainModuleConfig.props ) );
 		}
 	}
 
@@ -329,9 +370,10 @@ class Index extends React.Component {
 
 		props['data-path'] = path;
 
+		// Bug Repair@170504 转换全局数据对象（方法：transformGlobalData）的时候本来在Index的render中，但是导致修改数据的时候查看到的是转换后的数据，所以把全局数据对象的匹配放到了每个模块和模板的处理中
 		return React.createElement(
 			component,
-			props,
+			this.transformGlobalData.call( this, props ),
 			...child
 		);
 	}
@@ -344,11 +386,10 @@ class Index extends React.Component {
 	}
 
 	render(){
-
-		let { layoutData } = this.props;
 		// console.clear();
+		let { layoutData } = this.props;
+		// this.transformGlobalData.call( this, this.props.layoutData );
 		console.log( "render", layoutData );
-
 		return <div className="Index">
 			{
 				!layoutData && <div className="index-nolayout">

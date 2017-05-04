@@ -6,7 +6,14 @@ const deepClone = require('deepclone');
 const defaultState = {
   libraryOpen: false,
   layoutData: null,
-  layoutInfo: null
+  layoutInfo: null,
+  datavGlobalData: {
+    datav: {
+      name: 'DataV',
+      version: '1.0.0'
+    }
+  },
+  globalInterface: []
 }
 
 /*

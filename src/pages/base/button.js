@@ -108,6 +108,16 @@ const button = {
 			}
 		},
 		{
+			name: '页面数据配置管理',
+			action: 'GLOBAL_DATA_CONFIG',
+			title: '配置全局数据对象、数据接口，管理页面数据、页面显示控制属性',
+			rule: (that) => {
+				if( !that.props.layoutData ) return false;
+				if(location.href.indexOf('index')!=-1) return true;
+				return false;
+			}
+		},
+		{
 			name: '查看已存储页面',
 			action: 'OPEN_SAVED',
 			title: '浏览已保存的页面已便使用或重新编辑',
