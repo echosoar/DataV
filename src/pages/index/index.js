@@ -281,15 +281,16 @@ class Index extends React.Component {
 	}
 
 	changeGlobalData(api, data) { // 修改全局数据接口
-		let apiIndex = 'default';
-		let apiList = api.split('/');
-		let apiKey = '';
-		if(apiList.length>0) {
-			while(apiKey = apiList.pop()) {
-				apiIndex = apiKey;
-				break;
-			}
-		}
+		console.log("api",api)
+		// let apiIndex = 'default';
+		// let apiList = api.split('/');
+		// let apiKey = '';
+		// if(apiList.length>0) {
+		// 	while(apiKey = apiList.pop()) {
+		// 		apiIndex = apiKey;
+		// 		break;
+		// 	}
+		// }
 	}
 
 	changeModuleProps( path, mainModuleConfig, props) {
