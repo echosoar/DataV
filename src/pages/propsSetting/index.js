@@ -3,50 +3,84 @@ import { connect } from 'react-redux';
 import * as React from 'react';
 import classnames from 'classnames';
 import { mapStateToProps } from '../../connect/propsSettingConnect.js';
-import { Form, Select, Input, Button } from 'antd';
 const deepClone = require('deepclone');
-const FormItem = Form.Item;
-const Option = Select.Option;
 
 require('./index.less');
 
 // 保留关键字，不会做处理
 const KeepKeywords = {
   'siteDisplay': true,
-  'siteDisplayChange': true
+  'changeProps': true,
+  'isDataVPreView': true,
+  'siteDisplayChange': true,
+  'changeGlobalData': true
 }
 
 class PropsSetting extends React.Component {
   constructor( props ) {
     super( props );
+    this.state = {
+      data: {},
+      errTip: {}
+    }
   }
 
   handleCloseClick() {
     this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
   }
 
-  renderFormItemByType( itemData ) {
+  componentWillReceiveProps(nextProps) {
+    let { propsData } = nextProps,
+        keys = [];
+    if(propsData && propsData.props) {
+      keys =  Object.keys(propsData.props);
+    }
+    let newData = deepClone(this.state.data);
+    keys.map(item => {
+      let itemData =  propsData.props[item];
+      let { value } = itemData;
+      newData[item] = value;
+    });
+    this.setState({data: newData});
+  }
+
+  formChange(item, type, e) {
+    let newValue = e.target.value;
+    this.state.data[item] = newValue;
+    let errTipMsg = this.handleFormItemRule.call(this, type, newValue);
+    let errTip = deepClone(this.state.errTip);
+    errTip[item] = errTipMsg;
+    this.setState({errTip});
+  }
+
+  renderFormItemByType( item, itemData ) {
     let { type, value, options } = itemData;
-    switch( type ) {
+    let defaultValue = this.state.data[item] || value;
+    switch (type) {
       case 'size':
-        return <Input />;
+        return <input type="text" onChange={this.formChange.bind(this, item, type)} value={ defaultValue}/>
         break;
       case 'array':
-        return <Select placeholder="请选择一个属性值">
+        return <select
+            onChange={this.formChange.bind(this, item, type)}
+          >
           {
-            options.map(item=>{
-              return <Option value={ item.value }>{ item.text }</Option>
+            options && options.map(option=>{
+              return <option value={option.value}
+              selected = {option.value==defaultValue? true: false}>{option.text}</option>
             })
           }
-        </Select>
+        </select>
         break;
       case 'json':
-        return <Input type="textarea" autosize={{ minRows: 8, maxRows: 12 }}/>;
+        return <textarea onChange={this.formChange.bind(this, item, type)} value={ defaultValue }></textarea>
         break;
       default:
-        return <Input />;
+        return <input type="text" onChange={this.formChange.bind(this, item, type)} value={ defaultValue }/>
+        break;
         break;
     }
+
   }
 
   renderFormItemEmptyMessage( type ) {
@@ -62,51 +96,57 @@ class PropsSetting extends React.Component {
     }
   }
 
-  handleFormItemRule( type ) {
+  handleFormItemRule_size( value ) {
+    if(value && !/^\s*(?:auto|[\d\.]+%|[\d\.]+px)\s*$/.test(value)) {
+      return this.renderFormItemEmptyMessage( 'size' ) ;
+    }
+    return false;
+  }
+
+  handleFormItemRule( type, value ) {
     switch( type ) {
       case 'size':
-        return this.handleFormItemRule_size.bind( this );
+        return this.handleFormItemRule_size.call( this, value );
         break;
       default:
-        return ( rule, value, callback ) => callback();
+        return false;
     }
   }
 
-  handleFormItemRule_size( rule, value, callback ) {
-    if(value && !/^\s*(?:auto|[\d\.]+%|[\d\.]+px)\s*$/.test(value)) {
-      callback( this.renderFormItemEmptyMessage( 'size' ) );
-    }
-    callback();
-  }
 
-  handleSubmit( e ) {
-    e.preventDefault();
+  handleSubmit() {
+    let errTips = this.state.errTip;
+    let isHaveError = false;
+    Object.keys(errTips).map(item=>{
+      if(errTips[item]) isHaveError = true;
+    });
+    if(isHaveError) return;
+
+    let values = this.state.data;
+
     let newPropsData = deepClone(this.props.propsData);
     if(!newPropsData.props) newPropsData.props = {};
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        let keys = Object.keys(values);
-        keys.map(key=>{
-          if(newPropsData.props[key]!=null){
-            newPropsData.props[key].value = values[key];
-          }
-        });
-        this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
-        this.props.dispatch({type: 'MODULE_PROPS_CHANGE', path: this.props.propsPath, data: newPropsData});
+    let keys = Object.keys(values);
+    keys.map(key=>{
+      if(KeepKeywords[key]) return;
+      if(newPropsData.props[key]!=null){
+        newPropsData.props[key].value = values[key];
       }
     });
+    this.props.dispatch({type: 'MODULE_PROPS_CLOSE'});
+    this.props.dispatch({type: 'MODULE_PROPS_CHANGE', path: this.props.propsPath, data: newPropsData});
+
   }
 
-  render() {
-    let { propsSettingOpen, propsData, propsPath, form } = this.props,
-        keys = [];
 
-    const { getFieldDecorator } = form;
+  render() {
+    let { propsSettingOpen, propsData, propsPath } = this.props,
+        keys = [];
+    let newValueObj = {};
 
     if(propsData && propsData.props) {
       keys =  Object.keys(propsData.props);
     }
-
 
     return <div className={classnames({"propsSetting-container": true, "propsSetting-container-open": propsSettingOpen!=false})}>
       <div className="propsSetting-title">
@@ -115,38 +155,38 @@ class PropsSetting extends React.Component {
       </div>
       <div className="propsSetting-main">
         {
-          keys.length > 0 && <Form onSubmit={ this.handleSubmit.bind(this) }>
+          keys.length > 0 && <div className="propsSetting-form">
             {
               keys.map(item => {
                 if( KeepKeywords[item] ) return '';
                 if( item == 'style') return '';
                 let itemData =  propsData.props[item];
                 let { text, type, value } = itemData;
+
                 if(type=='tip') return <div className="propsSetting-tip">{ value }</div>
-                return <FormItem label={ text }>
-                {
-                  getFieldDecorator(item, {
-                    initialValue: value,
-                    rules: [
-                      { required: false, message: this.renderFormItemEmptyMessage.call( this, type ), whitespace: true },
-                      { validator: this.handleFormItemRule.call( this, type ) }
-                    ],
-                  })(
-                    this.renderFormItemByType.call( this, itemData)
-                  )
-                }
-                </FormItem>
+                newValueObj[item] = value;
+                return <div className="propsSetting-form-item">
+                  { text &&  <div  className="propsSetting-form-item-title">{ text }</div>
+                  }
+                  {
+                    this.renderFormItemByType.call( this, item, itemData )
+                  }
+                  <div className="propsSetting-form-item-errTip">
+                  {
+                    this.state.errTip[item]? this.state.errTip[item]: ''
+                  }
+                  </div>
+                </div>
               })
             }
 
-            <FormItem>
-              <Button type="primary" htmlType="submit">保存修改</Button>
-            </FormItem>
-          </Form>
+            <div className="propsSetting-form-save" onClick={this.handleSubmit.bind(this)}>保存</div>
+          </div>
         }
+
       </div>
     </div>
   }
 }
 
-module.exports = connect( mapStateToProps )( Form.create()( PropsSetting ) );
+module.exports = connect( mapStateToProps )( PropsSetting );

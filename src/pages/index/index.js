@@ -272,17 +272,37 @@ class Index extends React.Component {
 	  }else {
 			mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
 			mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
-
+			mainModuleConfig.props.isDataVPreView = this.props.isUsePreView;
+			mainModuleConfig.props.changeProps = this.changeModuleProps.bind(this, modulepath, mainModuleConfig);
+			mainModuleConfig.props.changeGlobalData = this.changeGlobalData.bind(this);
 			// Bug Repair@170504 转换全局数据对象（方法：transformGlobalData）的时候本来在Index的render中，但是导致修改数据的时候查看到的是转换后的数据，所以把全局数据对象的匹配放到了每个模块和模板的处理中
 			return React.createElement( window.datavModule[hashName], this.transformGlobalData.call( this, mainModuleConfig.props ) );
 		}
+	}
+
+	changeGlobalData(api, data) { // 修改全局数据接口
+		let apiIndex = 'default';
+		let apiList = api.split('/');
+		let apiKey = '';
+		if(apiList.length>0) {
+			while(apiKey = apiList.pop()) {
+				apiIndex = apiKey;
+				break;
+			}
+		}
+	}
+
+	changeModuleProps( path, mainModuleConfig, props) {
+		let newModuleCOnfigData = deepClone(mainModuleConfig);
+		newModuleCOnfigData.props = props;
+		this.props.dispatch({type: 'MODULE_PROPS_CHANGE', path, data: newModuleCOnfigData});
 	}
 
 	renderModuleSetting(mainModuleConfig, renderPath) { // 添加和渲染模块工具条
 		let path = renderPath;
 		let childs = [ this.renderModule.call(this, mainModuleConfig, path) ],
 				doingButton = [];
-
+				console.log("mainModuleConfig", mainModuleConfig)
 			doingButton.push( this.renderModulePropsSetting.call( this, path, mainModuleConfig ) );
 			doingButton.push( this.renderDeleteButton.call(this, path) );
 			if( mainModuleConfig.display!=null ) {

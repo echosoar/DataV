@@ -1,0 +1,414 @@
+### 如何创建一个布局模板
+
+**以卍字形布局模板为例**
+***
+由于在DataV中所有的布局模板都是一段JSON格式的字符串，所以编辑好这个字符串，那么就相当于编辑好了整个模板。
+
+一个布局模板包含下面两类信息，一类是模板的基本信息，另外一类是模板的布局信息。
+
+#####  模板基本信息：
+  + _name_ ：模板名称。
+  + _introduction_ ： 模板简介信息。
+  + _enName_ ：模板英文名称。
+  + _version_ ：当前模板版本。
+  + _datavVersion_ ：要求使用此模板的DataV的最低版本（暂无作用）。
+  + _previewImg_ ：布局预览图像，可使用DataUrl或线上地址，大小最好为240*140，其它比例会被拉伸或缩放。
+  + _repeat_ ：模块条目是否可重复
+
+先填一下这些基本信息，卍字形布局因为布局的样式很特殊，固定有五个子条目，所以我在这里设置模块的条目不可重复：
+```
+{
+    "name":"卍字形布局模板",
+    "introduction":"暂无简介",
+    "enName":"wantype",
+    "version":"1.0.0",
+    "datavVersion":"1.0.0",
+    "previewImg":"",
+    "repeat":1
+}
+```
+
+填写完成基本信息之后就是要填写布局信息了，其实布局信息就是用JSON把一个DOM元素给描述出来。
+我们之前用html元素生成一个卍字形布局的时候需要用table元素来写下面这样的html代码：
+```
+<table>
+  <tr>
+    <td colspan="2"></td>
+    <td rowspan="2"></td>
+  </tr>
+  <tr>
+    <td rowspan="2"></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2"></td>
+  </tr>
+</table>
+```
+把上面这一段DOM转换成Datav的布局JSON，就是把元素名用component来表示，元素的属性都放入props对象中，元素的子元素都放到childs里面去，所以就生成了这样的一个JSON：
+```
+"template":{
+   "component":"table",
+   "props":{},
+   "childs":[
+       {
+           "template":{
+               "component":"tr",
+               "props":{},
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "colSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   },
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "rowSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       },
+       {
+           "template":{
+               "component":"tr",
+               "props":{},
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "rowSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   },
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{},
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       },
+       {
+           "template":{
+               "component":"tr",
+               "props":{},
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                             "colSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       }
+   ]
+}
+```
+
+另外根据DataV对于布局模板的规定，需要对布局模板的最外层容器加一个值为template-container的class属性值，对布局模板的条目层加一个值为template-item的class属性值，对于其余的中间层加一个template-middle属性值，所以就有了下面这样的JSON：
+```
+"template":{
+   "component":"table",
+   "props":{
+       "className":"template-container",
+       "style":{}
+   },
+   "childs":[
+       {
+           "template":{
+               "component":"tr",
+               "props":{
+                   "className":"template-middle"
+               },
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "colSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   },
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "rowSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       },
+       {
+           "template":{
+               "component":"tr",
+               "props":{
+                   "className":"template-middle"
+               },
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "rowSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   },
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       },
+       {
+           "template":{
+               "component":"tr",
+               "props":{
+                   "className":"template-middle"
+               },
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "colSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       }
+   ]
+}
+```
+另外，整个布局模板可以用显示控制属性来控制是否显示，所以可以在布局最外层添加一个display属性，另外我还想让这个table的里面每一项等宽，那么就可以添加一个css属性：tableLayout: fixed ，使用内联样式写法就是 style="tableLayout: fixed" ，所以需要写进table的props属性里面，最终的布局部分JSON为：
+```
+
+"template":{
+   "component":"table",
+   "display": "",
+   "props":{
+       "className":"template-container",
+       "style":{
+           "tableLayout":"fixed"
+       }
+   },
+   "childs":[
+       {
+           "template":{
+               "component":"tr",
+               "props":{
+                   "className":"template-middle"
+               },
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "colSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   },
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "rowSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       },
+       {
+           "template":{
+               "component":"tr",
+               "props":{
+                   "className":"template-middle"
+               },
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "rowSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   },
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       },
+       {
+           "template":{
+               "component":"tr",
+               "props":{
+                   "className":"template-middle"
+               },
+               "childs":[
+                   {
+                       "template":{
+                           "component":"td",
+                           "props":{
+                               "className":"template-item",
+                               "colSpan":"2"
+                           },
+                           "childs":[]
+                       }
+                   }
+               ]
+           }
+       }
+   ]
+}
+```
+
+把这两部分的JSON合并在一起，就有了整体布局模板的JSON：
+```
+{
+    "name":"卍字形布局模板",
+    "introduction":"暂无简介",
+    "enName":"wantype",
+    "version":"1.0.0",
+    "datavVersion":"1.0.0",
+    "previewImg":"",
+    "repeat":1,
+    "template":{
+        "component":"table",
+        "display": "",
+        "props":{
+            "className":"template-container",
+            "style":{
+                "tableLayout":"fixed"
+            }
+        },
+        "childs":[
+            {
+                "template":{
+                    "component":"tr",
+                    "props":{
+                        "className":"template-middle"
+                    },
+                    "childs":[
+                        {
+                            "template":{
+                                "component":"td",
+                                "props":{
+                                    "className":"template-item",
+                                    "colSpan":"2"
+                                },
+                                "childs":[]
+                            }
+                        },
+                        {
+                            "template":{
+                                "component":"td",
+                                "props":{
+                                    "className":"template-item",
+                                    "rowSpan":"2"
+                                },
+                                "childs":[]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "template":{
+                    "component":"tr",
+                    "props":{
+                        "className":"template-middle"
+                    },
+                    "childs":[
+                        {
+                            "template":{
+                                "component":"td",
+                                "props":{
+                                    "className":"template-item",
+                                    "rowSpan":"2"
+                                },
+                                "childs":[]
+                            }
+                        },
+                        {
+                            "template":{
+                                "component":"td",
+                                "props":{
+                                    "className":"template-item"
+                                },
+                                "childs":[]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "template":{
+                    "component":"tr",
+                    "props":{
+                        "className":"template-middle"
+                    },
+                    "childs":[
+                        {
+                            "template":{
+                                "component":"td",
+                                "props":{
+                                    "className":"template-item",
+                                    "colSpan":"2"
+                                },
+                                "childs":[]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+```

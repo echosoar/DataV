@@ -86,7 +86,9 @@ class List extends Component {
     if(deepEqual(newData, oldData)) {
       return;
     }
-    refetch.post( api, {data: this.state.temViewJsonData, id } ).then(res=>{
+
+  let newLayoutJsonData = this.state.temViewJsonData.replace(/\\/g, "#DataVSlashFormat#");
+    refetch.post( api, {data: newLayoutJsonData, id } ).then(res=>{
       res = JSON.parse(res);
       if(res.success){
         message.success('修改成功');

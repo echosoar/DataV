@@ -89,7 +89,5 @@ app.on('window-all-closed', function () {
 })
 
 app.on('activate', function () {
-  if (d3kabWin === null) {
-    createWindow()
-  }
+
 })
