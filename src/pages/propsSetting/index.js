@@ -55,7 +55,7 @@ class PropsSetting extends React.Component {
 
   renderFormItemByType( item, itemData ) {
     let { type, value, options } = itemData;
-    let defaultValue = this.state.data[item] || value;
+    let defaultValue = this.state.data[item]==null? value: this.state.data[item];
     switch (type) {
       case 'size':
         return <input type="text" onChange={this.formChange.bind(this, item, type)} value={ defaultValue}/>

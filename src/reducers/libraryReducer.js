@@ -203,6 +203,12 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       state.layoutData = action.layoutData;
       state.layoutInfo = action.layoutInfo;
       return state;
+    case 'CHANGE_GLOBAL_DATA':
+      if(!state.datavGlobalData[action.name]) state.datavGlobalData[action.name] ={};
+      action.data && Object.keys(action.data).map(key=>{
+        state.datavGlobalData[action.name][key] = action.data[key];
+      })
+      return state;
     default: return state;
   }
 };

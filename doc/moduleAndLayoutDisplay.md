@@ -17,3 +17,15 @@
 ```
 将会遍历此数组并将值存入siteDisplay
 + 在渲染的时候会把siteDisplay传入所有模块的props中
+
+
+***
+20170507 更新
+
+display属性可以通过,分隔，也就是说可以设置多个值
+
+同时支持!取反操作和${ api.a.b }的全局数据读取
+
+首先要把全局数据读取放入
+
+dispaly==null or !display render

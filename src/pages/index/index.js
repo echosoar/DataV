@@ -8,7 +8,7 @@ import TEMPLATE_STYLE_SUPPORT from '../../common/tempalteStyleSupport.js';
 const deepClone = require('deepclone');
 require('./index.less');
 
-const globalDataReg = /\$\{\s*([a-zA-Z][a-zA-Z0-9\.]*)\s*\}/g;
+const globalDataReg = /\$\{\s*([a-zA-Z][\_a-zA-Z0-9\.]*)\s*\}/g;
 
 class Index extends React.Component {
 	constructor(props) {
@@ -280,17 +280,26 @@ class Index extends React.Component {
 		}
 	}
 
-	changeGlobalData(api, data) { // 修改全局数据接口
-		console.log("api",api)
-		// let apiIndex = 'default';
-		// let apiList = api.split('/');
-		// let apiKey = '';
-		// if(apiList.length>0) {
-		// 	while(apiKey = apiList.pop()) {
-		// 		apiIndex = apiKey;
-		// 		break;
-		// 	}
-		// }
+	changeGlobalData(api, data, index) { // 修改全局数据接口
+		let apiIndex = index;
+
+		if(!index) {
+			let apiList = api && api.value && api.value.split('/') || [];
+			let apiKey = '';
+			if(apiList.length>0) {
+				while(apiKey = apiList.pop()) {
+					apiIndex = apiKey;
+					break;
+				}
+				apiIndex = apiIndex.replace(/[^a-z]/ig, '_');
+			}
+		}
+
+		if(!apiIndex) apiIndex = 'default';
+
+		console.log("apiIndex", apiIndex, data)
+
+		this.props.dispatch({type: 'CHANGE_GLOBAL_DATA', name: apiIndex, data});
 	}
 
 	changeModuleProps( path, mainModuleConfig, props) {
@@ -322,6 +331,46 @@ class Index extends React.Component {
 	}
 
 
+	// 显示控制逻辑 返回true则不显示
+	displayRenderCheck(display) {
+
+		if(display == null || !display) return false;
+
+		let displayArr = display.split(',');
+		let isNotDisplay = false;
+
+		displayArr.map(displayItem=>{
+			let isNeg = /!/.test(displayItem);
+
+			displayItem = displayItem.replace(/[!\s]/g,'');
+
+			let displayItemRes = '';
+
+			if(globalDataReg.test(displayItem)) { // 全局数据
+
+				displayItemRes = displayItem.replace(globalDataReg, (regMatch, name)=>{
+					let transformRes = this.transformGlobalVar(name.split('.'), this.props.datavGlobalData);
+					if(transformRes!=null) return transformRes;
+					return '';
+				});
+
+			} else { // 显示控制对象数据
+				displayItemRes = this.props.siteDisplay[displayItem];
+			}
+
+			if(isNeg){
+				displayItemRes = !displayItemRes;
+			}
+
+			if(!displayItemRes) {
+				isNotDisplay = true;
+			}
+		});
+
+		if(isNotDisplay) return true;
+		return false;
+
+	}
 
 	renderComponent(layoutData, path, preLayout) {
 
@@ -332,7 +381,7 @@ class Index extends React.Component {
 				{ component, props, template, display } = layout,
 				doingButton = [];
 
-		if(display!=null && display!='' && !this.props.siteDisplay[display]) {
+		if( this.displayRenderCheck.call(this, display) ) {
 			return '';
 		}
 
@@ -342,7 +391,7 @@ class Index extends React.Component {
 			props = template.props;
 			display = template.display;
 
-			if(display!=null && display!='' && !this.props.siteDisplay[display]) {
+			if( this.displayRenderCheck.call(this, display) ) {
 				return '';
 			}
 
