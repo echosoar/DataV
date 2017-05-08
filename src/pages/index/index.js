@@ -15,7 +15,9 @@ class Index extends React.Component {
 		super(props);
 		this.state = {
 			layout: false,
-			updateTime: (new Date() - 0)
+			updateTime: (new Date() - 0),
+			needLoadModule: {},
+			timeoutReRender: null
 		}
 		this.deepClone = deepClone;
 
@@ -23,6 +25,31 @@ class Index extends React.Component {
 		this.siteDisplayChange = this.siteDisplayChange.bind(this);
 
 	}
+
+	componentDidMount() {
+			//
+			let { needLoadModule } = this.state;
+			let needLoadModuleHashNames = Object.keys(needLoadModule);
+			let newNeedLoadModule = {};
+			needLoadModuleHashNames.map(hashName=>{
+				if(!window.datavModule[hashName]) {
+					newNeedLoadModule[hashName] = needLoadModule[hashName];
+				}
+			});
+
+			if(newNeedLoadModule) {
+				this.state.timeoutReRender = setTimeout(()=>{
+					this.setState({
+						needLoadModule: newNeedLoadModule
+					})
+				}, 500);
+			}
+	}
+
+	componentWillReceiveProps() {
+
+	}
+
 
 	isType(ele, type) {
 		return ({}).toString.call(ele).slice(8, -1).toLowerCase() == type.toLowerCase();
@@ -258,17 +285,12 @@ class Index extends React.Component {
 	    scriptElement.setAttribute('src', mainModuleConfig.scriptAddr);
 	    document.head.appendChild(scriptElement);
 	    window.datavModule[hashName + '_element'] = scriptElement;
-	    window.datavModule[hashName + '_element'].onload = () => {
-				// Bug Repair@170503 由于js加载可能会快于剩余模块的渲染速度，所以需要把加载完成回调放在下一次事件循环
-				setTimeout(()=>{
-					let newState = deepClone(this.state[modulepath]) || {};
-		      newState.loaded = true;
-					this.setState({[modulepath]: newState});
-				},0);
-	    }
-			return <div className="datav-module-loading">
-				DataV Module Loading...
-			</div>;
+			// Bug Repair@170507 多个模块加载完成后可能会导致未渲染完就刷新了，导致bug，解决方案是把onload放在componentDidMount里面去,每一次加载完成后都清掉所有onload，重新绑定，在componentWillReceiveProps里面去掉onload
+
+			this.state.needLoadModule[hashName] = modulepath;
+
+
+			return '';
 	  }else {
 			mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
 			mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
@@ -312,7 +334,7 @@ class Index extends React.Component {
 		let path = renderPath;
 		let childs = [ this.renderModule.call(this, mainModuleConfig, path) ],
 				doingButton = [];
-				console.log("mainModuleConfig", mainModuleConfig)
+
 			doingButton.push( this.renderModulePropsSetting.call( this, path, mainModuleConfig ) );
 			doingButton.push( this.renderDeleteButton.call(this, path) );
 			if( mainModuleConfig.display!=null ) {
@@ -457,6 +479,8 @@ class Index extends React.Component {
 
 	render(){
 		// console.clear();
+
+		this.state.timeoutReRender && clearTimeout(this.state.timeoutReRender);
 		let { layoutData } = this.props;
 		// this.transformGlobalData.call( this, this.props.layoutData );
 		console.log( "render", layoutData );

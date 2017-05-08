@@ -1,0 +1,61 @@
+.globalData-nowGlobalData {
+  padding: 10px 0;
+  .nowGlobalData-item-add {
+    display: inline-block;
+    height: 20px;
+    width: 80px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #efefef;
+    background: #fff;
+    font-size: 10px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  .nowGlobalData-item {
+    position: relative;
+    padding-left: 40px;
+    line-height: 20px;
+    border-left: 1px dotted #cde;
+
+    .nowGlobalData-item-title {
+      position: relative;
+      height: 30px;
+      line-height: 30px;
+
+      &::before {
+        content: ' ';
+        position: absolute;
+        left: -40px;
+        width: 30px;
+        top: 50%;
+        border-top: 1px dotted #cde;
+      }
+    }
+
+  }
+
+  .nowGlobalData-item-value {
+    position: relative;
+    padding-left: 40px;
+    height: 20px;
+    line-height: 20px;
+
+    &::before {
+      content: 'Value';
+      position: absolute;
+      left: 0px;
+      width: 36px;
+      font-size: 10px;
+      color: #fff;
+      text-align: center;
+      top: 2px;
+      height: 16px;
+      line-height: 16px;
+      background: #9c6;
+      border-radius: 3px;
+    }
+  }
+
+}

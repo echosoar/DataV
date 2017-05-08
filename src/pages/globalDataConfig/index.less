@@ -14,6 +14,7 @@
     height: 60px;
     width: 100%;
     box-shadow: 0 1px 2px #ccc;
+    background: #fff;
 
     .globalDataConfig-title {
       height: 60px;
@@ -38,6 +39,29 @@
         box-shadow: 0 0 3px #ccc;
       }
     }
+  }
+
+  .globalDataConfig-left {
+    position: absolute;
+    z-index: 2;
+    height: 100%;
+    padding-top: 60px;
+    box-sizing: border-box;
+    width: 160px;
+    box-shadow: 1px 0 2px #ccc;
+    background: #fff;
+  }
+
+  .globalDataConfig-right {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    padding-top: 60px;
+    padding-left: 160px;
+    box-sizing: border-box;
+    width: 100%;
+    background: #fff;
+    overflow: auto;
   }
 
 }
