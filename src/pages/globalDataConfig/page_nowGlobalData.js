@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import { mapStateToProps } from '../../connect/globalDataConfigConnect.js';
-import { Menu } from 'antd';
+import { Menu, Modal, Input } from 'antd';
 
 require('./page_nowGlobalData.less');
 
@@ -17,7 +17,20 @@ class NowGlobalData extends Component {
 	}
 
   editValue(value, path) {
-    console.log(value, path)
+    path = path.replace(/^\./, '');
+    Modal.confirm({
+      title: '修改 ${ ' + path +' } 属性值',
+      content: (<div>
+        <Input defaultValue={value} onChange={(e)=>{
+					value = e.target.value;
+				}} />
+        </div>),
+      onOk: () => {
+        this.props.dispatch({type: 'CHANGE_GLOBAL_DATA_BY_PATH', value, path });
+      },
+      onCancel() {}
+    });
+
   }
 
   renderData( globalData, path ) {

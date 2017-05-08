@@ -13,7 +13,7 @@ const defaultState = {
       version: '1.0.0'
     },
     arrTest:{
-      name: false,
+      name: 'xxx',
       value: "aaa"
     }
   },
@@ -108,6 +108,16 @@ let fun_changeData = (template, path, data) => {
 
   template.childs[nowIndex].template = fun_changeData(newTemplate, path, data);
   return template;
+}
+
+
+let fun_changeGlobalPathByPath = ( globalData, value , path) => {
+  if(path.length==0) {
+    return value;
+  }
+  let index = path.shift();
+  globalData[index] = fun_changeGlobalPathByPath(globalData[index], value, path);
+  return globalData;
 }
 
 const libraryReducer = (preState = defaultState, action = {}) => {
@@ -212,6 +222,9 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       action.data && Object.keys(action.data).map(key=>{
         state.datavGlobalData[action.name][key] = action.data[key];
       })
+      return state;
+    case 'CHANGE_GLOBAL_DATA_BY_PATH':
+      state.datavGlobalData = fun_changeGlobalPathByPath(state.datavGlobalData, action.value, action.path.split('.'));
       return state;
     default: return state;
   }

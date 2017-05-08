@@ -176,12 +176,12 @@ class Index extends React.Component {
 		return layout && layout.template && layoutData.template.props.className.indexOf('template-item')!=-1 && layout.repeat && layout.repeat.indexOf('unlimited')!=-1 ;
 	}
 
-	renderDoingButton( buttons ){
+	renderDoingButton( buttons, name ){
 		//let xxx = (<div className="doingButtonContainer">{ buttons }</div>);
 		return <div className="doingButtonContainer">
-			{ buttons.length<=1 && buttons }
+			{ name && <div className="doingButtonContainer-name">{ name }</div> }
 			{
-				buttons.length>1 && <Popover content={ buttons } title={false} trigger="hover" >
+				buttons.length>0 && <Popover content={ buttons } title={false} trigger="hover" >
 						<div className="config-button config-button-tools"></div>
 					</Popover>
 			}
@@ -341,7 +341,7 @@ class Index extends React.Component {
 				doingButton.push( this.renderSiteDisplaySetting.call(this, path, mainModuleConfig.display, mainModuleConfig) );
 			}
 
-		childs.push( this.renderDoingButton.call(this, doingButton) );
+		childs.push( this.renderDoingButton.call(this, doingButton, mainModuleConfig.name) );
 		return React.createElement(
 			'div',
 			{
@@ -409,6 +409,7 @@ class Index extends React.Component {
 			return '';
 		}
 
+		let doingButtonContainTitle = '';
 
 		if(template) { // 存在template即为模板
 			component = template.component;
@@ -431,6 +432,10 @@ class Index extends React.Component {
 			child = template.childs && template.childs.map((item, itemIndex) => this.renderComponent.call(this, item, path + '-' + itemIndex, layoutData)) || [];
 			if(props.className.indexOf('template-item')!=-1) {
 				doingButton.push( this.renderLayoutConfig.call(this, path) );
+			}
+
+			if(props.className.indexOf('template-container')!=-1) {
+				doingButtonContainTitle = layoutData.name;
 			}
 
 			if(props.className.indexOf('template-container')!=-1 || this.checkIsMultiModule(preLayout, layoutData) ){
@@ -459,7 +464,7 @@ class Index extends React.Component {
 		}
 
 		if(doingButton.length) {
-			child.push( this.renderDoingButton.call(this, doingButton) );
+			child.push( this.renderDoingButton.call(this, doingButton, doingButtonContainTitle) );
 		}
 
 		props['data-path'] = path;
