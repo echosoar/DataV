@@ -380,11 +380,13 @@ class Index extends React.Component {
 				displayItemRes = this.props.siteDisplay[displayItem];
 			}
 
+			if(displayItemRes=='false') displayItemRes=false;
+
 			if(isNeg){
 				displayItemRes = !displayItemRes;
 			}
 
-			if(!displayItemRes || displayItemRes=='false') {
+			if(!displayItemRes ) {
 				isNotDisplay = true;
 			}
 		});
