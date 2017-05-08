@@ -359,7 +359,7 @@ class Index extends React.Component {
 		if(display == null || !display) return false;
 
 		let displayArr = display.split(',');
-		let isNotDisplay = false;
+		let isNotDisplay = displayArr? false: true;
 
 		displayArr.map(displayItem=>{
 			let isNeg = /!/.test(displayItem);
@@ -384,7 +384,7 @@ class Index extends React.Component {
 				displayItemRes = !displayItemRes;
 			}
 
-			if(!displayItemRes) {
+			if(!displayItemRes || displayItemRes=='false') {
 				isNotDisplay = true;
 			}
 		});

@@ -11,6 +11,10 @@ const defaultState = {
     datav: {
       name: 'DataV',
       version: '1.0.0'
+    },
+    arrTest:{
+      name: false,
+      value: "aaa"
     }
   },
   globalInterface: []

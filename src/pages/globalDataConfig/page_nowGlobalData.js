@@ -16,12 +16,8 @@ class NowGlobalData extends Component {
 		return ({}).toString.call(ele).slice(8, -1).toLowerCase() == type.toLowerCase();
 	}
 
-  renderButton(value, path) {
-    if( this.isType(value, 'object') ) {
-      return <div className="nowGlobalData-item-add" data-path={path}>+ 添加子属性</div>
-
-    }
-    return '';
+  editValue(value, path) {
+    console.log(value, path)
   }
 
   renderData( globalData, path ) {
@@ -30,7 +26,7 @@ class NowGlobalData extends Component {
       returnArr = Object.keys(globalData).map(key=>{
         let newPath = path + '.' + key;
         return <div className="nowGlobalData-item">
-          <div className="nowGlobalData-item-title" data-path={newPath}>{ key }{ this.renderButton(globalData[key], newPath) }</div>
+          <div className="nowGlobalData-item-title" data-path={newPath}>{ key }</div>
           <div className="nowGlobalData-item-childs">
           { this.renderData.call(this, globalData[key], newPath) }
           </div>
@@ -43,15 +39,19 @@ class NowGlobalData extends Component {
       returnArr = globalData.map((value, key)=>{
         let newPath = path + '.' + key;
         return <div className="nowGlobalData-item">
-          <div className="nowGlobalData-item-title" data-path={ newPath }>{ key }{ this.renderButton(value, newPath) }</div>
+          <div className="nowGlobalData-item-title">{ key }</div>
           <div className="nowGlobalData-item-childs">
           { this.renderData.call(this, value, newPath) }
           </div>
         </div>
       })
     } else {
-      return <div className="nowGlobalData-item-value" data-path={path}>
-      { globalData }
+      return <div className="nowGlobalData-item-value">
+        { globalData }
+        <div
+          className="nowGlobalData-item-edit"
+          onClick={this.editValue.bind(this, globalData, path)}
+          >编辑值</div>
       </div>
     }
 
