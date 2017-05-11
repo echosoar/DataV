@@ -8,6 +8,8 @@ import deepClone from 'deepclone';
 import { mapStateToProps } from '../../connect/pagesListConnect.js';
 import { handlePageSaveClick } from '../base/button.js';
 
+import ExecExport from './execExport.js';
+
 require('./pagesList.less');
 
 class PagesList extends React.Component {
@@ -138,6 +140,17 @@ class PagesList extends React.Component {
 		this.fetchData();
 	}
 
+	handleClickExport(item) {
+
+		Modal.success({
+			title: '可编译导出此页面',
+			content: <ExecExport data={item}/>,
+			okText: '关闭'
+		})
+	}
+
+	
+
   render() {
 		let { data, tolCount, size, page } = this.state;
 
@@ -158,7 +171,7 @@ class PagesList extends React.Component {
 						<div className="pagesList-item-time">页面创建时间：{ this.formatTime(item.createTime) }</div>
 						<div className="pagesList-item-buttons">
 							<div className="pagesList-item-button" onClick={ this.handleClickReedit.bind(this, item) }>再编辑</div>
-							<div className="pagesList-item-button">编译导出</div>
+							<div className="pagesList-item-button" onClick={ this.handleClickExport.bind(this, item)}>编译导出</div>
 							<div className="pagesList-item-button" onClick={ this.handleClickDelete.bind(this, item.id) }>删除</div>
 						</div>
           </div>

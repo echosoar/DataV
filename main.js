@@ -2,8 +2,9 @@ const electron = require('electron')
 const fs = require('fs');
 const path = require('path')
 const url = require('url')
+const exportPage = require('./fun_export.js');
 
-let { app, BrowserWindow } = electron;
+let { app, BrowserWindow, dialog } = electron;
 
 const ipcMain = electron.ipcMain;
 
@@ -49,6 +50,23 @@ function fun_ConfigWindow () {
 		fs.writeFileSync(systemConfigFileAddr, data);
 		configWin.webContents.send('resultGetSystemConfig', data);
 	})
+
+	ipcMain.on('SELECT_DIRECT', ()=>{
+		dialog.showOpenDialog({
+			properties: ['openDirectory']
+		}, filePath=>{
+
+			let dirname = filePath && filePath[0];
+
+			configWin.webContents.send('SELECT_DIRECT_RESPONSE', {dirname});
+		});
+	});
+
+	ipcMain.on('PAGE_EXPORT', (e, args)=>{
+			exportPage(args.dir, args.data, ()=>{
+				configWin.webContents.send('PAGE_EXPORT_SUCCESS');
+			});
+	});
 
 	listenerRendererMsg("exitConfig").then(args=>{
 		fun_PreWindow();
