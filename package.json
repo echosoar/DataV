@@ -5,6 +5,8 @@
   "main": "main.js",
   "scripts": {
     "dev": "webpack --config webpack.config.dev.js --watch",
+    "display": "webpack --config webpack.display.js --watch",
+    "buildDisplay": "webpack -p --config webpack.display.js",
     "build": "webpack --config webpack.config.min.js",
     "start": "electron ."
   },

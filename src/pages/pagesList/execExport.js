@@ -32,12 +32,18 @@ class ExecExport extends Component {
     }
  	}
 
+  transformData(data) {
+    let newLayoutData = JSON.stringify(data);
+		newLayoutData = newLayoutData.replace(/\\/g, "#DataVSlashFormat#");
+    return newLayoutData;
+  }
+
   handleExecExport() {
     if(this.state.exporting) return;
     if(window.ipcRenderer) {
 			window.ipcRenderer.send('PAGE_EXPORT', {
         dir: this.state.exportDir,
-        data: this.props.data && this.props.data.json
+        data: this.props.data && this.transformData(this.props.data)
       });
 			window.ipcRenderer.on('PAGE_EXPORT_SUCCESS', ()=>{
           this.setState({

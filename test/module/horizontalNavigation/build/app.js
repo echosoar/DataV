@@ -76,7 +76,10 @@
 	  function DataVBaseHorizontalNavigation(props) {
 	    _classCallCheck(this, DataVBaseHorizontalNavigation);
 
-	    return _possibleConstructorReturn(this, _React$Component.call(this, props));
+	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+
+	    console.log("aaaaaaaaaaaaa");
+	    return _this;
 	  }
 
 	  DataVBaseHorizontalNavigation.prototype.checkIndex = function checkIndex(itemData, siteDisplay) {
@@ -94,6 +97,7 @@
 	  };
 
 	  DataVBaseHorizontalNavigation.prototype.handleClick = function handleClick(nowItem, itemData) {
+
 	    if (!itemData.data) return;
 
 	    if (nowItem.type && nowItem.type == 'link') {
@@ -107,7 +111,6 @@
 	        value: item.value == nowItem.value
 	      };
 	    });
-
 	    this.props.siteDisplayChange(newData);
 	  };
 
@@ -149,6 +152,7 @@
 	          nowItemIsIndex = true;
 	          isHaveIndex = true;
 	        }
+	        if (!item.text) return '';
 	        return React.createElement(
 	          'div',
 	          {

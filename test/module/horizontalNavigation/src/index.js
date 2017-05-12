@@ -16,6 +16,7 @@ let mockData = {
 class DataVBaseHorizontalNavigation extends React.Component {
   constructor( props ) {
     super( props );
+    console.log("aaaaaaaaaaaaa")
   }
 
   checkIndex(itemData, siteDisplay) {
@@ -33,6 +34,7 @@ class DataVBaseHorizontalNavigation extends React.Component {
   }
 
   handleClick(nowItem, itemData) {
+
     if(!itemData.data) return;
 
     if(nowItem.type && nowItem.type=='link') {
@@ -46,7 +48,6 @@ class DataVBaseHorizontalNavigation extends React.Component {
           value: item.value == nowItem.value
         }
     });
-
     this.props.siteDisplayChange(newData);
   }
 
@@ -76,6 +77,7 @@ class DataVBaseHorizontalNavigation extends React.Component {
             nowItemIsIndex = true;
             isHaveIndex = true;
           }
+          if(!item.text) return '';
           return <div
           style={{
             'display': 'inline-block',

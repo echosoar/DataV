@@ -297,6 +297,7 @@ class Index extends React.Component {
 			mainModuleConfig.props.isDataVPreView = this.props.isUsePreView;
 			mainModuleConfig.props.changeProps = this.changeModuleProps.bind(this, modulepath, mainModuleConfig);
 			mainModuleConfig.props.changeGlobalData = this.changeGlobalData.bind(this);
+			
 			// Bug Repair@170504 转换全局数据对象（方法：transformGlobalData）的时候本来在Index的render中，但是导致修改数据的时候查看到的是转换后的数据，所以把全局数据对象的匹配放到了每个模块和模板的处理中
 			return React.createElement( window.datavModule[hashName], this.transformGlobalData.call( this, mainModuleConfig.props ) );
 		}

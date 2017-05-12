@@ -144,12 +144,12 @@ class PagesList extends React.Component {
 
 		Modal.success({
 			title: '可编译导出此页面',
-			content: <ExecExport data={item}/>,
+			content: <ExecExport data={JSON.parse(deepClone(item.json))}/>,
 			okText: '关闭'
 		})
 	}
 
-	
+
 
   render() {
 		let { data, tolCount, size, page } = this.state;
