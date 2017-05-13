@@ -36,6 +36,7 @@ class DataV extends Component {
 
   componentDidMount() {
       //
+
       let { needLoadModule } = this.state;
       let needLoadModuleHashNames = Object.keys(needLoadModule);
       let newNeedLoadModule = {};
@@ -45,7 +46,7 @@ class DataV extends Component {
         }
       });
 
-      if(newNeedLoadModule) {
+      if(Object.keys(newNeedLoadModule).length) {
         this.state.timeoutReRender = setTimeout(()=>{
           this.setState({
             needLoadModule: newNeedLoadModule
@@ -53,6 +54,26 @@ class DataV extends Component {
         }, 500);
       }
   }
+
+  componentDidUpdate() {
+		let { needLoadModule } = this.state;
+
+		let needLoadModuleHashNames = Object.keys(needLoadModule);
+		let newNeedLoadModule = {};
+		needLoadModuleHashNames.map(hashName=>{
+			if(!window.datavModule[hashName]) {
+				newNeedLoadModule[hashName] = needLoadModule[hashName];
+			}
+		});
+
+		if(Object.keys(newNeedLoadModule).length) {
+			this.state.timeoutReRender = setTimeout(()=>{
+				this.setState({
+					needLoadModule: newNeedLoadModule
+				})
+			}, 500);
+		}
+	}
 
   isType(ele, type) {
     return ({}).toString.call(ele).slice(8, -1).toLowerCase() == type.toLowerCase();
@@ -276,7 +297,7 @@ class DataV extends Component {
   }
 
   render() {
-
+    this.state.timeoutReRender && clearTimeout(this.state.timeoutReRender);
     let { pagesData } = this.state;
 
     return <div className="datav-container">
