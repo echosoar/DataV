@@ -221,7 +221,7 @@ class DataV extends Component {
 
     if(!apiIndex) apiIndex = 'default';
 
-    this.changePagesData.call({type: 'CHANGE_GLOBAL_DATA', name: apiIndex, data});
+    this.changePagesData.call(this, {type: 'CHANGE_GLOBAL_DATA', name: apiIndex, data});
   }
 
   changeModuleProps( path, mainModuleConfig, props) {
