@@ -25,7 +25,7 @@ class DataV extends Component {
 
     this.state = {
       pagesData: pagesDataGlobal,
-      datavGlobalData: {},
+      datavGlobalDataS: {},
       siteDisplay: {},
       isUsePreView: true,
       needLoadModule: {},
@@ -80,7 +80,6 @@ class DataV extends Component {
   }
 
   transformGlobalVar( varArr, globalObject ) { // 全局接口取过来的变量替换
-
 		if(!varArr || !varArr.length || !globalObject) return null;
 		let nowIndex = varArr.shift();
 		let nowGlobalData = globalObject[nowIndex];
@@ -105,7 +104,7 @@ class DataV extends Component {
 			if(globalDataReg.test(displayItem)) { // 全局数据
 
 				displayItemRes = displayItem.replace(globalDataReg, (regMatch, name)=>{
-					let transformRes = this.transformGlobalVar(name.split('.'), this.state.datavGlobalData);
+					let transformRes = this.transformGlobalVar(name.split('.'), this.state.datavGlobalDataS);
 					if(transformRes!=null) return transformRes;
 					return '';
 				});
@@ -146,7 +145,7 @@ class DataV extends Component {
     }else if( this.isType(preData, 'string') ) {
       if(globalDataReg.test(preData)) {
         preData = preData.replace(globalDataReg, (regMatch, name)=>{
-          let transformRes = this.transformGlobalVar(name.split('.'), this.state.datavGlobalData);
+          let transformRes = this.transformGlobalVar(name.split('.'), this.state.datavGlobalDataS);
           if(transformRes!=null) return transformRes;
           return regMatch;
         })
@@ -204,9 +203,9 @@ class DataV extends Component {
         }
         break;
       case 'CHANGE_GLOBAL_DATA':
-        if(!state.datavGlobalData[action.name]) state.datavGlobalData[action.name] ={};
+        if(!state.datavGlobalDataS[action.name]) state.datavGlobalDataS[action.name] ={};
         action.data && Object.keys(action.data).map(key=>{
-          state.datavGlobalData[action.name][key] = action.data[key];
+          state.datavGlobalDataS[action.name][key] = action.data[key];
         });
         break;
       case 'SITE_DISPLAY_CHANGE':
@@ -219,7 +218,11 @@ class DataV extends Component {
         return;
         break;
     }
-    this.setState(state);
+
+    this.state = state;
+    this.setState({
+      updateTime: new Date()
+    });
   }
 
   siteDisplayChange(data) {
@@ -297,6 +300,7 @@ class DataV extends Component {
   }
 
   render() {
+
     this.state.timeoutReRender && clearTimeout(this.state.timeoutReRender);
     let { pagesData } = this.state;
 
