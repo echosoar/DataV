@@ -14,8 +14,8 @@ require('./index.less');
 let pagesDataGlobal = null;
 try{
 
-  window.datavGlobalData =window.datavGlobalData.replace(/#DATAV_SIG_Y#/g,"'");
-  window.datavGlobalData = window.datavGlobalData.replace(/#DataVSlashFormat#/g,'\\');
+  window.datavGlobalData =window.datavGlobalData.replace(/_DATAV_SIG_Y_/g,"'");
+  window.datavGlobalData = window.datavGlobalData.replace(/_DataVSlashFormat_/g,'\\');
   pagesDataGlobal = JSON.parse(window.datavGlobalData);
 }catch(e){}
 

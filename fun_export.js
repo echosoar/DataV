@@ -22,7 +22,7 @@ let exportPage = (dirname, data, cb) => {
 
   let pageData = `<meta charset="utf-8"/>
 <div id="datav-container"></div>
-<script>window.datavGlobalData = '${data.replace(/'/g, '#DATAV_SIG_Y#')}';</script>
+<script>window.datavGlobalData = '${data.replace(/'/g, '_DATAV_SIG_Y_')}';</script>
 <script src="./libs/react.js"></script>
 <script src="./libs/react-dom.js"></script>
 <script src="./libs/datav.js"></script>

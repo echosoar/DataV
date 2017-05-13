@@ -34,7 +34,7 @@ class ExecExport extends Component {
 
   transformData(data) {
     let newLayoutData = JSON.stringify(data);
-		newLayoutData = newLayoutData.replace(/\\/g, "#DataVSlashFormat#");
+		newLayoutData = newLayoutData.replace(/\\/g, "_DataVSlashFormat_");
     return newLayoutData;
   }
 
