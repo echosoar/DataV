@@ -296,16 +296,19 @@ class Index extends React.Component {
 
 	renderModule(mainModuleConfig, modulepath) { // 需要处理
 
-		let { hashName } = mainModuleConfig,
-				moduleLoaded = true;
+		let { hashName } = mainModuleConfig;
 
 		if(!window.datavModule) window.datavModule = {};
-		if( !window.datavModule[hashName] && !window.datavModule[hashName + '_element']) {
-			moduleLoaded = false;
-	    let scriptElement = document.createElement('script');
-	    scriptElement.setAttribute('src', mainModuleConfig.scriptAddr);
-	    document.head.appendChild(scriptElement);
-	    window.datavModule[hashName + '_element'] = scriptElement;
+		if( !window.datavModule[hashName]) {
+
+			// Bug Repair@170514 之前是判断没有 hashName 模块并且没有hashName_element的时候进入这里面，否则执行下面的React.createElement来进行渲染，但是创建了script来加载js的时候，当还没加载完成的时候也会进入下面渲染逻辑，导致Bug产生。
+			if(!window.datavModule[hashName + '_element']) {
+				let scriptElement = document.createElement('script');
+		    scriptElement.setAttribute('src', mainModuleConfig.scriptAddr);
+		    document.head.appendChild(scriptElement);
+		    window.datavModule[hashName + '_element'] = scriptElement;
+			}
+
 			// Bug Repair@170507 多个模块加载完成后可能会导致未渲染完就刷新了，导致bug，解决方案是把onload放在componentDidMount里面去,每一次加载完成后都清掉所有onload，重新绑定，在componentWillReceiveProps里面去掉onload
 
 			this.state.needLoadModule[hashName] = modulepath;
@@ -340,8 +343,6 @@ class Index extends React.Component {
 		}
 
 		if(!apiIndex) apiIndex = 'default';
-
-		console.log("apiIndex", apiIndex, data)
 
 		this.props.dispatch({type: 'CHANGE_GLOBAL_DATA', name: apiIndex, data});
 	}
