@@ -299,15 +299,18 @@ class Index extends React.Component {
 
 			return '';
 	  }else {
-			try{
-				mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
-				mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
-				mainModuleConfig.props.isDataVPreView = this.props.isUsePreView;
-				mainModuleConfig.props.changeProps = this.changeModuleProps.bind(this, modulepath, mainModuleConfig);
-				mainModuleConfig.props.changeGlobalData = this.changeGlobalData.bind(this);
-			}catch(e){}
-			// Bug Repair@170504 转换全局数据对象（方法：transformGlobalData）的时候本来在Index的render中，但是导致修改数据的时候查看到的是转换后的数据，所以把全局数据对象的匹配放到了每个模块和模板的处理中
-			return React.createElement( window.datavModule[hashName], this.transformGlobalData.call( this, mainModuleConfig.props ) );
+				try{
+					mainModuleConfig.props.siteDisplay = this.props.siteDisplay;
+					mainModuleConfig.props.siteDisplayChange = this.siteDisplayChange;
+					mainModuleConfig.props.isDataVPreView = this.props.isUsePreView;
+					mainModuleConfig.props.changeProps = this.changeModuleProps.bind(this, modulepath, mainModuleConfig);
+					mainModuleConfig.props.changeGlobalData = this.changeGlobalData.bind(this);
+					// Bug Repair@170504 转换全局数据对象（方法：transformGlobalData）的时候本来在Index的render中，但是导致修改数据的时候查看到的是转换后的数据，所以把全局数据对象的匹配放到了每个模块和模板的处理中
+
+					return React.createElement( window.datavModule[hashName], this.transformGlobalData.call( this, mainModuleConfig.props ) );
+				}catch(e) {
+					return <div>Module Error!</div>
+				}
 		}
 	}
 
@@ -333,6 +336,7 @@ class Index extends React.Component {
 
 	changeModuleProps( path, mainModuleConfig, props) {
 		let newModuleCOnfigData = deepClone(mainModuleConfig);
+
 		newModuleCOnfigData.props = props;
 		this.props.dispatch({type: 'MODULE_PROPS_CHANGE', path, data: newModuleCOnfigData});
 	}
@@ -499,7 +503,6 @@ class Index extends React.Component {
 		// this.transformGlobalData.call( this, this.props.layoutData );
 		console.log( "render", layoutData );
 		return <div className="Index">
-			<div className="checkVersion"></div>
 			{
 				!layoutData && <div className="index-nolayout">
 					<div className="index-nolayout-thanks">
