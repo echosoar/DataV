@@ -160,19 +160,19 @@ class DataV extends Component {
 	renderModule(mainModuleConfig, modulepath) { // 需要处理
 
 		let { hashName } = mainModuleConfig,
-				moduleLoaded = true;
+
 
 		if(!window.datavModule) window.datavModule = {};
-		if( !window.datavModule[hashName] && !window.datavModule[hashName + '_element']) {
-			moduleLoaded = false;
-	    let scriptElement = document.createElement('script');
-	    scriptElement.setAttribute('src', mainModuleConfig.scriptAddr);
-	    document.head.appendChild(scriptElement);
-	    window.datavModule[hashName + '_element'] = scriptElement;
-			// Bug Repair@170507 多个模块加载完成后可能会导致未渲染完就刷新了，导致bug，解决方案是把onload放在componentDidMount里面去,每一次加载完成后都清掉所有onload，重新绑定，在componentWillReceiveProps里面去掉onload
+		if( !window.datavModule[hashName]) {
+
+      if(!window.datavModule[hashName + '_element']) {
+        let scriptElement = document.createElement('script');
+  	    scriptElement.setAttribute('src', mainModuleConfig.scriptAddr);
+  	    document.head.appendChild(scriptElement);
+  	    window.datavModule[hashName + '_element'] = scriptElement;
+      }
 
 			this.state.needLoadModule[hashName] = modulepath;
-
 
 			return '';
 	  }else {

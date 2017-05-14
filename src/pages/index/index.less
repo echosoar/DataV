@@ -12,6 +12,25 @@ table {
   margin: 0 auto;
   background: #fff;
 
+  .checkVersion {
+    position: fixed;
+    box-sizing: content-box;
+    left: 10px;
+    top: 70px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: rgba(60,120,180, .5);
+    transform: scale(.5);
+    cursor: pointer;
+    transition: all .3s ease;
+
+    &:hover {
+      transform: scale(1);
+      width: 80px;
+    }
+  }
+
   .index-nolayout {
     position: absolute;
     top: 30%;
