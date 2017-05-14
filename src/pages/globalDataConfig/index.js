@@ -5,6 +5,7 @@ import { mapStateToProps } from '../../connect/globalDataConfigConnect.js';
 import { Menu } from 'antd';
 
 import NowGlobalData from './page_nowGlobalData.js';
+import NowSiteDisplay from './page_nowSiteDisplay.js';
 
 require('./index.less');
 
@@ -48,6 +49,9 @@ class GlobalDataConfig extends Component {
 			<div className="globalDataConfig-right">
 				{
 					page == 'nowGlobalData' && <NowGlobalData />
+				}
+				{
+					page == 'displayData' && <NowSiteDisplay />
 				}
 			</div>
 		</div>
