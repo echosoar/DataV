@@ -120,6 +120,30 @@ let fun_changeGlobalPathByPath = ( globalData, value , path) => {
   return globalData;
 }
 
+
+let fun_updateModule = (layoutData, path, mhashName, newVersion, scriptAddr) => {
+
+  if(!layoutData) return null;
+  let { template } = layoutData;
+  if(template) { // 存在template即为模板
+    template.childs = template.childs.map((item, itemIndex) => fun_updateModule(item, path + '-' + itemIndex, mhashName, newVersion, scriptAddr));
+    layoutData.template = template;
+  } else {
+    let { hashName, version } = layoutData;
+
+    if(mhashName == hashName) {
+      if(window.datavModule[hashName + '_element']){
+        window.datavModule[hashName + '_element'].remove();
+        window.datavModule[hashName] = null;
+        window.datavModule[hashName + '_element'] = null;
+      }
+      layoutData.version = newVersion;
+      layoutData.scriptAddr = scriptAddr;
+    }
+  }
+  return layoutData;
+}
+
 const libraryReducer = (preState = defaultState, action = {}) => {
   const { type } = action;
   let state = deepClone(preState);
@@ -225,6 +249,9 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       return state;
     case 'CHANGE_GLOBAL_DATA_BY_PATH':
       state.datavGlobalData = fun_changeGlobalPathByPath(state.datavGlobalData, action.value, action.path.split('.'));
+      return state;
+    case 'UPDATE_MODULE_VERSION':
+      state.layoutData = fun_updateModule(state.layoutData, '0', action.hashName, action.newVersion, action.scriptAddr)
       return state;
     default: return state;
   }

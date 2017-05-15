@@ -283,7 +283,6 @@ class Index extends React.Component {
 
 		if(!window.datavModule) window.datavModule = {};
 		if( !window.datavModule[hashName]) {
-
 			// Bug Repair@170514 之前是判断没有 hashName 模块并且没有hashName_element的时候进入这里面，否则执行下面的React.createElement来进行渲染，但是创建了script来加载js的时候，当还没加载完成的时候也会进入下面渲染逻辑，导致Bug产生。
 			if(!window.datavModule[hashName + '_element']) {
 				let scriptElement = document.createElement('script');
@@ -416,9 +415,7 @@ class Index extends React.Component {
 				{ component, props, template, display } = layout,
 				doingButton = [];
 
-		if( this.displayRenderCheck.call(this, display) ) {
-			return '';
-		}
+
 
 		let doingButtonContainTitle = '';
 
@@ -470,6 +467,12 @@ class Index extends React.Component {
 				doingButton.push( this.renderLayoutStyleSetting.call(this, path, templateStyle) );
 			}
 		} else {
+
+
+
+			if( this.displayRenderCheck.call(this, display) ) {
+				return '';
+			}
 			return this.renderModuleSetting.call( this, layoutData,  path );
 
 		}
@@ -497,6 +500,7 @@ class Index extends React.Component {
 
 	render(){
 		// console.clear();
+
 
 		this.state.timeoutReRender && clearTimeout(this.state.timeoutReRender);
 		let { layoutData } = this.props;
