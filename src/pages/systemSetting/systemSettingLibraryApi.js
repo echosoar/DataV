@@ -23,7 +23,9 @@ const apiKeyToCn = {
   pageDataAdd: '页面添加接口【POST】',
   pageDataList: '页面列表接口【GET】',
   pageDataDelete: '页面删除接口【GET】',
-  pageDataEdit: '页面修改接口【POST】'
+  pageDataEdit: '页面修改接口【POST】',
+  'datavApiTitle_5': "其它接口",
+  moduleUpdate: '模块升级/版本检测'
 }
 
 const FormItem = Form.Item;

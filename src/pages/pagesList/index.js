@@ -90,7 +90,7 @@ class PagesList extends React.Component {
 			location.href = '#index';
 
 		}
-		if(!this.props.layoutData) {
+		if(!this.props.layoutData || !this.props.doing.length) {
 			changeData();
 		} else { // 已存在数据
 			Modal.confirm({

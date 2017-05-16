@@ -17,9 +17,18 @@ const defaultState = {
       value: "aaa"
     }
   },
-  globalInterface: []
+  globalInterface: [],
+  doingPath: []
 }
 
+
+let fun_changeDoing = (doing, action) => {
+  if(doing.length>5){
+    doing.shift();
+  }
+  doing.push(action);
+  return doing;
+}
 /*
 index的错用代表添加到指定index后
 */
@@ -149,26 +158,18 @@ const libraryReducer = (preState = defaultState, action = {}) => {
   let state = deepClone(preState);
   switch (type) {
     case 'LIBRARY_OPEN_LAYOUT':
-      return Object.assign({}, state, {
-        libraryOpen: 'layout',
-        onlyLayout: action.onlyLayout || false
-      });
-      break;
+      state.libraryOpen = 'layout';
+      state.onlyLayout = action.onlyLayout || false;
+      return state;
     case 'LIBRARY_OPEN_MODULE':
-      return Object.assign({}, state, {
-        libraryOpen: 'module'
-      });
-      break;
+      state.libraryOpen = 'module';
+      return state;
     case 'LIBRARY_OPEN_VIEWMODULE':
-      return Object.assign({}, state, {
-        libraryOpen: 'viewmodule'
-      });
-      break;
+      state.libraryOpen = 'viewmodule';
+      return state;
     case 'LIBRARY_CLOSE':
-      return Object.assign({}, state, {
-        libraryOpen: false
-      });
-      break;
+      state.libraryOpen = false;
+      return state;
     case 'ADD_LIBRARY':
       let data = deepClone(action.data);
       if(data.previewImg) {
@@ -183,8 +184,8 @@ const libraryReducer = (preState = defaultState, action = {}) => {
         let temObj = state.layoutData.template;
         state.layoutData.template = fun_changeTemplate(temObj, pathArr, data);
       }
-      return Object.assign({}, state);
-      break;
+      state.doing = fun_changeDoing(state.doing, action);
+      return state;
     case 'LAYOUT_CHANGE_PATH':
       return Object.assign({}, state, {
         nowLayoutPath: action.path
@@ -199,6 +200,7 @@ const libraryReducer = (preState = defaultState, action = {}) => {
         let temObj = state.layoutData.template;
         state.layoutData.template = fun_changeTemplate(temObj, pathArr, false);
       }
+      state.doing = fun_changeDoing(state.doing, action);
       return state;
     case 'ADD_SAME_MODULE':
       let pathArr = action.path.split('-');
@@ -207,11 +209,13 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       if(!action.isPre) index++;
       let temObj = state.layoutData.template;
       state.layoutData.template = fun_changeTemplate(temObj, pathArr, true, index);
+      state.doing = fun_changeDoing(state.doing, action);
       return state;
     case 'LIBRARY_LAYOUT_STYLE_CHANGE':
       let pathStyleArr = action.path.split('-');
       pathStyleArr.shift();
       state.layoutData.template = fun_changeTemplateStyle(state.layoutData.template, pathStyleArr, action.newStyle);
+      state.doing = fun_changeDoing(state.doing, action);
       return state;
     case 'LIBRARY_MANAGE_OPEN':
       location.href = '#librartManage';
@@ -227,6 +231,7 @@ const libraryReducer = (preState = defaultState, action = {}) => {
         pathPropsArr.shift();
         state.layoutData.template = fun_changeData(state.layoutData.template, pathPropsArr, action.data);
       }
+      state.doing = fun_changeDoing(state.doing, action);
       return state;
     case 'SITE_DISPLAY_CHANGE':
       if(state.siteDisplay==null) state.siteDisplay = {};
@@ -236,10 +241,12 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       return state;
     case 'SAVE_THIS_PAGE':
       state.layoutInfo = action.data;
+      state.doing = [];
       return state;
     case 'REEDIT_LAYOUT_DATA':
       state.layoutData = action.layoutData;
       state.layoutInfo = action.layoutInfo;
+      state.doing = [];
       return state;
     case 'CHANGE_GLOBAL_DATA':
       if(!state.datavGlobalData[action.name]) state.datavGlobalData[action.name] ={};
@@ -251,7 +258,8 @@ const libraryReducer = (preState = defaultState, action = {}) => {
       state.datavGlobalData = fun_changeGlobalPathByPath(state.datavGlobalData, action.value, action.path.split('.'));
       return state;
     case 'UPDATE_MODULE_VERSION':
-      state.layoutData = fun_updateModule(state.layoutData, '0', action.hashName, action.newVersion, action.scriptAddr)
+      state.layoutData = fun_updateModule(state.layoutData, '0', action.hashName, action.newVersion, action.scriptAddr);
+      state.doing = fun_changeDoing(state.doing, action);
       return state;
     default: return state;
   }

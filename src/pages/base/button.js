@@ -104,7 +104,7 @@ const button = {
 			title: '保存此页面中添加或编辑的内容',
 			onClick: handlePageSaveClick,
 			rule: (that) => {
-				if( !that.props.layoutData ) return false;
+				if( !that.props.layoutData || !that.props.doing.length) return false;
 				if(location.href.indexOf('index')!=-1) return true;
 				return false;
 			}

@@ -119,6 +119,7 @@ class ModuleVersionUpdate extends Component {
 	}
 
 	fetchModuleData(ObKeys, moduleListObj) {
+		console.log("apiii", this.props.defaultConfig)
 		refetch.post('http://datavs.applinzi.com/moduleVersion.php', {
 			hashName: ObKeys
 		}).then(res=>{
