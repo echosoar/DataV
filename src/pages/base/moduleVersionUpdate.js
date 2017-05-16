@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Component } from 'react';
 import { mapStateToProps } from '../../connect/baseConnect.js';
 import refetch from 'refetch';
+
+import { message } from 'antd';
 require('./moduleVersionUpdate.less');
 
 class ModuleVersionUpdate extends Component {
@@ -119,8 +121,12 @@ class ModuleVersionUpdate extends Component {
 	}
 
 	fetchModuleData(ObKeys, moduleListObj) {
-		console.log("apiii", this.props.defaultConfig)
-		refetch.post('http://datavs.applinzi.com/moduleVersion.php', {
+		if(!this.props.defaultConfig || !this.props.defaultConfig.api || !this.props.defaultConfig.api.moduleUpdate) {
+			message.error('未配置（或加载失败）模块升级/版本检测接口');
+			return;
+		}
+
+		refetch.post(this.props.defaultConfig.api.moduleUpdate, {
 			hashName: ObKeys
 		}).then(res=>{
       res = JSON.parse(res);

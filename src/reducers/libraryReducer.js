@@ -23,6 +23,7 @@ const defaultState = {
 
 
 let fun_changeDoing = (doing, action) => {
+  if(!doing) doing =[];
   if(doing.length>5){
     doing.shift();
   }
