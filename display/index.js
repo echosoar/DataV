@@ -159,7 +159,7 @@ class DataV extends Component {
 
 	renderModule(mainModuleConfig, modulepath) { // 需要处理
 
-		let { hashName } = mainModuleConfig,
+		let { hashName } = mainModuleConfig;
 
 
 		if(!window.datavModule) window.datavModule = {};
