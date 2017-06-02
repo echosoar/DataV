@@ -46,6 +46,22 @@ const styleConfig = {
         "value": "bottom"
       }
     ]
+  },
+  "minwidth": {
+    "name": "最小宽度",
+    "type": "size"
+  },
+  "top": {
+    "name": "顶部位置",
+    "type": "size"
+  },
+  "left": {
+    "name": "左部位置",
+    "type": "size"
+  },
+  "zindex": {
+    "name": "层高",
+    "type": "number"
   }
 }
 
@@ -100,10 +116,13 @@ class LayoutStyle extends Component {
   renderFormItemEmptyMessage( type ) {
     switch( type ) {
       case 'size':
-        return '请输入一个大小值，例如：auto / 0px / 0%';
+        return '请输入大小值，例如：auto / 0px / 0% / none';
         break;
       case 'array':
         return '请选择一个值';
+        break;
+      case 'number':
+        return '请输入一个数字';
         break;
       default:
         return '';
@@ -115,14 +134,24 @@ class LayoutStyle extends Component {
       case 'size':
         return this.handleFormItemRule_size.bind( this );
         break;
+      case 'number':
+        return this.handleFormItemRule_number.bind( this );
+        break;
       default:
         return ( rule, value, callback ) => callback();
     }
   }
 
   handleFormItemRule_size( rule, value, callback ) {
-    if(value && !/^\s*(?:auto|[\d\.]+%|[\d\.]+px)\s*$/.test(value)) {
+    if(value && !/^\s*(?:none|auto|[\d\.]+%|[\d\.]+px)\s*$/.test(value)) {
       callback( this.renderFormItemEmptyMessage( 'size' ) );
+    }
+    callback();
+  }
+
+  handleFormItemRule_number( rule, value, callback ) {
+    if(value && !/^\s*(?:\d+)\s*$/.test(value)) {
+      callback( this.renderFormItemEmptyMessage( 'number' ) );
     }
     callback();
   }

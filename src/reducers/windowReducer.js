@@ -50,6 +50,12 @@ const windowReducer = (preState = defaultState, action = {}) => {
     case 'GLOBAL_DATA_CONFIG_CLOSE':
       state.isDisplayGlobalDataConfigPage = false;
       return state;
+    case 'HEADER_TO_BOTTOM':
+      state.nowHeaderPosi = 'bottom';
+      return state;
+    case 'HEADER_TO_TOP':
+        state.nowHeaderPosi = 'top';
+        return state;
     default: return state;
   }
 };

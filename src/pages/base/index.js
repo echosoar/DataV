@@ -49,8 +49,12 @@ class Base extends Component {
 	render(){
 
 		let button = BUTTON[this.props.route.path] || [];
+		let DataVContainerClass = 'DataV';
+		if(this.props.nowHeaderPosi =='bottom') {
+			DataVContainerClass += ' DataV-bottom'
+		}
 
-		return <div className="DataV">
+		return <div className={DataVContainerClass}>
 			<div className="header">
 				<i className="logo"></i>
 				<div className="header-title">

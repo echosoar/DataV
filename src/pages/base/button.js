@@ -155,6 +155,24 @@ const button = {
 				return true;
 			}
 		},
+		{
+			name: '面板下移',
+			action: 'HEADER_TO_BOTTOM',
+			title: '把顶部面板放置于底部',
+			rule: (that) => {
+				if(that.props.nowHeaderPosi == 'bottom') return false;
+				return true;
+			}
+		},
+		{
+			name: '面板上移',
+			action: 'HEADER_TO_TOP',
+			title: '把顶部面板放置于顶部',
+			rule: (that) => {
+				if(!that.props.nowHeaderPosi || that.props.nowHeaderPosi == 'top') return false;
+				return true;
+			}
+		},
     {
       name: '',
       action: 'WINDOW_CLOSE',
